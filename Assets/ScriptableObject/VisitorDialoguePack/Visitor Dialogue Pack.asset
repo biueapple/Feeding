@@ -1,0 +1,316 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eada92f25f50868418fa03c9ba4a8bad, type: 3}
+  m_Name: Visitor Dialogue Pack
+  m_EditorClassIdentifier: 
+  rules:
+  - evt: 0
+    tradeType:
+      use: 0
+      value: 0
+    match:
+      use: 0
+      value: 0
+    result:
+      use: 0
+      value: 0
+    attemptRange: {x: 0, y: 0}
+    lines:
+    - "\uC548\uB155. \uB09C {visitor}. \uC7A0\uAE50 \uB458\uB7EC\uBCF4\uB7EC \uC654\uC5B4."
+    - "\uC2DC\uAC04\uC740 \uAE08\uC774\uB2C8\uAE4C \uAC04\uB2E8\uD788 \uBCF4\uC790\uACE0."
+    - "\uC624\uB79C\uB9CC\uC774\uAD70. \uC0C8\uB85C\uC6B4 \uBB3C\uAC74\uC740 \uC788\uC5B4?"
+    priority: 0
+  - evt: 1
+    tradeType:
+      use: 0
+      value: 0
+    match:
+      use: 0
+      value: 0
+    result:
+      use: 0
+      value: 0
+    attemptRange: {x: 0, y: 99}
+    lines:
+    - "\uCC38\uACE0\uB85C, \uC2E4\uC6A9\uC801\uC778 \uBB3C\uAC74\uC744 \uC120\uD638\uD558\uB294
+      \uD3B8\uC774\uC57C."
+    - "\uBA4B\uB9CC \uC788\uB294 \uAC83\uBCF4\uB2E8 \uC131\uB2A5\uC774 \uC88B\uC740
+      \uAC78 \uCC3E\uACE0 \uC788\uC5B4."
+    - "\uC624\uB298\uC740 \uAC00\uACA9 \uB300\uBE44 \uB9CC\uC871\uC2A4\uB7EC\uC6B4
+      \uAC78 \uBCF4\uACE0 \uC2F6\uAD70."
+    priority: 0
+  - evt: 1
+    tradeType:
+      use: 0
+      value: 0
+    match:
+      use: 0
+      value: 0
+    result:
+      use: 0
+      value: 0
+    attemptRange: {x: 0, y: 99}
+    lines:
+    - "\uC624, {item} \uAC19\uC740 \uACC4\uC5F4\uC740 \uB0B4 \uCDE8\uD5A5\uC774\uC57C."
+    - "\uADF8 \uB77C\uC778\uC5C5, \uC608\uC804\uBD80\uD130 \uAD00\uC2EC \uC788\uC5C8\uC9C0."
+    priority: 1
+  - evt: 1
+    tradeType:
+      use: 0
+      value: 0
+    match:
+      use: 0
+      value: 1
+    result:
+      use: 0
+      value: 0
+    attemptRange: {x: 0, y: 99}
+    lines:
+    - "\uC74C\u2026 \uADF8\uCABD \uACC4\uC5F4\uC740 \uB9C8\uC74C\uC5D0 \uC548 \uB4E4\uC5B4.
+      \uB108\uBB34 \uBE44\uC2F8\uAC70\uB098 \uC131\uB2A5\uC774 \uC560\uB9E4\uD558\uB354\uB77C\uACE0."
+    - "\uB0B4 \uCDE8\uD5A5\uC740 \uC544\uB2C8\uC57C. \uB2E4\uB978 \uAC78 \uBCF4\uC790."
+    priority: 1
+  - evt: 2
+    tradeType:
+      use: 1
+      value: 0
+    match:
+      use: 0
+      value: 1
+    result:
+      use: 0
+      value: 0
+    attemptRange: {x: 0, y: 0}
+    lines:
+    - "{item}\uB97C {price}\uB77C\u2026 \uC5B4\uB514 \uBCF4\uC790."
+    - "\uD760, {item} {price}? \uD3C9\uAC00\uD574\uBCFC\uAC8C."
+    priority: 0
+  - evt: 2
+    tradeType:
+      use: 1
+      value: 1
+    match:
+      use: 0
+      value: 1
+    result:
+      use: 0
+      value: 0
+    attemptRange: {x: 0, y: 0}
+    lines:
+    - "{item}\uC744 {price}\uC5D0 \uB118\uAE30\uB77C\uACE0? \uC870\uAC74\uC744 \uB530\uC838\uBCF4\uC790."
+    - "{item} {price}\u2026 \uAC00\uCE58\uC5D0 \uBE44\uD574 \uC5B4\uB5A4\uC9C0 \uBCF4\uC9C0."
+    priority: 0
+  - evt: 3
+    tradeType:
+      use: 0
+      value: 1
+    match:
+      use: 0
+      value: 1
+    result:
+      use: 0
+      value: 0
+    attemptRange: {x: 0, y: 0}
+    lines:
+    - "\uCCAB \uC81C\uC548\uCE58\uACE0 \uB098\uC058\uC9C0 \uC54A\uB124."
+    - "\uCD9C\uBC1C\uC740 \uAD1C\uCC2E\uC740\uB370, \uB354 \uB2E4\uB4EC\uC744 \uC5EC\uC9C0\uB294
+      \uC788\uC5B4."
+    priority: 1
+  - evt: 3
+    tradeType:
+      use: 0
+      value: 1
+    match:
+      use: 0
+      value: 1
+    result:
+      use: 0
+      value: 0
+    attemptRange: {x: 1, y: 99}
+    lines:
+    - "\uB77C\uC6B4\uB4DC {attempt}/{max}. \uBCF8\uB860\uC73C\uB85C \uAC00\uBCF4\uC790."
+    - "\uC2DC\uAC04\uC740 \uB9CE\uC9C0 \uC54A\uC9C0. \uD569\uC758\uC810\uC744 \uCC3E\uC544\uBCF4\uC790\uACE0."
+    priority: 1
+  - evt: 6
+    tradeType:
+      use: 0
+      value: 1
+    match:
+      use: 1
+      value: 0
+    result:
+      use: 1
+      value: 2
+    attemptRange: {x: 0, y: 99}
+    lines:
+    - "\uB0B4 \uCDE8\uD5A5\uC774\uAE34 \uD574. \uC870\uAE08\uB9CC \uB354 \uD604\uC2E4\uC801\uC73C\uB85C
+      \uAC00\uBA74 \uBC14\uB85C \uB05D\uB0B4\uC9C0."
+    - "{item} \uB9C8\uC74C\uC5D0 \uB4E4\uC5B4. \uB2E8\uC9C0 \uAC00\uACA9\uB9CC \uB9DE\uCD94\uBA74
+      \uB3FC."
+    priority: 1
+  - evt: 6
+    tradeType:
+      use: 0
+      value: 1
+    match:
+      use: 1
+      value: 1
+    result:
+      use: 1
+      value: 2
+    attemptRange: {x: 0, y: 99}
+    lines:
+    - "\uADF8\uCABD\uC740 \uC6D0\uB798 \uC120\uD638\uD558\uC9C4 \uC54A\uC544. \uB300\uC2E0
+      \uAC00\uACA9\uC73C\uB85C \uC124\uB4DD\uD574\uBD10."
+    - "\uC194\uC9C1\uD788 \uB04C\uB9AC\uC9C4 \uC54A\uB294\uB370\u2026 \uC22B\uC790\uAC00
+      \uB9DE\uC73C\uBA74\uC57C."
+    priority: 0
+  - evt: 6
+    tradeType:
+      use: 0
+      value: 1
+    match:
+      use: 1
+      value: 2
+    result:
+      use: 1
+      value: 2
+    attemptRange: {x: 0, y: 99}
+    lines:
+    - "\uB098\uC058\uC9C0 \uC54A\uC544. \uD55C \uCE78\uB9CC \uB354 \uB2F9\uACA8\uBCF4\uC790."
+    - "\uAC70\uC758 \uB3C4\uB2EC\uD588\uC5B4. \uAC12\uC744 \uC0B4\uC9DD \uC190\uBCF4\uBA74
+      \uB3FC."
+    priority: 0
+  - evt: 4
+    tradeType:
+      use: 0
+      value: 1
+    match:
+      use: 0
+      value: 2
+    result:
+      use: 0
+      value: 2
+    attemptRange: {x: 1, y: 99}
+    lines:
+    - "\uC774 \uC815\uB3C4({spread})\uAE4C\uC9C4 \uC591\uBCF4\uD560 \uC218 \uC788\uC5B4.
+      {attempt}\uB77C\uC6B4\uB4DC\uB2C8\uAE4C \uB098\uB3C4 \uC120\uC740 \uC9C0\uCF1C\uC57C\uC9C0."
+    - "\uC88B\uC544, \uB0B4\uAC00 \uD55C \uBC1C \uBB3C\uB7EC\uC11C\uC9C0. \uD558\uC9C0\uB9CC
+      {gen}\uC744 \uB118\uAE30\uBA74 \uD798\uB4E4\uC5B4."
+    priority: 0
+  - evt: 5
+    tradeType:
+      use: 0
+      value: 1
+    match:
+      use: 1
+      value: 0
+    result:
+      use: 1
+      value: 0
+    attemptRange: {x: 0, y: 99}
+    lines:
+    - "\uB9D8\uC5D0 \uB4E4\uC5B4. {price}\uBA74 \uC11C\uB85C \uAE30\uBD84 \uC88B\uAC8C
+      \uB05D\uB0B4\uC790."
+    - "\uC88B\uC544, \uADF8 \uAC00\uACA9\uC73C\uB85C \uD558\uC790."
+    priority: 2
+  - evt: 4
+    tradeType:
+      use: 0
+      value: 1
+    match:
+      use: 1
+      value: 2
+    result:
+      use: 1
+      value: 0
+    attemptRange: {x: 0, y: 99}
+    lines:
+    - "\uC870\uAC74 \uC218\uB77D. \uAE54\uB054\uD558\uAC8C \uB9C8\uBB34\uB9AC\uD558\uC790."
+    - "\uC88B\uC544, \uAC70\uB798 \uC131\uC0AC."
+    priority: 1
+  - evt: 5
+    tradeType:
+      use: 0
+      value: 1
+    match:
+      use: 1
+      value: 1
+    result:
+      use: 1
+      value: 0
+    attemptRange: {x: 0, y: 99}
+    lines:
+    - "\uC6D0\uB798 \uCDE8\uD5A5\uC740 \uC544\uB2C8\uC9C0\uB9CC\u2026 {price}\uBA74
+      \uBC1B\uC544\uB4E4\uC774\uC9C0."
+    - "\uADF8\uB798, \uC22B\uC790\uAC00 \uC124\uB4DD\uD588\uB2E4."
+    priority: 0
+  - evt: 7
+    tradeType:
+      use: 0
+      value: 1
+    match:
+      use: 1
+      value: 1
+    result:
+      use: 1
+      value: 1
+    attemptRange: {x: 0, y: 99}
+    lines:
+    - "\uC5ED\uC2DC \uB9C8\uC74C\uC774 \uC548 \uAC00. \uAC00\uACA9\uB3C4 \uC548 \uB9DE\uC544."
+    - "\uADF8 \uCABD\uC740 \uC560\uCD08\uC5D0 \uC0DD\uAC01\uC774 \uC5C6\uC5C8\uC5B4."
+    priority: 1
+  - evt: 7
+    tradeType:
+      use: 0
+      value: 1
+    match:
+      use: 1
+      value: 2
+    result:
+      use: 1
+      value: 1
+    attemptRange: {x: 0, y: 99}
+    lines:
+    - "\uC774\uBC88\uC5D4 \uC778\uC5F0\uC774 \uC544\uB2CC\uAC00 \uBCF4\uAD70."
+    - "\uC544\uC27D\uC9C0\uB9CC, \uB2E4\uC74C \uAE30\uD68C\uC5D0."
+    priority: 0
+  - evt: 8
+    tradeType:
+      use: 0
+      value: 1
+    match:
+      use: 0
+      value: 2
+    result:
+      use: 0
+      value: 2
+    attemptRange: {x: 0, y: 99}
+    lines:
+    - "\uC5EC\uAE30\uAE4C\uC9C0\uB2E4. \uB354 \uC598\uAE30\uD574\uB3C4 \uC18C\uC6A9\uC5C6\uC9C0."
+    - "\uD55C\uB3C4 \uB05D. \uC815\uB9AC\uD558\uC790."
+    priority: 0
+  - evt: 4
+    tradeType:
+      use: 0
+      value: 1
+    match:
+      use: 0
+      value: 2
+    result:
+      use: 0
+      value: 2
+    attemptRange: {x: 0, y: 99}
+    lines:
+    - "\uC218\uACE0\uD588\uC5B4. \uB2E4\uC74C\uC5D0 \uBCF4\uC790."
+    - "\uC624\uB298\uC740 \uC774\uB9CC. \uD589\uC6B4\uC744 \uBE4C\uC9C0."
+    priority: 0

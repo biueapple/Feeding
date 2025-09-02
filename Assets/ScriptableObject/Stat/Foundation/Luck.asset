@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5caf5c23f7f8d8141bb7292a715a7813, type: 3}
+  m_Name: Luck
+  m_EditorClassIdentifier: 
+  kind: 5
+  description: "\uD06C\uB9AC\uD2F0\uCEEC \uD655\uB960, \uC544\uC774\uD15C \uD68D\uB4DD
+    \uD655\uB960 \uB4F1\uC5D0 \uC601\uD5A5\uC744 \uC904 \uC218 \uC788\uC2B5\uB2C8\uB2E4. "
+  modifiers:
+  - derivation: {fileID: 11400000, guid: a254fe77c4886bc479391dc64b2ad377, type: 2}
+    figure: 5

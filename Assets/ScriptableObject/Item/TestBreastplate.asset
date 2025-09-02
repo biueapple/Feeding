@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2925680cf75fa14e97cea8efbddd098, type: 3}
+  m_Name: TestBreastplate
+  m_EditorClassIdentifier: 
+  itemID: 9c280485-927e-403f-ba5d-bb4dae292cb7
+  itemName: "\uD14C\uC2A4\uD2B8 \uD749\uAC11"
+  category: 0
+  rarity: 0
+  price: 50
+  icon: {fileID: 0}
+  attributes:
+  - {fileID: 11400000, guid: 9d7045bc0e9bf5143a59916c905c00cf, type: 2}

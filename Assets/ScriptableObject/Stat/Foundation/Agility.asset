@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5caf5c23f7f8d8141bb7292a715a7813, type: 3}
+  m_Name: Agility
+  m_EditorClassIdentifier: 
+  kind: 1
+  description: "\uACF5\uACA9 \uC18D\uB3C4, \uBA85\uC911\uB960, \uD68C\uD53C\uC728\uC5D0
+    \uC601\uD5A5\uC744 \uC90D\uB2C8\uB2E4. "
+  modifiers:
+  - derivation: {fileID: 11400000, guid: a88568a034d1ded40b27ac9739978930, type: 2}
+    figure: 0.1
+  - derivation: {fileID: 11400000, guid: aa8c34a482fcf9f478bd7ff266840bd7, type: 2}
+    figure: 10
