@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c2002691fd482740be66db60927b591, type: 3}
   m_Name: Drought Event
   m_EditorClassIdentifier: 
+  scope: 0
   stackingKey: drought
+  displayName: "\uAC00\uBB44"
   target: 0
   percentIncrease: 0.2

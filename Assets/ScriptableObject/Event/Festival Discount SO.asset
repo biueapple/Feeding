@@ -9,10 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: db438f0ed51d04242a02fc46c65cbe1c, type: 3}
   m_Name: Festival Discount SO
   m_EditorClassIdentifier: Assembly-CSharp::FestivalDiscountSO
-  stackingKey: 
-  displayName: Event
+  scope: 0
+  stackingKey: Festival
+  displayName: "\uCD95\uC81C"
   target: 8
   flat: -50

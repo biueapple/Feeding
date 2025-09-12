@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//필요없네
 [CreateAssetMenu(menuName = "StatCollector")]
 public class StatCollector : ScriptableObject
 {

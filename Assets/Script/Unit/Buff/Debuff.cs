@@ -1,14 +1,20 @@
+using UnityEditor;
 using UnityEngine;
 
+//이게 효과가 사라진다던가 할때 쓰여가지고 정화로 풀린다던가
 public enum DebuffKind
 {
     Dot,
     StatModifier,
 }
 
-[CreateAssetMenu(menuName = "RPG/Debuff")]
-public abstract class DebuffInt : ScriptableObject
+
+public abstract class Debuff : ScriptableObject
 {
+    [SerializeField, HideInInspector]
+    private string debuffID;
+    public string DebuffID => debuffID;
+
     [SerializeField]
     private string debuffName;
     public string DebuffName => debuffName;
@@ -21,39 +27,44 @@ public abstract class DebuffInt : ScriptableObject
     private DebuffKind kind;
     public DebuffKind Kind => kind;
 
-    public abstract void Apply(Unit unit);
-    public abstract void Remove(Unit unit);
+    public abstract void Apply(BuffAdministrator administrator);
+    public abstract void Remove(BuffAdministrator administrator);
+    public virtual void Tick(BuffAdministrator administrator) { }
+    public abstract BuffInstance CreateInstance(BuffAdministrator administrator);
+
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        if (string.IsNullOrEmpty(debuffID))
+        {
+            debuffID = System.Guid.NewGuid().ToString();
+            EditorUtility.SetDirty(this);
+            Debug.Log($"buff {name} 에 새로운 id {debuffID}");
+        }
+    }
+#endif
 }
 
-public class DebuffInstanceInt
+public class DebuffInstance
 {
-    private readonly DebuffInt debuff;
-    public DebuffKind Kind => debuff.Kind;
-    private readonly Unit target;
-    private float duration;
+    public readonly Debuff Debuff;
+    public DebuffKind Kind => Debuff.Kind;
+    public readonly BuffAdministrator Target;
+    public float Duration { get; private set; }
 
-    public DebuffInstanceInt(DebuffInt debuff, Unit target)
+    public DebuffInstance(Debuff debuff, BuffAdministrator target)
     {
         if (debuff == null || target == null) return;
 
-        this.debuff = debuff;
-        this.target = target;
-
-        Apply();
+        Debuff = debuff;
+        Target = target;
     }
 
-    public void Apply()
+    public void Tick(float duration)
     {
-        debuff.Apply(target);
-    }
-    public void Remove()
-    {
-        debuff.Remove(target);
-    }
-    public void Tick()
-    {
-        duration--;
+        Duration -= duration;
+        Debuff.Tick(Target);
         if (duration <= 0)
-            Remove();
+            Debuff.Remove(Target);
     }
 }

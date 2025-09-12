@@ -13,16 +13,12 @@ public class StatRise : Buff
     {
         if (administrator.Owner == null)
             return;
-        Debug.Log("치확 증가");
         administrator.Owner.AddStatModifier(new StatModifier(type, value, BuffName), BuffID);
     }
 
     public override void Remove(BuffAdministrator administrator)
     {
-        if (administrator.Owner == null)
-            return;
-        if (!administrator.Owner.Derivaton.ContainsKey(type))
-            return;
+        if (administrator.Owner == null) return;
         administrator.Owner.RemoveStatModifier(BuffID);
     }
 

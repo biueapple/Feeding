@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Rarity Percent SO
   m_EditorClassIdentifier: 
   scope: 0
-  stackingKey: 
-  displayName: Modifier
+  stackingKey: Rarity
+  displayName: "\uD76C\uADC0\uB3C4"

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-//공격에 추가 10 물리데미지가 생기는 장비효과
+//공격에 추가 10 물리데미지가 생기는 장비효과 (치명타가 터짐)
 [CreateAssetMenu(menuName = "Item/EquipmentEffect/DamageEffect")]
 public class AddDamageEffect : EquipmentEffect
 {
@@ -23,6 +23,6 @@ public class AddDamageEffect : EquipmentEffect
 
     private void Target_OnBeforeAttack(AttackEventArgs args)
     {
-        args.Damages.Add(new DamagePacket(type, $"{name}", value));
+        args.Damages.Add(new DamagePacket(type, $"{name}", args.IsCritical ? value * (1 + args.Attacker.StatValue(DerivationKind.CD)) : value));
     }
 }

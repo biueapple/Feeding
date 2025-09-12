@@ -9,12 +9,12 @@ public class AttackEventArgs
     public bool IsExtraAttack { get; private set; }
     public bool IsCritical { get; private set; }
 
-    public AttackEventArgs(Unit attacker, Unit defender, bool isExtraAttack, bool isCritical)
+    public AttackEventArgs(Unit attacker, Unit defender, bool isExtraAttack)
     {
         Attacker = attacker;
         Defender = defender;
         Damages = new();
         IsExtraAttack = isExtraAttack;
-        IsCritical = isCritical;
+        IsCritical = attacker.Critical;
     }
 }

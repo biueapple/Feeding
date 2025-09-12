@@ -11,10 +11,11 @@ public sealed class PricingService
         this.hub = hub;
     }
 
-    public PriceQuote GetQuote(Item item, Visitor visitor, TradeType tradeType)
+    public PriceQuote GetQuote(Item item, Visitor visitor, TradeRequest request)
     {
-        var ctx = new PriceContext(item, visitor, tradeType);
+        var ctx = new PriceContext(item, visitor, request.TradeType);
         float price = item.Price;
+        int margin = request.Margin(item);
         var steps = new List<PriceStep>();
 
         //모디파이어 수집
@@ -67,6 +68,12 @@ public sealed class PricingService
         price = Mathf.Clamp(price, 1, 999_999);
         int final = Mathf.RoundToInt(price);
         steps.Add(new PriceStep("Rounding & Clamp", PriceOP.FlatADD, 0, final));
+        //상대가 사러 왔을때만 마진을 추가
+        if(request.TradeType == TradeType.Buy)
+        {
+            final += margin;
+            steps.Add(new PriceStep("Margin", PriceOP.PercentADD, margin, final));
+        }
 
         return new PriceQuote(item.Price, final, steps);
     }

@@ -1,23 +1,20 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.GPUSort;
 
 public class Unit : MonoBehaviour
 {
     [SerializeField]
-    private List<StatMapping> stats;
-
-    private readonly Dictionary<FoundationKind, float> foundation = new();
-    public IReadOnlyDictionary<FoundationKind, float> Foundation => foundation;
+    private Stat stat;
 
     private readonly Dictionary<DerivationKind, float> derivation = new();
-    public IReadOnlyDictionary<DerivationKind, float> Derivaton => derivation;
+    //public IReadOnlyDictionary<DerivationKind, float> Derivaton => derivation;
 
     private readonly Dictionary<string, StatModifier> statModifiers = new();
-    public IReadOnlyDictionary<string, StatModifier> StatModifiers => statModifiers;
+    //public IReadOnlyDictionary<string, StatModifier> StatModifiers => statModifiers;
     private readonly Dictionary<DerivationKind, float> modifiersValue = new();
-    public IReadOnlyDictionary<DerivationKind, float> ModifiersValue => modifiersValue;
-    private bool isDirty = false;
+    //public IReadOnlyDictionary<DerivationKind, float> ModifiersValue => modifiersValue;
 
     [SerializeField]
     private float currentHP;
@@ -26,9 +23,7 @@ public class Unit : MonoBehaviour
     public bool Critical {
         get
         {
-            ModifiersCalc();
-            var total = DictExt.SumDicts(derivation, modifiersValue);
-            float cc = total.GetOrZero(DerivationKind.CC);
+            float cc = StatValue(DerivationKind.CC);
             return UnityEngine.Random.Range(1, 101) < cc;
         }
     }
@@ -50,63 +45,43 @@ public class Unit : MonoBehaviour
     public event Action<AttackEventArgs> OnDeath;
 
 
-
     private void Start()
     {
-        StatCollector collector = Resources.Load<StatCollector>("StatCollector");
-        foreach (var f in collector.FoundationStats)
-        {
-            foundation[f.Kind] = 0;
-        }
-        foreach (var m in stats)
+        foreach (var m in stat.Stats)
         {
             derivation[m.Derivation.Kind] = m.Figure;
         }
-        var total = DictExt.SumDicts(derivation, modifiersValue);
-        CurrentHP = total.GetOrZero(DerivationKind.HP);
+        CurrentHP = StatValue(DerivationKind.HP);
     }
 
-    private void ModifiersCalc()
+    public void BasicAttack(Unit target)
     {
-        if (!isDirty) return;
-        modifiersValue.Clear();
-        foreach (var (_, mod) in statModifiers)
-        {
-            if (!modifiersValue.ContainsKey(mod.Kind)) modifiersValue[mod.Kind] = 0;
-            modifiersValue[mod.Kind] += mod.Value;
-        }
-        isDirty = false;
+        AttackEventArgs args = new(this, target, false);
+        Attack(args);
+        PerformAttack(args);
     }
 
-    public virtual void Attack(Unit target, List<DamagePacket> damages, bool isExtraAttack)
+    public virtual void Attack(AttackEventArgs args)
     {
-        ModifiersCalc();
-
-        damages ??= new();
+        List<DamagePacket> damages = new();
         var total = DictExt.SumDicts(derivation, modifiersValue);
         float ad = total.GetOrZero(DerivationKind.AD);
-        bool critical = Critical;
-        if (critical)
-        {
-            float cd = total.GetOrZero(DerivationKind.CD);
-            ad *= 1.5f + cd;
-        }
-        damages.Add(new (DamageType.Physical, $"{name}", ad));
-
-        AttackEventArgs args = new(this, target, isExtraAttack, critical);
+        float cd = total.GetOrZero(DerivationKind.CD);
+        damages.Add(new(DamageType.Physical, $"{name} 의 기본공격", args.IsCritical ? ad * (1 + cd) : ad));
         args.Damages.AddRange(damages);
+    }
 
+    public virtual void PerformAttack(AttackEventArgs args)
+    {
         OnBeforeAttack?.Invoke(args);
 
-        target.TakeDamage(args);
+        args.Defender.TakeDamage(args);
 
         OnAfterAttack?.Invoke(args);
     }
 
     public void TakeDamage(AttackEventArgs args)
     {
-        ModifiersCalc();
-
         OnBeforeTakeDamage?.Invoke(args);
 
         OnCalculateDamage?.Invoke(args);
@@ -133,13 +108,25 @@ public class Unit : MonoBehaviour
     public void AddStatModifier(StatModifier modifier, string id)
     {
         statModifiers[id] = modifier;
-        isDirty = true;
+        if (modifiersValue.ContainsKey(modifier.Kind))
+            modifiersValue[modifier.Kind] += modifier.Value;
     }
 
     public void RemoveStatModifier(string id)
     {
-        statModifiers.Remove(id);
-        isDirty = true;
+        if(statModifiers.ContainsKey(id))
+        {
+            StatModifier modifier = statModifiers[id];
+            statModifiers.Remove(id);
+            if(modifiersValue.ContainsKey(modifier.Kind))
+                modifiersValue[modifier.Kind] -= modifier.Value;
+        }
+    }
+
+    public float StatValue(DerivationKind kind)
+    {
+        var total = DictExt.SumDicts(derivation, modifiersValue);
+        return total.GetOrZero(kind);
     }
 }
 

@@ -25,27 +25,35 @@ public class HaggleSession
         Attempt = 0;
     }
 
-    public (HaggleResult result, int counterPrice) EvaluateOffer(TradeType type, int offer)
+    public void Retarget(int newQuotedPrice, int newSpread, bool resetConcession = false)
+    {
+        BaseQuote = newQuotedPrice;
+        Spread = newSpread;
+        if (resetConcession) Attempt = 0;
+    }
+
+    public HaggleResult EvaluateOffer(TradeType type, int offer)
     {
         Attempt++;
-        float concedeFactor = 1 - Mathf.Clamp01(ConcedePerRound * (Attempt - 1));
+        float concedeFactor = 1 + Mathf.Clamp01(ConcedePerRound * (Attempt - 1));
         int target = BaseQuote;
-
         int threshold = Mathf.RoundToInt(Spread * concedeFactor);
         
         if(type == TradeType.Sell)
         {
-            if (offer >= target - threshold) return (HaggleResult.Accept, offer);
+            Debug.Log($"offer {offer}, limit {target - threshold}");
+            if (offer >= target - threshold) return (HaggleResult.Accept);
             return Attempt >= MaxRound ?
-                (HaggleResult.Reject, 0) :
-                (HaggleResult.Counter, Mathf.Max(offer, target - threshold));
+                (HaggleResult.Reject) :
+                (HaggleResult.Counter);
         }
         else
         {
-            if (offer <= target + threshold) return (HaggleResult.Accept, offer);
+            Debug.Log($"offer {offer}, limit {target + threshold}");
+            if (offer <= target + threshold) return (HaggleResult.Accept);
             return Attempt >= MaxRound ?
-                (HaggleResult.Reject, 0) :
-                (HaggleResult.Counter, Mathf.Min(offer, target + threshold));
+                (HaggleResult.Reject) :
+                (HaggleResult.Counter);
         }
     }
 }

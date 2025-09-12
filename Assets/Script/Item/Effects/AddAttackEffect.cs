@@ -26,7 +26,9 @@ public class AddAttackEffect : EquipmentEffect
     {
         if(!args.IsExtraAttack)
         {
-            args.Attacker.Attack(args.Defender, new List<DamagePacket>() { new(type, $"{name}", value) }, true);
+            AttackEventArgs extra = new(args.Attacker, args.Defender, true);
+            extra.Damages.Add(new(type, $"{name}", value));
+            args.Attacker.PerformAttack(extra);
         }
     }
 }

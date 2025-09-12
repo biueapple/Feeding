@@ -12,14 +12,12 @@ public class AddDerivationEffect : EquipmentEffect
     public override void Apply(Unit target)
     {
         if (target == null) return;
-        if (target.Derivaton.ContainsKey(kind)) return;
         target.AddStatModifier(new StatModifier(kind, value, EffectName), EffectID);
     }
 
     public override void Remove(Unit target)
     {
         if (target == null) return;
-        if (target.Derivaton.ContainsKey(kind)) return;
         target.RemoveStatModifier(EffectID);
     }
 }

@@ -14,7 +14,7 @@ public static class DialogueService
             .OrderByDescending(r => r.priority)
             .ToList();
 
-        if (candidates.Count == 0) return string.Empty;
+        if (candidates.Count == 0) { return string.Empty; }
 
         int topPriority = candidates[0].priority;
         var top = candidates.Where(c => c.priority == topPriority).ToList();

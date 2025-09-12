@@ -5,11 +5,19 @@ public class BuffAdministrator : MonoBehaviour
 {
     public Unit Owner { get; private set; }
 
+    //버프들
     private readonly Dictionary<string, BuffInstance> dayBuffs = new();
     public IReadOnlyDictionary<string, BuffInstance> Buffs => dayBuffs;
 
     private readonly Dictionary<string, BuffInstance> timeBuffs = new();
     public IReadOnlyDictionary<string, BuffInstance> TimeBuffs => timeBuffs;
+
+    //디버프들
+    private readonly Dictionary<string, BuffInstance> dayDebuffs = new();
+    public IReadOnlyDictionary<string, BuffInstance> Debuffs => dayDebuffs;
+
+    private readonly Dictionary<string, BuffInstance> timeDebuffs = new();
+    public IReadOnlyDictionary<string, BuffInstance> TimeDebuffs => timeDebuffs;
 
     private void Awake()
     {
@@ -22,17 +30,25 @@ public class BuffAdministrator : MonoBehaviour
         dayBuffs[buff.BuffID] = buff.CreateInstance(this);
     }
 
-    public void RemoveDayBuff(string buffID)
+    public void AddDayDebuff(Debuff debuff)
     {
-        dayBuffs.Remove(buffID);
+        debuff.Apply(this);
+        dayDebuffs[debuff.DebuffID] = debuff.CreateInstance(this);
     }
 
     public void DayTick()
     {
         foreach (var (_, insatnce) in dayBuffs)
         {
-            insatnce.Tick();
+            insatnce.Tick(1);
         }
     }
 
+    public void TimeTick(float dalta)
+    {
+        foreach(var (_, instance) in timeBuffs)
+        {
+            instance.Tick(dalta);
+        }
+    }
 }

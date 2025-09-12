@@ -22,5 +22,5 @@ MonoBehaviour:
   preferMarginBonus: 0.1
   dislikeMarginPenalty: -0.05
   generosity: 0.15
-  maxRounds: 2
+  maxRounds: 3
   concedePerRound: 0.25

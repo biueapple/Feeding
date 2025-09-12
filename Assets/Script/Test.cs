@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Test : MonoBehaviour
 {
-    public Unit unit;
+    public Hero hero;
     public Equipment equipment;
     public ItemCollector itemCollector;
     public Item item;
@@ -19,32 +19,41 @@ public class Test : MonoBehaviour
     public Visitor visitor;
     public int pay;
 
-    public DroughtEvent drought;
-    //버프 설명 interface 만들고 buffStatModifier 만들기
-    //statModifier를 equipment 와 buffAdministrator 에 나누기
-
-
+    public Buff buff;
     private void Start()
     {
         //unit.OnBeforeAttack += OnAttackEvent;
         equipment.OnEquipped += OnEquipment;
         equipment.OnUnequipped += OnUnequipment;
 
-        unit.OnAfterTakeDamage += OnAfterDamage;
-        enemy.OnAfterTakeDamage += OnAfterDamage;
+        hero.OnAfterAttack += OnAfterDamage;
+        enemy.OnAfterAttack += OnAfterDamage;
+        buffAdministrator.AddDayBuff(buff);
+
+        InventoryManager.Instance.OnAfterGold += OnAfterGold;
+        for(int i = 0; i < InventoryManager.Instance.Inven.Length; i++)
+        {
+            InventoryManager.Instance.Inven[i].OnBeforeChange += OnBeforeInven;
+            InventoryManager.Instance.Inven[i].OnAfterChange += OnAfterInven;
+        }
     }
 
     public ShopManager shopManager;
-    public Item need;
     public Item target;
+
+    public void OnEncounterStartButton()
+    {
+        shopManager.StartEncounter(visitor, itemCollector.Items);
+    }
+
     public void OnTradeStartButton()
     {
-        shopManager.StartTrade(new ItemTradeRequest(TradeType.Buy, visitor, itemCollector.Items), target, visitor, new HaggleSession());
+        shopManager.StartTrade(target, pay);
     }
 
     public void OnTradeOffer()
     {
-        shopManager.OnPlyaerOffer(pay);
+        //shopManager.OnPlyaerOffer(pay);
     }
 
     public void OnEquip()
@@ -58,9 +67,12 @@ public class Test : MonoBehaviour
         equipment.Unequip(part);
 
     }
-    public void OnButton()
+
+    public AdventureManager adventureManager;
+    public void OnStartAdventure()
     {
-        unit.Attack(enemy, null, false);
+        adventureManager.StartAdventure(hero);
+        //hero.BasicAttack(enemy);
         //enemy.Attack(unit, null, false);
     }
 
@@ -88,8 +100,23 @@ public class Test : MonoBehaviour
         foreach(var d in args.Damages)
         {
             Debug.Log($"type: {d.type}, 대미지 {d.OriginalValue}");
-            Debug.Log($"피해 {d.Value}");
+            Debug.Log($"피해 {d.Value} 남은 체력 {args.Defender.CurrentHP}");
             Debug.Log(d.Sources);
         }
+    }
+
+    public void OnBeforeInven(ItemSlot item)
+    {
+        Debug.Log($"바뀌기 전의 아이템 {item.ItemName}");
+    }
+
+    public void OnAfterInven(ItemSlot item)
+    {
+        Debug.Log($"바뀐 후의 아이템 {item.ItemName}");
+    }
+
+    public void OnAfterGold(int gold)
+    {
+        Debug.Log($"현재 골드량 {gold}");
     }
 }

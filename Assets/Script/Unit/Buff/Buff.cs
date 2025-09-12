@@ -1,9 +1,10 @@
 using UnityEditor;
 using UnityEngine;
 
+//이게 효과가 사라진다던가 할때 쓰여가지고 
 public enum BuffKind
 {
-    Buff,
+    StatModifier,
 
 }
 
@@ -31,7 +32,7 @@ public abstract class Buff : ScriptableObject
 
     public abstract void Apply(BuffAdministrator administrator);
     public abstract void Remove(BuffAdministrator administrator);
-    public virtual void Tick() { }
+    public virtual void Tick(BuffAdministrator administrator) { }
     public abstract BuffInstance CreateInstance(BuffAdministrator administrator);
 
 #if UNITY_EDITOR
@@ -49,24 +50,24 @@ public abstract class Buff : ScriptableObject
 
 public class BuffInstance
 {
-    private readonly Buff buff;
-    public BuffKind Kind => buff.Kind;
-    private readonly BuffAdministrator target;
-    private float duration;
+    public readonly Buff Buff;
+    public BuffKind Kind => Buff.Kind;
+    public readonly BuffAdministrator Target;
+    public float Duration { get; private set; }
 
     public BuffInstance(Buff buff, BuffAdministrator target)
     {
         if (buff == null || target == null) return;
 
-        this.buff = buff;
-        this.target = target;
+        Buff = buff;
+        Target = target;
     }
 
-    public void Tick()
+    public void Tick(float duration)
     {
-        duration--;
-        Tick();
-        if (duration <= 0)
-            buff.Remove(target);
+        Duration -= duration;
+        Buff.Tick(Target);
+        if (Duration <= 0)
+            Buff.Remove(Target);
     }
 }
