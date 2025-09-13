@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats:
   - derivation: {fileID: 11400000, guid: 7630ffe6257b99a42a05f166f41fd950, type: 2}
-    figure: 5
-  - derivation: {fileID: 11400000, guid: a88568a034d1ded40b27ac9739978930, type: 2}
-    figure: 0.3
-  - derivation: {fileID: 11400000, guid: b7aa9c2ce2f0cd34c969e0d829ebceb7, type: 2}
-    figure: 2
-  - derivation: {fileID: 11400000, guid: 21fbbd5e234668a46b5c708eb12b8a0a, type: 2}
     figure: 10
+  - derivation: {fileID: 11400000, guid: a88568a034d1ded40b27ac9739978930, type: 2}
+    figure: 1
+  - derivation: {fileID: 11400000, guid: b7aa9c2ce2f0cd34c969e0d829ebceb7, type: 2}
+    figure: 0
+  - derivation: {fileID: 11400000, guid: 21fbbd5e234668a46b5c708eb12b8a0a, type: 2}
+    figure: 15

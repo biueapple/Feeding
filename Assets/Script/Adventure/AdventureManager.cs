@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,9 +16,14 @@ public class AdventureManager : MonoBehaviour
     public List<Enemy> enemies = new();
     public float BasedTimer = 3;
 
+    //여기에 모험이 끝나면 일어날 다음 단계를 넣어서 동작시키기
+    public event Action OnAdventureEnded;
+    //모험에 이벤트를 넣어서 콜백을 해줘야 할지 모르겠네 그럼 args도 만들어야 하나
+
+    private Coroutine coroutine = null;
     public void StartAdventure(Hero hero)
     {
-        StartCoroutine(RunAdventure(hero));
+        coroutine ??= StartCoroutine(RunAdventure(hero));
     }
 
     IEnumerator RunAdventure(Hero hero)
@@ -29,7 +35,7 @@ public class AdventureManager : MonoBehaviour
 
         BuffAdministrator heroBuffAdministrator = hero.GetComponent<BuffAdministrator>();
         BuffAdministrator enemyBuffAdministrator = enemy.GetComponent<BuffAdministrator>();
-        
+        Inventory inventory = hero.GetComponent<Inventory>();
             
         while (hero.CurrentHP > 0)
         {
@@ -64,14 +70,18 @@ public class AdventureManager : MonoBehaviour
                 //아이템 획득이랑 골드 획득
                 foreach(var i in list)
                 {
-                    InventoryManager.Instance.InsertItem(i, out _);
+                    inventory.InventoryInterface.InsertItem(i);
                 }
-                InventoryManager.Instance.EarnGold(gold);
+                Debug.Log($"적이 드랍한 골드 양 {gold}");
+                inventory.InventoryInterface.EarnGold(gold);
 
                 Destroy(enemy.gameObject);
                 enemy = CreateEnemy();
             }
         }
+
+        OnAdventureEnded?.Invoke();
+        coroutine = null;
     }
 
     private Enemy CreateEnemy()
@@ -79,3 +89,4 @@ public class AdventureManager : MonoBehaviour
         return Instantiate(enemies[0]);
     }
 }
+

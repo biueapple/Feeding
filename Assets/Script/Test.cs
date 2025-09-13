@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEditor.UIElements;
 using UnityEngine;
 
+//이제 UI 만들자
 public class Test : MonoBehaviour
 {
     public Hero hero;
@@ -30,12 +28,15 @@ public class Test : MonoBehaviour
         enemy.OnAfterAttack += OnAfterDamage;
         buffAdministrator.AddDayBuff(buff);
 
-        InventoryManager.Instance.OnAfterGold += OnAfterGold;
-        for(int i = 0; i < InventoryManager.Instance.Inven.Length; i++)
+        Inventory inventory = hero.GetComponent<Inventory>();
+        inventory.InventoryInterface.OnAfterGold += OnAfterGold;
+        for(int i = 0; i < inventory.InventoryInterface.Itemslots.Length; i++)
         {
-            InventoryManager.Instance.Inven[i].OnBeforeChange += OnBeforeInven;
-            InventoryManager.Instance.Inven[i].OnAfterChange += OnAfterInven;
+            inventory.InventoryInterface.Itemslots[i].OnBeforeChange += OnBeforeInven;
+            inventory.InventoryInterface.Itemslots[i].OnAfterChange += OnAfterInven;
         }
+
+        AdventureManager.Instance.OnAdventureEnded += OnAfterAdventure;
     }
 
     public ShopManager shopManager;
@@ -72,8 +73,6 @@ public class Test : MonoBehaviour
     public void OnStartAdventure()
     {
         adventureManager.StartAdventure(hero);
-        //hero.BasicAttack(enemy);
-        //enemy.Attack(unit, null, false);
     }
 
     public void OnAttackEvent(AttackEventArgs args)
@@ -118,5 +117,17 @@ public class Test : MonoBehaviour
     public void OnAfterGold(int gold)
     {
         Debug.Log($"현재 골드량 {gold}");
+    }
+
+    public void OnAfterAdventure()
+    {
+        Inventory inventory = hero.GetComponent<Inventory>();
+        InventoryManager.Instance.HeroChest.InsertInventory(inventory.InventoryInterface);
+        Debug.Log($"창고로 아이템 옮기기 끝");
+
+        Debug.Log("용사 가방 아이템들");
+        inventory.InventoryInterface.Print();
+        Debug.Log("용사 상자 아이템들");
+        InventoryManager.Instance.HeroChest.Print();
     }
 }

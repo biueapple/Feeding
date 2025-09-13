@@ -2088,6 +2088,7 @@ GameObject:
   - component: {fileID: 1954285418}
   - component: {fileID: 1954285416}
   - component: {fileID: 1954285417}
+  - component: {fileID: 1954285419}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Untagged
@@ -2150,6 +2151,18 @@ MonoBehaviour:
   stat: {fileID: 11400000, guid: d1da54e71faae5d47b8ad6494acfd408, type: 2}
   currentHP: 0
   level: 0
+--- !u!114 &1954285419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1954285413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf783cf1295d5349a5cc9865d01f9e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2043051944
 GameObject:
   m_ObjectHideFlags: 0

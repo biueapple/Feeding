@@ -11,43 +11,15 @@ public class InventoryManager : MonoBehaviour
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
 
-        for (int i = 0; i < inven.Length; i++)
-        {
-            inven[i] = new();
-        }
+        HeroChest = new(10);
+        PlayerChest = new(10);
     }
 
-    private readonly ItemSlot[] inven = new ItemSlot[10];
-    public ItemSlot[] Inven => inven;
-
-    private int gold;
-    public int Gold => gold;
-    public event Action<int> OnAfterGold;
-
-
-    public bool InsertItem(Item item, out Item ex)
-    {
-        ex = null;
-
-        for (int i = 0; i < inven.Length; i++)
-        {
-            if (inven[i].Item == null)
-            {
-                ex = inven[i].Item;
-                inven[i].Insert(item);
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    //마이너스도 가능하니까
-    public void EarnGold(int value)
-    {
-        gold += value;
-        OnAfterGold?.Invoke(gold);
-    }
+    //용사가 모험을 떠나기 전 안의 아이템을 챙기는 상자이자 모험을 마치고 돌아와서 넣는 아이템 상자
+    //안의 음식이나 소모품은 모험중에 사용할지 생각해야 할듯
+    public InventoryInterface HeroChest { get; private set; }
+    //플레이어가 사용하는 상자
+    public InventoryInterface PlayerChest { get; private set; }
 }
 
 

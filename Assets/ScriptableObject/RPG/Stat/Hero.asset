@@ -26,6 +26,6 @@ MonoBehaviour:
   - derivation: {fileID: 11400000, guid: b7aa9c2ce2f0cd34c969e0d829ebceb7, type: 2}
     figure: 5
   - derivation: {fileID: 11400000, guid: 21fbbd5e234668a46b5c708eb12b8a0a, type: 2}
-    figure: 30
+    figure: 40
   - derivation: {fileID: 11400000, guid: 82d4c760a6e73eb47a6ff03f7773e832, type: 2}
     figure: 0
