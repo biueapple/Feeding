@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ public class ShopManager : MonoBehaviour
     private PricingService pricing;
     private TradeSession current;
 
+    public event Action<TradeSession> OnCreateTradeSession;
 
     private void Awake()
     {
@@ -27,9 +29,10 @@ public class ShopManager : MonoBehaviour
     public void StartEncounter(Visitor visitor, IReadOnlyList<Item> allItmes)
     {
         currentVisitor = visitor;
-        currentRequest = new ItemTradeRequest(TradeType.Sell, visitor, allItmes);
+        
+        currentRequest = UnityEngine.Random.value > 0.5f ? new ItemTradeRequest(TradeType.Sell, visitor, allItmes) : new CategoryTradeRequest(TradeType.Buy, visitor);
 
-        Debug.Log("상대가 원하는 물건 " + currentRequest.Summary);
+        Debug.Log("상대가 원하는 것 " + currentRequest.Summary);
         Emit(DialogueEvent.Arrive, TradeResult.None, 0);
         Emit(DialogueEvent.BrowseHint, TradeResult.None, 0);
     }
@@ -51,7 +54,7 @@ public class ShopManager : MonoBehaviour
             Emit(DialogueEvent.OfferAsked, TradeResult.None, offer);
         }
         //첫 거래는 아닌데 기존 아이템이 아니라 가격 견적을 새로 내야함
-        else if(current.Item != selected)
+        else if(current.Slot.Item != selected)
         {
             RequoteAndRetarget(selected, false);
 
@@ -90,9 +93,10 @@ public class ShopManager : MonoBehaviour
         haggle.Start(quotedPrice: quote.FinalPrice, spread: CalcSpread(quote.FinalPrice, currentVisitor), maxRound: currentVisitor.MaxRounds, concedePerRound: currentVisitor.ConcedePerRound);
 
         current = new(currentRequest, selected, currentVisitor, quote, haggle);
+        OnCreateTradeSession?.Invoke(current);
 
         //ui
-        Debug.Log("내가 준 물건 " + current.Item);
+        Debug.Log("내가 준 물건 " + current.Slot.Item);
         foreach (var m in quote.Steps)
         {
             Debug.Log("적용된 모드 " + m.Name);
@@ -108,7 +112,7 @@ public class ShopManager : MonoBehaviour
     {
         var quote = Quote(selected, currentVisitor, currentRequest);
 
-        current.Item = selected;
+        current.Slot.Insert(selected);
         current.PriceQuote = quote;
         current.Haggle.Retarget(quote.FinalPrice, CalcSpread(quote.FinalPrice, currentVisitor), resetConcession);
 
@@ -117,33 +121,46 @@ public class ShopManager : MonoBehaviour
     }
 
     //3 커밋
-    public Test test;
     public void TryCommit(int acceptedPrice)
     {
-        var r = current.Request;
-        var item = current.Item;
+        var r = current.Request;        //거래
 
+        //사실 여기서 null체크는 의미가 없는게 모든 조건을 테스트 해보고 성공해서 오는 곳인데
         //내가 사기
-        if(r.TradeType == TradeType.Sell)
+        if (r.TradeType == TradeType.Sell && r is ItemTradeRequest itemTrade)
         {
-            if(test.item != null && test.pay < acceptedPrice)
+            //내 돈만 확인하면 되는거임
+            if (InventoryManager.Instance.PlayerChest.Gold < acceptedPrice)
             {
-                Debug.Log("인벤창이나 돈이 모자름");
+                Debug.Log("돈이 모자름");
                 Emit(DialogueEvent.DealFail, TradeResult.Failed, acceptedPrice);
                 return;
             }
-            tradeService.CommitPurchase(test, item, acceptedPrice);
+            else if (InventoryManager.Instance.PlayerChest.InsertItem(itemTrade.TargetItem))
+            {
+                Debug.Log("저장공간이 부족함");
+                Emit(DialogueEvent.DealFail, TradeResult.Failed, acceptedPrice);
+                return;
+            }
+            Debug.Log("구입 성공");
+            tradeService.CommitPurchase(acceptedPrice);
         }
         //내가 팔기
-        else
+        else if (r.TradeType == TradeType.Buy && r is CategoryTradeRequest)
         {
-            if(test.item == null)
+            if (current.Slot.Item == null)
             {
                 Emit(DialogueEvent.DealFail, TradeResult.Failed, acceptedPrice);
-                Debug.Log("아이템이 없음");
+                Debug.Log("재시한 아이템이 없음");
                 return;
             }
-            tradeService.CommitSale(test, item, acceptedPrice);
+            Debug.Log("판매 성공");
+            tradeService.CommitSale(current.Slot, acceptedPrice);
+        }
+        else
+        {
+            Debug.Log("ItemTrade는 Sell 인 경우 Category는 Buy인 경우에만 가능한데 그렇지 않았기에 취소");
+            return;
         }
 
         //ui
@@ -167,7 +184,7 @@ public class ShopManager : MonoBehaviour
 
         var v = currentVisitor;
         var req = currentRequest;
-        var it = hasCurrent ? current.Item : null;
+        var it = hasCurrent ? current.Slot.Item : null;
         var dlg = v.DialoguePack;
 
         int generosity = hasCurrent ? Mathf.RoundToInt(v.Generosity * current.Haggle.BaseQuote) : 0;
@@ -205,15 +222,16 @@ public class ShopManager : MonoBehaviour
 
 public sealed class TradeSession
 {
-    public TradeRequest Request { get; }
-    public Item Item { get; set; }
-    public Visitor Visitor { get; }
+    public readonly TradeRequest Request;
+    public readonly ItemSlot Slot;
+    public readonly Visitor Visitor;
     public PriceQuote PriceQuote { get; set; }
-    public HaggleSession Haggle { get; }
+    public readonly HaggleSession Haggle;
     public TradeSession(TradeRequest req, Item item, Visitor visitor, PriceQuote quote, HaggleSession haggle)
     {
         Request = req;
-        Item = item;
+        Slot = new();
+        Slot.Insert(item);
         Visitor = visitor;
         PriceQuote = quote;
         Haggle = haggle;

@@ -15,6 +15,7 @@ public enum ItemRarity
 
 public enum ItemCategory
 {
+    None,
     Grain,
     Vegetable,
     Fruit,
