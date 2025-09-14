@@ -11,7 +11,7 @@ public sealed class TradeService
         //InventoryManager.Instance.PlayerChest.InsertItem(item);    
     }
 
-    //내가 구매
+    //내가 구매 (아이템 옮기는것은 shopManager가 하네)
     public void CommitPurchase(int price)
     {
         if(InventoryManager.Instance.PlayerChest.TryEarnGold(-price))

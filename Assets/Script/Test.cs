@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 //이제 UI 만들자
 public class Test : MonoBehaviour
@@ -37,6 +38,16 @@ public class Test : MonoBehaviour
         }
 
         AdventureManager.Instance.OnAdventureEnded += OnAfterAdventure;
+        InventoryManager.Instance.PlayerChest.EarnGold(150);
+
+        sotrageUI.Interlock(InventoryManager.Instance.HeroChest);
+    }
+
+    public StorageUserInterface sotrageUI;
+    private void Update()
+    {
+        if (Keyboard.current.iKey.isPressed)
+            sotrageUI.Open();
     }
 
     public ShopManager shopManager;

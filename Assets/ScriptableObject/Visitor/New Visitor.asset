@@ -20,7 +20,7 @@ MonoBehaviour:
   dialoguePack: {fileID: 11400000, guid: 67e92ea6239576743bcd6331af20a8a6, type: 2}
   baseMargin: 0.1
   preferMarginBonus: 0.1
-  dislikeMarginPenalty: -0.05
+  dislikeMarginPenalty: -0.15
   generosity: 0.15
   maxRounds: 3
   concedePerRound: 0.25

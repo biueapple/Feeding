@@ -159,7 +159,7 @@ public sealed class CategoryTradeRequest : TradeRequest
     {
         List<ItemCategory> pool = new ();
         int length = Enum.GetValues(typeof(ItemCategory)).Length;
-        for (int i = 0; i < length; i++)
+        for (int i = 1; i < length; i++)
         {
             var it = (ItemCategory)i;
             if (exclude != null && exclude.Contains(it)) continue;
