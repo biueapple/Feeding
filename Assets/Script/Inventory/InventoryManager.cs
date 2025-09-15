@@ -10,16 +10,17 @@ public class InventoryManager : MonoBehaviour
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
-
-        HeroChest = new(10);
-        PlayerChest = new(10);
     }
 
     //용사가 모험을 떠나기 전 안의 아이템을 챙기는 상자이자 모험을 마치고 돌아와서 넣는 아이템 상자
     //안의 음식이나 소모품은 모험중에 사용할지 생각해야 할듯
-    public InventoryInterface HeroChest { get; private set; }
+    [SerializeField]
+    private Chest heroChest;
+    public InventoryInterface HeroChest { get => heroChest.InventoryInterface; private set { } }
     //플레이어가 사용하는 상자
-    public InventoryInterface PlayerChest { get; private set; }
+    [SerializeField]
+    private Chest playerChest;
+    public InventoryInterface PlayerChest { get => playerChest.InventoryInterface; private set { } }
 }
 
 

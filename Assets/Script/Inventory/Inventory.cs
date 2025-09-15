@@ -2,11 +2,13 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    public InventoryInterface InventoryInterface { get; private set; }
+    [SerializeField]
+    private InventoryInterface inventoryInterface;
+    public InventoryInterface InventoryInterface { get => inventoryInterface; private set { } }
 
 
     private void Awake()
     {
-        InventoryInterface = new(10);
+        inventoryInterface = new(10);
     }
 }

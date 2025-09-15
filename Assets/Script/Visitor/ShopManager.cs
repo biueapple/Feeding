@@ -18,6 +18,12 @@ public class ShopManager : MonoBehaviour
     {
         pricing = new PricingService(hub);
         tradeService = new();
+        tradeSlot = new();
+    }
+
+    private void Start()
+    {
+        UIManager.Instance.TradeSlot.Init(tradeSlot);
     }
 
     public PriceQuote Quote(Item item, Visitor visitor, TradeRequest tradeRequest) => pricing.GetQuote(item, visitor, tradeRequest);
@@ -25,12 +31,16 @@ public class ShopManager : MonoBehaviour
 
     private Visitor currentVisitor;
     private TradeRequest currentRequest;
+    private ItemSlot tradeSlot;
+
     //만남
     public void StartEncounter(Visitor visitor, IReadOnlyList<Item> allItmes)
     {
         currentVisitor = visitor;
         
         currentRequest = UnityEngine.Random.value > 0.5f ? new ItemTradeRequest(TradeType.Sell, visitor, allItmes) : new CategoryTradeRequest(TradeType.Buy, visitor);
+        if (currentRequest.TradeType == TradeType.Buy)
+            UIManager.Instance.TradeSlot.gameObject.SetActive(true);
 
         Debug.Log("상대가 원하는 것 " + currentRequest.Summary);
         Emit(DialogueEvent.Arrive, TradeResult.None, 0);
@@ -38,25 +48,25 @@ public class ShopManager : MonoBehaviour
     }
 
     //1 거래시작
-    public void StartTrade(Item selected, int offer)
+    public void StartTrade(int offer)
     {
         if (currentVisitor == null || currentRequest == null) 
         { Debug.Log("만남이 없는데 어떻게 거래를 해"); return; }
 
-        if (selected == null)
+        if (tradeSlot.Item == null)
         { Debug.Log("아무 아이템도 제시하지 않음"); return; }
 
         //첫 거래라는 뜻
         if(current == null)
         {
-            StartNewLine(selected);
+            StartNewLine(tradeSlot.Item);
 
             Emit(DialogueEvent.OfferAsked, TradeResult.None, offer);
         }
         //첫 거래는 아닌데 기존 아이템이 아니라 가격 견적을 새로 내야함
-        else if(current.Slot.Item != selected)
+        else if(current.Item != tradeSlot.Item)
         {
-            RequoteAndRetarget(selected, false);
+            RequoteAndRetarget(tradeSlot.Item, false);
 
             Emit(DialogueEvent.BrowseHint, TradeResult.None, offer);
         }
@@ -96,7 +106,7 @@ public class ShopManager : MonoBehaviour
         OnCreateTradeSession?.Invoke(current);
 
         //ui
-        Debug.Log("내가 준 물건 " + current.Slot.Item);
+        Debug.Log("내가 준 물건 " + current.Item);
         foreach (var m in quote.Steps)
         {
             Debug.Log("적용된 모드 " + m.Name);
@@ -112,7 +122,7 @@ public class ShopManager : MonoBehaviour
     {
         var quote = Quote(selected, currentVisitor, currentRequest);
 
-        current.Slot.Insert(selected);
+        current.Item = selected;
         current.PriceQuote = quote;
         current.Haggle.Retarget(quote.FinalPrice, CalcSpread(quote.FinalPrice, currentVisitor), resetConcession);
 
@@ -148,14 +158,15 @@ public class ShopManager : MonoBehaviour
         //내가 팔기
         else if (r.TradeType == TradeType.Buy && r is CategoryTradeRequest)
         {
-            if (current.Slot.Item == null)
+            if (current.Item == null)
             {
                 Emit(DialogueEvent.DealFail, TradeResult.Failed, acceptedPrice);
                 Debug.Log("재시한 아이템이 없음");
                 return;
             }
             Debug.Log("판매 성공");
-            tradeService.CommitSale(current.Slot, acceptedPrice);
+            tradeService.CommitSale(current.Item, acceptedPrice);
+            tradeSlot.Insert(null);
         }
         else
         {
@@ -174,6 +185,7 @@ public class ShopManager : MonoBehaviour
         Emit(DialogueEvent.Goodbye, success ? TradeResult.Success : TradeResult.Failed, 0);
         Debug.Log(success + " " + reason);
         current = null;
+        UIManager.Instance.TradeSlot.gameObject.SetActive(false);
     }
 
     private void Emit(DialogueEvent evt, TradeResult result, int offer)
@@ -184,7 +196,7 @@ public class ShopManager : MonoBehaviour
 
         var v = currentVisitor;
         var req = currentRequest;
-        var it = hasCurrent ? current.Slot.Item : null;
+        var it = hasCurrent ? current.Item : null;
         var dlg = v.DialoguePack;
 
         int generosity = hasCurrent ? Mathf.RoundToInt(v.Generosity * current.Haggle.BaseQuote) : 0;
@@ -223,15 +235,14 @@ public class ShopManager : MonoBehaviour
 public sealed class TradeSession
 {
     public readonly TradeRequest Request;
-    public readonly ItemSlot Slot;
+    public Item Item { get; set; }
     public readonly Visitor Visitor;
     public PriceQuote PriceQuote { get; set; }
     public readonly HaggleSession Haggle;
     public TradeSession(TradeRequest req, Item item, Visitor visitor, PriceQuote quote, HaggleSession haggle)
     {
         Request = req;
-        Slot = new();
-        Slot.Insert(item);
+        Item = item;
         Visitor = visitor;
         PriceQuote = quote;
         Haggle = haggle;

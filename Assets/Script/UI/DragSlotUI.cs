@@ -19,6 +19,7 @@ public class DragSlotUI : MonoBehaviour
 
     public void Drop(ItemSlotUI slot)
     {
+        if (pre == null) return;
         //실제로 데이터의 이동
         var (item1, item2) = (slot.Slot.Item, pre.Slot.Item);
         pre.Slot.Insert(item1);

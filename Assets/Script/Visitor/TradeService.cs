@@ -3,11 +3,10 @@ using UnityEngine;
 public sealed class TradeService 
 {
     //내가 판매 test 대신 인벤토리가 들어가야 함
-    public void CommitSale(ItemSlot slot, int price)
+    public void CommitSale(Item item, int price)
     {
         //골드와 아이템 변동
         InventoryManager.Instance.PlayerChest.EarnGold(price);
-        slot.Insert(null);
         //InventoryManager.Instance.PlayerChest.InsertItem(item);    
     }
 

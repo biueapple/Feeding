@@ -17,7 +17,7 @@ public class Test : MonoBehaviour
 
     public Visitor visitor;
     public int pay;
-
+    public Item input;
     public Buff buff;
     private void Start()
     {
@@ -40,18 +40,12 @@ public class Test : MonoBehaviour
         AdventureManager.Instance.OnAdventureEnded += OnAfterAdventure;
         InventoryManager.Instance.PlayerChest.EarnGold(150);
 
-        sotrageUI.Interlock(InventoryManager.Instance.HeroChest);
+        InventoryManager.Instance.HeroChest.InsertItem(input);
+        InventoryManager.Instance.PlayerChest.OnAfterGold += OnAfterGold;
     }
 
-    public StorageUserInterface sotrageUI;
-    private void Update()
-    {
-        if (Keyboard.current.iKey.isPressed)
-            sotrageUI.Open();
-    }
 
     public ShopManager shopManager;
-    public Item target;
 
     public void OnEncounterStartButton()
     {
@@ -60,7 +54,7 @@ public class Test : MonoBehaviour
 
     public void OnTradeStartButton()
     {
-        shopManager.StartTrade(target, pay);
+        shopManager.StartTrade(pay);
     }
 
     public void OnTradeOffer()

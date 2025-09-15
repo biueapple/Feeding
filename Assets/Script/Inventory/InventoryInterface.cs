@@ -3,16 +3,17 @@ using UnityEngine;
 
 public class InventoryInterface
 {
-    public readonly ItemSlot[] Itemslots;
+    private readonly ItemSlot[] itemslots;
+    public ItemSlot[] Itemslots => itemslots;
     public int Gold { get; private set; }
     public event Action<int> OnAfterGold;
 
     public InventoryInterface(int length)
     {
-        Itemslots = new ItemSlot[length];
+        itemslots = new ItemSlot[length];
         for(int i = 0; i < length; i++)
         {
-            Itemslots[i] = new();
+            itemslots[i] = new();
         }
     }
 
@@ -37,11 +38,11 @@ public class InventoryInterface
 
     public bool InsertItem(Item item)
     {
-        for (int i = 0; i < Itemslots.Length; i++)
+        for (int i = 0; i < itemslots.Length; i++)
         {
-            if (Itemslots[i].Item == null)
+            if (itemslots[i].Item == null)
             {
-                Itemslots[i].Insert(item);
+                itemslots[i].Insert(item);
                 return true;
             }
         }
@@ -56,15 +57,15 @@ public class InventoryInterface
         inventory.EarnGold(-inventory.Gold);
 
         int index = 0;
-        for(int i = 0; i < Itemslots.Length; i++)
+        for(int i = 0; i < itemslots.Length; i++)
         {
-            while (index < inventory.Itemslots.Length && inventory.Itemslots[index].Item == null)
+            while (index < inventory.itemslots.Length && inventory.itemslots[index].Item == null)
                 index++;
-            if (index >= inventory.Itemslots.Length) break;
+            if (index >= inventory.itemslots.Length) break;
 
-            if (InsertItem(inventory.Itemslots[index].Item))
+            if (InsertItem(inventory.itemslots[index].Item))
             {
-                inventory.Itemslots[index].Insert(null);
+                inventory.itemslots[index].Insert(null);
                 index++;
             }
             else
@@ -77,7 +78,7 @@ public class InventoryInterface
     //테스트 전용 메소드
     public void Print()
     {
-        foreach(var i in Itemslots)
+        foreach (var i in itemslots)
         {
             if (i.Item != null)
                 Debug.Log($"아이템 이름 {i.Item.ItemName}");
