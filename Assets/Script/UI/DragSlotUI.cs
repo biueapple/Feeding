@@ -7,6 +7,9 @@ public class DragSlotUI : MonoBehaviour
     [SerializeField]
     private Image icon;
 
+    private RectTransform rect;
+    public RectTransform Rect { get { if(rect == null) rect = GetComponent<RectTransform>(); return rect; } }
+
     public void Begin(ItemSlotUI slot)
     {
         if (slot.Slot.Item == null)

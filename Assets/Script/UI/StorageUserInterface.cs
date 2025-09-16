@@ -14,6 +14,19 @@ public class StorageUserInterface : MonoBehaviour
     //이미 생성된 슬롯
     private readonly Queue<ItemSlotUI> queue = new();
 
+    private RectTransform rect;
+    public RectTransform Rect { get { if (rect == null) rect = GetComponent<RectTransform>(); return rect; } }
+
+    [SerializeField]
+    private float size = 100;
+    [SerializeField]
+    private float spacing = 10;
+
+    private void Start()
+    {
+        rect = GetComponent<RectTransform>();
+    }
+
     public void Interlock(InventoryInterface inventoryInterface)
     {
         if(this.inventoryInterface != null && slots != null && slots.Length != 0)
@@ -33,6 +46,7 @@ public class StorageUserInterface : MonoBehaviour
         {
             slots[i].Init(inventoryInterface.Itemslots[i]);
         }
+        Rect.sizeDelta = new(430, (slots.Length / 4 + 1) * size + (slots.Length % 4 * spacing));
         gameObject.SetActive(true);
     }
 

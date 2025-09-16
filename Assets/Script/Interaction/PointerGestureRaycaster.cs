@@ -37,16 +37,16 @@ public class PointerGestureRaycaster : MonoBehaviour
 
     private bool dragging;
     private IDraggable dragTarget;
-    private RaycastHit dragHitAsStart;
+    //private RaycastHit dragHitAsStart;
 
     private IClickable pendingClickTarget;
     private RaycastHit pendingClickHit;
     private float pendingClickTime;
     private bool hasPendingClick;
 
-    private IClickable lastClickTarget;
-    private float lastClickTime;
-    private RaycastHit lastClickHit;
+    //private IClickable lastClickTarget;
+    //private float lastClickTime;
+    //private RaycastHit lastClickHit;
 
 
     private void Awake()
@@ -124,9 +124,9 @@ public class PointerGestureRaycaster : MonoBehaviour
                     pendingClickTarget = null;
                     clickable.OnDoubleClick(hit);
 
-                    lastClickTarget = clickable;
-                    lastClickTime = Time.unscaledTime;
-                    lastClickHit = hit;
+                    //lastClickTarget = clickable;
+                    //lastClickTime = Time.unscaledTime;
+                    //lastClickHit = hit;
                 }
                 else
                 {
@@ -180,7 +180,7 @@ public class PointerGestureRaycaster : MonoBehaviour
                     {
                         dragging = true;
                         dragTarget = d;
-                        dragHitAsStart = hit;
+                        //dragHitAsStart = hit;
                         d.OnDragStart(hit);
                     }
                 }

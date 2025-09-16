@@ -28,7 +28,14 @@ public class UIManager : MonoBehaviour
     private ItemSlotUI tradeSlot;
     public ItemSlotUI TradeSlot => tradeSlot;
 
-    //UI를 열때 clamp 해서 화면을 나가지 않도록 하고 UI에 드래그로 움직일 수 있도록 추가해야 함
+    //ui가 단계별로 나눠져야 할 것 같아서
+    [SerializeField]
+    private Transform one;
+    [SerializeField]
+    private Transform two;
+    [SerializeField]
+    private Transform thr;
+
 
     public void OpenStorageInterface(InventoryInterface inventory, Vector3 position = default)
     {
@@ -40,7 +47,7 @@ public class UIManager : MonoBehaviour
         if (!storageQueue.TryDequeue(out StorageUserInterface result))
         {
             //없다면 생성해서 열기
-            result = Instantiate(storageUIPrefab, canvas.transform);
+            result = Instantiate(storageUIPrefab, two);
         }
 
         result.Interlock(inventory);
@@ -69,14 +76,14 @@ public class UIManager : MonoBehaviour
 
 
 
-    private void ClampPosition(RectTransform ui)
+    public void ClampPosition(RectTransform ui)
     {
-        float minX = ui.rect.width * 0.5f;
-        float maxX = Screen.width - ui.rect.width * 0.5f;
-        float minY = ui.rect.height * 0.5f;
-        float maxY = Screen.height - ui.rect.height * 0.5f;
+        float minX = ui.rect.width * ui.pivot.x;
+        float maxX = Screen.width - ui.rect.width * (1 - ui.pivot.x);
+        float minY = ui.rect.height * ui.pivot.y;
+        float maxY = Screen.height - ui.rect.height * (1 - ui.pivot.y);
 
-        Vector2 screen = new Vector2(Mathf.Clamp(ui.transform.position.x, minX, maxX) , Mathf.Clamp(ui.transform.position.y, minY, maxY));
+        Vector2 screen = new (Mathf.Clamp(ui.transform.position.x, minX, maxX) , Mathf.Clamp(ui.transform.position.y, minY, maxY));
         ui.transform.position = screen;
     }
 }

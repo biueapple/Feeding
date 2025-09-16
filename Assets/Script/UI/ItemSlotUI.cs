@@ -52,7 +52,7 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
     public void OnDrag(PointerEventData eventData)
     {
-        UIManager.Instance.DragSlot.GetComponent<RectTransform>().anchoredPosition = Mouse.current.position.ReadValue();
+        UIManager.Instance.DragSlot.Rect.position = Mouse.current.position.ReadValue();
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -70,10 +70,12 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     public void OnPointerEnter(PointerEventData eventData)
     {
         //UIManager.Instance.ItemDescription.Show(ItemData);
+        TooltipService.Instance.TooltipOpen(this);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         //UIManager.Instance.ItemDescription.Close();
+        TooltipService.Instance.TooltipClose();
     }
 }
