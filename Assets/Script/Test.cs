@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-//이제 UI 만들자
+//세트 효과나 다른 효과들 보여줄 내용 만들기
 public class Test : MonoBehaviour
 {
     public Hero hero;

@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using static UnityEditor.Progress;
 
 public class ItemDEquipment : MonoBehaviour
 {
@@ -29,29 +30,46 @@ public class ItemDEquipment : MonoBehaviour
     public void Setting(EquipmentAttribute attr)
     {
         float height = 0;
-        
-        text_Level.text = attr.Level.ToString();
-        height += text_Level.preferredHeight;
 
-        text_Part.text = attr.Part.ToString();
-        height += text_Part.preferredHeight;
+        height += TextSetting(text_Level, attr.Level.ToString());
 
-        text_EquipmentSet.text = attr.EquipmentSet.SetName;
-        height += text_EquipmentSet.preferredHeight;
+        height += TextSetting(text_Part, attr.Part.ToString());
 
-        text_Stats.text = "";
+        height += TextSetting(text_EquipmentSet, attr.EquipmentSet.SetName);
+
+        string strStat = "";
         foreach (var stat in attr.Stats)
         {
-            text_Stats.text += stat.Derivation + ": " + stat.Figure + "\n";
+            strStat += stat.Derivation.Kind + ": " + stat.Figure + "\n";
         }
-        height += text_Stats.preferredHeight;
+        height += TextSetting(text_Stats, strStat);
 
-        text_Effects.text = "";
+        string strEffect = "";
         foreach (var effect in attr.Effects)
         {
-            text_Effects.text += effect.EffectName + "\n";
+            strEffect += effect.EffectName + "\n";
         }
-        height += text_Effects.preferredHeight;
-        Rect.sizeDelta = new(Rect.rect.width, height);
+        height += TextSetting(text_Effects, strEffect);
+
+        // 5) 컨테이너 높이 반영(수동 사이즈)
+        Rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
+    }
+
+    private float TextSetting(TextMeshProUGUI text, string str)
+    {
+        // 2) 현재 컨테이너 가로폭 확보
+        float width = Rect.rect.width; // Rect 는 당신의 RectTransform 필드
+
+        // 3) 텍스트를 반영하기 전에 요구 높이를 선계산
+        Vector2 pref = text.GetPreferredValues(str, width, Mathf.Infinity);
+        float neededHeight = pref.y;
+
+        // 4) 텍스트 적용 + 즉시 메쉬 갱신
+        text.text = str;
+        text.ForceMeshUpdate();
+
+        // 5) 컨테이너 높이 반영(수동 사이즈)
+        //Rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, neededHeight);
+        return neededHeight;
     }
 }

@@ -23,13 +23,13 @@ public class DerivationStat : ScriptableObject
     public DerivationKind Kind => kind;
 
 
-#if UNITY_EDITOR
-    private void OnValidate()
-    {
-        var collector = AssetDatabase.LoadAssetAtPath<StatCollector>("Assets/Resources/StatCollector.asset");
-        if (collector == null) return;
-        collector.AddDerivationStat(this);
-        EditorUtility.SetDirty(collector);
-    }
-#endif
+//#if UNITY_EDITOR
+//    private void OnValidate()
+//    {
+//        var collector = AssetDatabase.LoadAssetAtPath<StatCollector>("Assets/Resources/StatCollector.asset");
+//        if (collector == null) return;
+//        collector.AddDerivationStat(this);
+//        EditorUtility.SetDirty(collector);
+//    }
+//#endif
 }

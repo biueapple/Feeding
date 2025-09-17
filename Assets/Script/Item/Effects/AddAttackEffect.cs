@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//공격시 추가 10 물리데미지의 공격을 하는 장비효과
+//공격시 추가 value type데미지의 공격을 하는 장비효과
 [CreateAssetMenu(menuName = "Item/EquipmentEffect/AttackEffect")]
 public class AddAttackEffect : EquipmentEffect
 {
@@ -9,6 +9,8 @@ public class AddAttackEffect : EquipmentEffect
     private DamageType type;
     [SerializeField]
     private float value;
+
+    public override string Description => $"공격마다 추가로 {value} {type} 데미지를 줍니다.";
 
     public override void Apply(Unit target)
     {

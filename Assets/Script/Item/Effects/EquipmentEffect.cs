@@ -11,6 +11,8 @@ public abstract class EquipmentEffect : ScriptableObject
     private string effectName;
     public string EffectName => effectName;
 
+    public abstract string Description { get; }
+
     public abstract void Apply(Unit target);
     public abstract void Remove(Unit target);
 

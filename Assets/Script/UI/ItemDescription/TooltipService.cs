@@ -17,7 +17,8 @@ public class TooltipService : MonoBehaviour
 
     private ItemDHeader header;
     private ItemDDescription desc;
-    private readonly Queue<ItemDEquipment> equip = new();
+    private ItemDEquipment equip;
+    //private readonly Queue<ItemDEquipment> equip = new();
 
     private void Awake()
     {
@@ -26,6 +27,7 @@ public class TooltipService : MonoBehaviour
 
         header = Instantiate(prefab_header, transform);
         desc = Instantiate(prefab_desc, transform);
+        equip = Instantiate(prefab_equip, transform);
     }
 
     public void TooltipOpen(ItemSlotUI slot)
@@ -36,10 +38,12 @@ public class TooltipService : MonoBehaviour
         header.gameObject.SetActive(true);
         view.Attaching(header.Rect);
 
-        if(slot.Slot.Item.TryGetAttribute<EquipmentAttribute>(out var result))
-        {
-            
-        }
+        //if(slot.Slot.Item.TryGetAttribute<EquipmentAttribute>(out var result))
+        //{
+        //    equip.Setting(result);
+        //    equip.gameObject.SetActive(true);
+        //    view.Attaching(equip.Rect);
+        //}
 
         desc.Setting(slot.Slot.Item);
         desc.gameObject.SetActive(true);
@@ -51,16 +55,17 @@ public class TooltipService : MonoBehaviour
     public void TooltipClose()
     {
         header.gameObject.SetActive(false);
+        equip.gameObject.SetActive(false);
         desc.gameObject.SetActive(false);
         view.Clear();
     }
 
-    private ItemDEquipment CreateEquip()
-    {
-        if(!equip.TryDequeue(out var result))
-        {
-            result = Instantiate(prefab_equip, transform);
-        }
-        return result;
-    }
+    //private ItemDEquipment CreateEquip()
+    //{
+    //    if(!equip.TryDequeue(out var result))
+    //    {
+    //        result = Instantiate(prefab_equip, transform);
+    //    }
+    //    return result;
+    //}
 }

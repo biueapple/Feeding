@@ -15,7 +15,7 @@ MonoBehaviour:
   itemID: af37822e-6a47-461b-a082-61b7b5d1f628
   itemName: "\uC2E4\uD615\uC6A9 \uD558\uCCB4"
   category: 0
-  rarity: 0
+  rarity: 3
   price: 50
   icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   description: "\uC774\uAC83\uC740 \uC601\uAD6D\uC5D0\uC11C \uC2DC\uC791\uD588\uC73C\uBA70

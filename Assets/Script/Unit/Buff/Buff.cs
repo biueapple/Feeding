@@ -30,6 +30,15 @@ public abstract class Buff : ScriptableObject
     private Sprite icon;
     public Sprite Icon => icon;
 
+    public virtual string Description { get => "{name}\n남은시간: {duration}s\n"; }
+    public virtual string BuildDescription(BuffInstance inst)
+    {
+        string s = Description;
+        s = s.Replace("{name}", BuffName);
+        s = s.Replace("{duration}", Mathf.CeilToInt(Mathf.Max(0, inst.Duration)).ToString());
+        return s;
+    }
+
     public abstract void Apply(BuffAdministrator administrator);
     public abstract void Remove(BuffAdministrator administrator);
     public virtual void Tick(BuffAdministrator administrator) { }
@@ -54,6 +63,7 @@ public class BuffInstance
     public BuffKind Kind => Buff.Kind;
     public readonly BuffAdministrator Target;
     public float Duration { get; private set; }
+    public int Stack { get; set; }
 
     public BuffInstance(Buff buff, BuffAdministrator target)
     {
@@ -67,7 +77,5 @@ public class BuffInstance
     {
         Duration -= duration;
         Buff.Tick(Target);
-        if (Duration <= 0)
-            Buff.Remove(Target);
     }
 }

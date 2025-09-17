@@ -1,6 +1,6 @@
 using UnityEngine;
 
-//ad 가 증가하는 장비효과
+//kind 가 value만큼 증가하는 효과
 [CreateAssetMenu(menuName = "Item/EquipmentEffect/DerivationEffect")]
 public class AddDerivationEffect : EquipmentEffect
 {
@@ -8,6 +8,8 @@ public class AddDerivationEffect : EquipmentEffect
     private DerivationKind kind;
     [SerializeField]
     private float value;
+
+    public override string Description => $"{kind} 가 {value}만큼 증가합니다.";
 
     public override void Apply(Unit target)
     {

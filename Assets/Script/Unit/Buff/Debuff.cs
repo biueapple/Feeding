@@ -27,10 +27,23 @@ public abstract class Debuff : ScriptableObject
     private DebuffKind kind;
     public DebuffKind Kind => kind;
 
+    [SerializeField]
+    private Sprite icon;
+    public Sprite Icon => icon;
+
+    public virtual string Description { get => "{name}\n남은시간: {duration}s\n"; }
+    public virtual string BuildDescription(DebuffInstance inst)
+    {
+        string s = Description;
+        s = s.Replace("{name}", DebuffName);
+        s = s.Replace("{duration}", Mathf.CeilToInt(Mathf.Max(0, inst.Duration)).ToString());
+        return s;
+    }
+
     public abstract void Apply(BuffAdministrator administrator);
     public abstract void Remove(BuffAdministrator administrator);
     public virtual void Tick(BuffAdministrator administrator) { }
-    public abstract BuffInstance CreateInstance(BuffAdministrator administrator);
+    public abstract DebuffInstance CreateInstance(BuffAdministrator administrator);
 
 #if UNITY_EDITOR
     private void OnValidate()
@@ -51,6 +64,7 @@ public class DebuffInstance
     public DebuffKind Kind => Debuff.Kind;
     public readonly BuffAdministrator Target;
     public float Duration { get; private set; }
+    public int Stack { get; set; }
 
     public DebuffInstance(Debuff debuff, BuffAdministrator target)
     {

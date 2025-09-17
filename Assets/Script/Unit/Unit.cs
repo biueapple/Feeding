@@ -107,7 +107,11 @@ public class Unit : MonoBehaviour
 
     public void AddStatModifier(StatModifier modifier, string id)
     {
+        if (statModifiers.ContainsKey(id))
+            RemoveStatModifier(id);
+
         statModifiers[id] = modifier;
+
         if (modifiersValue.ContainsKey(modifier.Kind))
             modifiersValue[modifier.Kind] += modifier.Value;
     }
