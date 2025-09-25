@@ -16,7 +16,7 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         icon.sprite = sprite;
     }
 
-    public void Init(ItemSlot slot)
+    public virtual void Init(ItemSlot slot)
     {
         if (slot == null) { Deinit(); return; }
         Slot = slot;
@@ -25,7 +25,7 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         OnAfterChange(slot);
     }
 
-    public void Deinit()
+    public virtual void Deinit()
     {
         if (Slot != null)
         {

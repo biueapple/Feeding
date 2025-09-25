@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.Rendering.GPUSort;
 
 public class Unit : MonoBehaviour
 {
@@ -132,6 +131,8 @@ public class Unit : MonoBehaviour
         var total = DictExt.SumDicts(derivation, modifiersValue);
         return total.GetOrZero(kind);
     }
+
+    //도트 대미지들 (버프나 디퍼프로 구현하려 했지만 구조가 다른 버프들이랑은 달라서 {스택이나 대미지} 구현하기 어려움이 있음)
 }
 
 public static class DictExt
@@ -155,3 +156,4 @@ public static class DictExt
         return res;
     }
 }
+

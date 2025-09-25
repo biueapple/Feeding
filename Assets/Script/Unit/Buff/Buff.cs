@@ -1,18 +1,21 @@
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
 //이게 효과가 사라진다던가 할때 쓰여가지고 
 public enum BuffKind
 {
-    StatModifier,
-
+    StatRise,
+    StatDrop,
+    DOT_
 }
 
+//버프가 언제 tick을 호출하지도 여기서 정해주자
 public abstract class Buff : ScriptableObject
 {
     [SerializeField, HideInInspector]
     private string buffID;
-    public string BuffID => buffID;
+    public virtual string BuffID => buffID;
 
     [SerializeField]
     private string buffName;
@@ -39,9 +42,9 @@ public abstract class Buff : ScriptableObject
         return s;
     }
 
-    public abstract void Apply(BuffAdministrator administrator);
-    public abstract void Remove(BuffAdministrator administrator);
-    public virtual void Tick(BuffAdministrator administrator) { }
+    public abstract void Apply(BuffAdministrator administrator, BuffInstance inst);
+    public abstract void Remove(BuffAdministrator administrator, BuffInstance inst);
+    public abstract void Reapply(BuffAdministrator administrator, BuffInstance inst);
     public abstract BuffInstance CreateInstance(BuffAdministrator administrator);
 
 #if UNITY_EDITOR
@@ -62,8 +65,10 @@ public class BuffInstance
     public readonly Buff Buff;
     public BuffKind Kind => Buff.Kind;
     public readonly BuffAdministrator Target;
-    public float Duration { get; private set; }
-    public int Stack { get; set; }
+    public float Duration { get; set; }
+    public int Stacks { get; private set; } = 0;
+    public void AddStack(int amount = 1) => Stacks += amount;
+    
 
     public BuffInstance(Buff buff, BuffAdministrator target)
     {
@@ -71,11 +76,13 @@ public class BuffInstance
 
         Buff = buff;
         Target = target;
+        Duration = buff.Duration;
     }
 
-    public void Tick(float duration)
+    public bool Tick(float duration)
     {
         Duration -= duration;
-        Buff.Tick(Target);
+        if (Duration < 1) return true;
+        return false;
     }
 }

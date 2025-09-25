@@ -18,15 +18,18 @@ public class AdventureManager : MonoBehaviour
 
     //여기에 모험이 끝나면 일어날 다음 단계를 넣어서 동작시키기
     public event Action OnAdventureEnded;
+    //모험의 한 사이클 (용사와 몬스터가 서로 한대씩 때린 후) 마다 호출
+    public event Action OnAdventureCycle;
     //모험에 이벤트를 넣어서 콜백을 해줘야 할지 모르겠네 그럼 args도 만들어야 하나
 
     private Coroutine coroutine = null;
-    public void StartAdventure(Hero hero)
+    public IEnumerator StartAdventure(Hero hero)
     {
+        yield return new WaitForSeconds(1);
         coroutine ??= StartCoroutine(RunAdventure(hero));
     }
 
-    IEnumerator RunAdventure(Hero hero)
+    public IEnumerator RunAdventure(Hero hero)
     {
         float heroAtkTimer = 0;
         float enemyAtkTimer = 0;
@@ -58,13 +61,14 @@ public class AdventureManager : MonoBehaviour
             }
 
             //버프들의 시간 지남
-            if(heroBuffAdministrator != null)
-                heroBuffAdministrator.TimeTick(dalta);
-            if(enemyBuffAdministrator != null)
-                enemyBuffAdministrator.TimeTick(dalta);
+            //if(heroBuffAdministrator != null)
+            //    heroBuffAdministrator.TimeTick(dalta);
+            //if(enemyBuffAdministrator != null)
+            //    enemyBuffAdministrator.TimeTick(dalta);
+            OnAdventureCycle?.Invoke();     //버프들을 직접 호출하지 않고 버프가 이벤트를 구독하도록
 
             //몬스터 사망
-            if(enemy.CurrentHP <= 0)
+            if (enemy.CurrentHP <= 0)
             {
                 enemy.LootEntry.Loot(out List<Item> list, out int gold);
                 //아이템 획득이랑 골드 획득

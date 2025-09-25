@@ -4,22 +4,32 @@ using UnityEngine;
 
 public class ShopManager : MonoBehaviour
 {
+    public static ShopManager Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+
+        pricing = new PricingService(hub);
+        tradeService = new();
+        tradeSlot = new();
+    }
+
     [SerializeField]
     private PriceModifierHub hub;
     [SerializeField]
+    private ItemCollector itemCollector;
+    [SerializeField]
+    private List<Visitor> allVisitor;
+
     private TradeService tradeService;
+
 
     private PricingService pricing;
     private TradeSession current;
 
     public event Action<TradeSession> OnCreateTradeSession;
-
-    private void Awake()
-    {
-        pricing = new PricingService(hub);
-        tradeService = new();
-        tradeSlot = new();
-    }
 
     private void Start()
     {
@@ -33,12 +43,34 @@ public class ShopManager : MonoBehaviour
     private TradeRequest currentRequest;
     private ItemSlot tradeSlot;
 
+    //나중에는 다른곳으로 옮기던가 할 수 있음
+    public Visitor CreateVisitor()
+    {
+        return allVisitor[UnityEngine.Random.Range(0, allVisitor.Count)];
+    }
+
+    public void TerminationTrade()
+    {
+        current = null;
+        currentRequest = null;
+        currentVisitor = null;
+        if(InventoryManager.Instance.PlayerChest.InsertItem(tradeSlot.Item))
+        {
+            Debug.Log("trade -> playerchest");
+        }
+        else
+        {
+            Debug.Log("trade -> null");
+        }
+        tradeSlot.Insert(null);
+    }
+
     //만남
-    public void StartEncounter(Visitor visitor, IReadOnlyList<Item> allItmes)
+    public void StartEncounter(Visitor visitor)
     {
         currentVisitor = visitor;
         
-        currentRequest = UnityEngine.Random.value > 0.5f ? new ItemTradeRequest(TradeType.Sell, visitor, allItmes) : new CategoryTradeRequest(TradeType.Buy, visitor);
+        currentRequest = UnityEngine.Random.value > 0.5f ? new ItemTradeRequest(TradeType.Sell, visitor, itemCollector.Items) : new CategoryTradeRequest(TradeType.Buy, visitor);
         if (currentRequest.TradeType == TradeType.Buy)
             UIManager.Instance.TradeSlot.gameObject.SetActive(true);
 

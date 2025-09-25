@@ -7,18 +7,18 @@ public class Test : MonoBehaviour
 {
     public Hero hero;
     public Equipment equipment;
-    public ItemCollector itemCollector;
     public Item item;
     public EquipmentPart part;
     public Enemy enemy;
     public BuffAdministrator buffAdministrator;
-    public StatRise calm;
+    public Buff_StatModifier calm;
 
 
     public Visitor visitor;
     public int pay;
     public Item input;
     public Buff buff;
+    public Buff bg;
     private void Start()
     {
         //unit.OnBeforeAttack += OnAttackEvent;
@@ -27,7 +27,8 @@ public class Test : MonoBehaviour
 
         hero.OnAfterAttack += OnAfterDamage;
         enemy.OnAfterAttack += OnAfterDamage;
-        buffAdministrator.AddDayBuff(buff);
+        buffAdministrator.ApplyBuff(buff);
+        buffAdministrator.ApplyBuff(bg);
 
         Inventory inventory = hero.GetComponent<Inventory>();
         inventory.InventoryInterface.OnAfterGold += OnAfterGold;
@@ -49,7 +50,7 @@ public class Test : MonoBehaviour
 
     public void OnEncounterStartButton()
     {
-        shopManager.StartEncounter(visitor, itemCollector.Items);
+        shopManager.StartEncounter(visitor);
     }
 
     public void OnTradeStartButton()
@@ -72,12 +73,6 @@ public class Test : MonoBehaviour
     {
         equipment.Unequip(part);
 
-    }
-
-    public AdventureManager adventureManager;
-    public void OnStartAdventure()
-    {
-        adventureManager.StartAdventure(hero);
     }
 
     public void OnAttackEvent(AttackEventArgs args)

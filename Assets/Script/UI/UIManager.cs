@@ -36,6 +36,23 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Transform thr;
 
+    public void OpenClosetInterface(InventoryInterface inventory, ClosetUserInterface closetInterface, Vector3 position = default)
+    {
+        if (!closetInterface.gameObject.activeSelf)
+            closetInterface.gameObject.SetActive(true);
+        else
+            closetInterface.Close();
+
+        closetInterface.transform.position = position;
+        closetInterface.Interlock(inventory);
+        closetInterface.Open();
+    }
+
+    public void CloseClosetInterface(ClosetUserInterface closetInterface)
+    {
+        closetInterface.gameObject.SetActive(false);
+        closetInterface.Close();
+    }
 
     public void OpenStorageInterface(InventoryInterface inventory, Vector3 position = default)
     {

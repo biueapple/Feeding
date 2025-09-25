@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8258217819619024a807d3ccc9b2fe9c, type: 3}
-  m_Name: Hunger
+  m_Script: {fileID: 11500000, guid: c54fb7f3cae356b44aafb0cf6105955b, type: 3}
+  m_Name: Gift Bleeding
   m_EditorClassIdentifier: 
-  buffID: e693ad91-0cea-462e-a158-0e9efc74c739
-  buffName: "\uBC30\uACE0\uD514"
-  duration: 1
-  kind: 1
+  buffID: 2ec10df6-da6e-4c26-9ade-c8bccf1940c2
+  buffName: "\uCD9C\uD608 \uC0DD\uC131"
+  duration: 0
+  kind: 2
   icon: {fileID: 0}
-  type: 0
-  value: -15
+  dot: {fileID: 11400000, guid: 6397b687cb1340b40be9052d5ffc6d70, type: 2}
+  value: 5
