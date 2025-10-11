@@ -21,7 +21,7 @@ public class Closet : MonoBehaviour, IPointerDownHandler, IClickable
     //ui상태인 클릭
     public void OnPointerDown(PointerEventData eventData)
     {
-        UIManager.Instance.OpenClosetInterface(inventoryInterface, closetUserInterface, transform.position + new Vector3(0, 350));
+        UIManager.Instance.OpenClosetInterface(inventoryInterface, closetUserInterface, transform.position + new Vector3(0, 250));
     }
 
     //오브젝트 상태인 클릭

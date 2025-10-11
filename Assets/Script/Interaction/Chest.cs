@@ -19,7 +19,7 @@ public class Chest : MonoBehaviour, IPointerDownHandler, IClickable
     //ui상태인 클릭
     public void OnPointerDown(PointerEventData eventData)
     {
-        UIManager.Instance.OpenStorageInterface(inventoryInterface, transform.position + new Vector3(0, 350));
+        UIManager.Instance.OpenStorageInterface(inventoryInterface, transform.position + new Vector3(0, 250));
     }
 
     //오브젝트 상태인 클릭

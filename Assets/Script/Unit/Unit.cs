@@ -43,6 +43,9 @@ public class Unit : MonoBehaviour
     //죽었을때
     public event Action<AttackEventArgs> OnDeath;
 
+    //체력이 변화할때 호출(대미지를 받거나 회복하거나)
+    public event Action<Unit> OnChangeHP;
+
 
     private void Start()
     {
@@ -51,6 +54,7 @@ public class Unit : MonoBehaviour
             derivation[m.Derivation.Kind] = m.Figure;
         }
         CurrentHP = StatValue(DerivationKind.HP);
+        OnChangeHP?.Invoke(this);
     }
 
     public void BasicAttack(Unit target)
@@ -98,6 +102,7 @@ public class Unit : MonoBehaviour
             packet.Value = Mathf.Max(1, packet.Value - reduction);
             CurrentHP -= packet.Value;
         }
+        OnChangeHP?.Invoke(this);
 
         OnAfterTakeDamage?.Invoke(args);
 

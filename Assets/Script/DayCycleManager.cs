@@ -25,8 +25,9 @@ public class DayCycleManager : MonoBehaviour
             yield return Morning();
             //yield return Dinner();
             //yield return Night();
-            //DayCount++;
+//            DayCount++;
         //}
+        //yield return null;
     }
 
     //아침 시작하면 호출
