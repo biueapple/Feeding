@@ -36,6 +36,10 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Transform thr;
 
+
+    //
+    //인벤토리 관련된 메소드
+    //
     public void OpenClosetInterface(InventoryInterface inventory, ClosetUserInterface closetInterface, Vector3 position = default)
     {
         if (!closetInterface.gameObject.activeSelf)
@@ -84,10 +88,23 @@ public class UIManager : MonoBehaviour
             openStorageUI.Remove(inventory);
         }
     }
+    //
+    //
+    //
 
 
+    //
+    //버프 아이콘 관련된 메소드
+    //
+    public void OpenBuffInfo()
+    {
 
+    }
 
+    public void CloseBuffInfo()
+    {
+
+    }
 
 
 

@@ -22,12 +22,12 @@ public class DayCycleManager : MonoBehaviour
         //하루를 반복
         //while (true)
         //{
-            yield return Morning();
-            //yield return Dinner();
-            //yield return Night();
-//            DayCount++;
+        //yield return Morning();
+        //yield return Dinner();
+        //yield return Night();
+        //            DayCount++;
         //}
-        //yield return null;
+        yield return null;
     }
 
     //아침 시작하면 호출

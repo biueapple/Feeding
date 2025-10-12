@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class TooltipService : MonoBehaviour
 {
@@ -30,13 +31,21 @@ public class TooltipService : MonoBehaviour
         equip = Instantiate(prefab_equip, transform);
     }
 
-    public void TooltipOpen(ItemSlotUI slot)
+    public void TooltipOpen(ITooltipProvider provider)
     {
-        if (slot.Slot.Item == null) return;
+        if (provider == null) return;
 
-        header.Setting(slot.Slot.Item);
-        header.gameObject.SetActive(true);
-        view.Attaching(header.Rect);
+        //var header = provider as ITooltipHeaderProvider;
+        //var bottom = provider as ITooltipBottomProvider;
+
+        if(provider is ITooltipHeaderProvider header)
+            this.header.Setting(header, view);
+        if(provider is ITooltipBottomProvider bottom)
+            desc.Setting(bottom, view);
+
+        //header.Setting(slot.Slot.Item);
+        //header.gameObject.SetActive(true);
+        //view.Attaching(header.Rect);
 
         //if(slot.Slot.Item.TryGetAttribute<EquipmentAttribute>(out var result))
         //{
@@ -45,11 +54,11 @@ public class TooltipService : MonoBehaviour
         //    view.Attaching(equip.Rect);
         //}
 
-        desc.Setting(slot.Slot.Item);
-        desc.gameObject.SetActive(true);
-        view.Attaching(desc.Rect);
+        //desc.Setting(slot.Slot.Item);
+        //desc.gameObject.SetActive(true);
+        //view.Attaching(desc.Rect);
 
-        view.transform.position = slot.transform.position;
+        view.transform.position = provider.Transform.position + (Vector3)provider.Offset;
     }
 
     public void TooltipClose()
@@ -58,6 +67,11 @@ public class TooltipService : MonoBehaviour
         equip.gameObject.SetActive(false);
         desc.gameObject.SetActive(false);
         view.Clear();
+    }
+
+    public void TooltipMove(ITooltipProvider provider)
+    {
+        view.transform.position = Mouse.current.position.value + provider.Offset;
     }
 
     //private ItemDEquipment CreateEquip()
