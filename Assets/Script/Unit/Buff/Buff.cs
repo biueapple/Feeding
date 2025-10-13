@@ -33,6 +33,8 @@ public abstract class Buff : ScriptableObject
     private Sprite icon;
     public Sprite Icon => icon;
 
+    [SerializeField, TextArea(2,4)]
+    private string description;
     public virtual string Description { get => "{name}\n남은시간: {duration}s\n"; }
     public virtual string BuildDescription(BuffInstance inst)
     {

@@ -3763,7 +3763,7 @@ MonoBehaviour:
   pay: 100
   input: {fileID: 11400000, guid: 08d3c199c9c9bc545bf39cb208de2eee, type: 2}
   buff: {fileID: 11400000, guid: 354ff61f63a491942b13888dc9d1308b, type: 2}
-  bg: {fileID: 11400000, guid: 0cc4432caa6ad8047813f04219438eca, type: 2}
+  bg: {fileID: 11400000, guid: 6397b687cb1340b40be9052d5ffc6d70, type: 2}
   shopManager: {fileID: 2043051948}
 --- !u!4 &1233343019
 Transform:

@@ -10,7 +10,6 @@ public class Buff_StatModifier : Buff
     [SerializeField]
     private float value;
 
-    public override string Description => "{name}\n{type}이 {value} 만큼 상승합니다.\n남은시간 {duration}";
     public override string BuildDescription(BuffInstance inst)
     {
         string s = base.BuildDescription(inst);
@@ -23,6 +22,8 @@ public class Buff_StatModifier : Buff
     {
         if (administrator.Owner == null)
             return;
+
+        administrator.SubscribeOnNight(inst, action);
         
         administrator.Owner.AddStatModifier(new StatModifier(type, value, BuffName), BuffID);
 
@@ -30,20 +31,16 @@ public class Buff_StatModifier : Buff
         {
             if (inst.Tick(1))
             {
-                administrator.RemoveBuff(this);/* Remove(administrator, inst);*/
-                DayCycleManager.Instance.OnNight -= action;
+                administrator.RemoveBuff(this);
             }
         }
-
-        DayCycleManager.Instance.OnNight += action;
     }
 
     public override void Reapply(BuffAdministrator administrator, BuffInstance inst)
     {
-        if (administrator.Buffs.TryGetValue(BuffID, out var instance))
-        {
-            instance.Duration = Duration;
-        }
+        if (inst == null) return;
+
+        inst.Duration = Duration;
     }
 
     public override void Remove(BuffAdministrator administrator, BuffInstance inst)
@@ -56,6 +53,4 @@ public class Buff_StatModifier : Buff
     {
         return new BuffInstance(this, administrator);
     }
-
-    
 }

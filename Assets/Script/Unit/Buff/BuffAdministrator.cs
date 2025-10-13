@@ -16,37 +16,106 @@ public class BuffAdministrator : MonoBehaviour
     //버프 디버프를 통합하고 도트 대미지는 뭔가 수정만 할지 개편을 해야할지 고민해야 할듯
 
     //버프들
-    private readonly Dictionary<string, BuffInstance> buffs = new(); 
+    private readonly Dictionary<string, BuffInstance> buffs = new();
     public IReadOnlyDictionary<string, BuffInstance> Buffs => buffs;
+
+    private readonly Dictionary<BuffInstance, List<IDisposable>> disposable = new(); 
+    //public IReadOnlyDictionary<BuffInstance, List<IDisposable>> Buffs => buffs;
 
     private void Awake()
     {
         Owner = GetComponent<Unit>();
     }
 
-    public void ApplyBuff(Buff buff)
+    //인스턴스 등록
+    private IDisposable Track(BuffInstance inst, IDisposable d)
     {
-        OnBeforeApply?.Invoke(buff);
-        if (buffs.TryGetValue(buff.BuffID, out var value))
+        if(!disposable.TryGetValue(inst, out var list))
         {
-            value.Buff.Reapply(this, value);
+            list = new();
+            disposable[inst] = list;
         }
-        else
-        {
-            buffs[buff.BuffID] = buff.CreateInstance(this);
-            buff.Apply(this, buffs[buff.BuffID]);
-        }
-        OnAfterApply?.Invoke(buff);
+        list.Add(d);
+        return d;
     }
+
+    //인스턴스 해재
+    private void DisposeSubscriptions(BuffInstance inst)
+    {
+        if(disposable.TryGetValue(inst, out var list))
+        {
+            for(int i  = list.Count - 1; i >= 0; i--)
+            {
+                list[i]?.Dispose();
+            }
+            list.Clear();
+            disposable.Remove(inst);
+        }
+    }
+
+
+
+    //public void ApplyBuff(Buff buff)
+    //{
+    //    OnBeforeApply?.Invoke(buff);
+    //    if (buffs.TryGetValue(buff.BuffID, out var value))
+    //    {
+    //        value.Buff.Reapply(this, value);
+    //    }
+    //    else
+    //    {
+    //        buffs[buff.BuffID] = buff.CreateInstance(this);
+    //        buff.Apply(this, buffs[buff.BuffID]);
+    //    }
+    //    OnAfterApply?.Invoke(buff);
+    //}
 
     public void RemoveBuff(Buff buff)
     {
-        if (buff == null) return;
-        if (!buffs.TryGetValue(buff.BuffID, out var value)) return;
-
+        if (buff == null || !buffs.TryGetValue(buff.BuffID, out var inst)) return;
+        
+        //이벤트
         OnBeforeRemove?.Invoke(buff);
-        buffs[buff.BuffID].Buff.Remove(this, value);
+
+        //구독 해지(버프의 효과로 존재하는 이벤트를 해지)
+        DisposeSubscriptions(inst);
+
+        //버프가 없어질때 해야할 행동을 해
+        buff.Remove(this, inst);
+
+        //dic에서 없애기
         buffs.Remove(buff.BuffID);
+
+        //이벤트
         OnAfterRemove?.Invoke(buff);
+    }
+
+
+    //
+    //이벤트 구독을 해주는 메소드들
+    //
+
+    public IDisposable SubscribeOnNight(BuffInstance inst, Action action)
+    {
+        DayCycleManager.Instance.OnNight += action;
+        return Track(inst, new ActionDisposable(() => DayCycleManager.Instance.OnNight -= action));
+    }
+
+    public IDisposable SubscribeOnAfterAttack(BuffInstance inst, Action<AttackEventArgs> args)
+    {
+        Owner.OnAfterAttack += args;
+        return Track(inst, new ActionDisposable(() => Owner.OnAfterAttack -= args));
+    }
+}
+
+
+public sealed class ActionDisposable : IDisposable
+{
+    private Action _onDispose;
+    public ActionDisposable(Action onDipose) => _onDispose = onDipose;
+    public void Dispose()
+    {
+        _onDispose?.Invoke();
+        _onDispose = null;
     }
 }

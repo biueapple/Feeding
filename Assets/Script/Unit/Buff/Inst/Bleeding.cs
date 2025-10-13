@@ -5,7 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "RPG/Debuff/DotType_Bleeding")]
 public class Bleeding : Dot
 {
-    public override string Description => "공격시마다 스택만큼 대미지를 입힙니다.";
     public override string BuildDescription(BuffInstance inst)
     {
         string s = base.BuildDescription(inst);
@@ -27,11 +26,10 @@ public class Bleeding : Dot
             {
                 Debug.Log("출혈 끝남");
                 administrator.RemoveBuff(this);
-                administrator.Owner.OnAfterAttack -= action;
             }
         }
 
-        administrator.Owner.OnAfterAttack += action;
+        administrator.SubscribeOnAfterAttack(inst, action);
     }
 
     public override void Reapply(BuffAdministrator administrator, BuffInstance inst)
@@ -41,8 +39,8 @@ public class Bleeding : Dot
 
     public override void Remove(BuffAdministrator administrator, BuffInstance inst)
     {
-        if (administrator.Owner == null) return;
-        administrator.Owner.RemoveStatModifier(BuffID);
+        if (administrator == null) return;
+
     }
 
     public override BuffInstance CreateInstance(BuffAdministrator administrator)
