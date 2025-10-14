@@ -51,6 +51,6 @@ public class Buff_StatModifier : Buff
 
     public override BuffInstance CreateInstance(BuffAdministrator administrator)
     {
-        return new BuffInstance(this, administrator);
+        return new (this, administrator);
     }
 }

@@ -20,7 +20,6 @@ public class BuffAdministrator : MonoBehaviour
     public IReadOnlyDictionary<string, BuffInstance> Buffs => buffs;
 
     private readonly Dictionary<BuffInstance, List<IDisposable>> disposable = new(); 
-    //public IReadOnlyDictionary<BuffInstance, List<IDisposable>> Buffs => buffs;
 
     private void Awake()
     {
@@ -55,20 +54,20 @@ public class BuffAdministrator : MonoBehaviour
 
 
 
-    //public void ApplyBuff(Buff buff)
-    //{
-    //    OnBeforeApply?.Invoke(buff);
-    //    if (buffs.TryGetValue(buff.BuffID, out var value))
-    //    {
-    //        value.Buff.Reapply(this, value);
-    //    }
-    //    else
-    //    {
-    //        buffs[buff.BuffID] = buff.CreateInstance(this);
-    //        buff.Apply(this, buffs[buff.BuffID]);
-    //    }
-    //    OnAfterApply?.Invoke(buff);
-    //}
+    public void ApplyBuff(Buff buff)
+    {
+        OnBeforeApply?.Invoke(buff);
+        if (buffs.TryGetValue(buff.BuffID, out var value))
+        {
+            value.Buff.Reapply(this, value);
+        }
+        else
+        {
+            buffs[buff.BuffID] = buff.CreateInstance(this);
+            buff.Apply(this, buffs[buff.BuffID]);
+        }
+        OnAfterApply?.Invoke(buff);
+    }
 
     public void RemoveBuff(Buff buff)
     {
@@ -95,16 +94,25 @@ public class BuffAdministrator : MonoBehaviour
     //이벤트 구독을 해주는 메소드들
     //
 
+    //밤마다
     public IDisposable SubscribeOnNight(BuffInstance inst, Action action)
     {
         DayCycleManager.Instance.OnNight += action;
         return Track(inst, new ActionDisposable(() => DayCycleManager.Instance.OnNight -= action));
     }
 
+    //모험에서 공격할때마다
     public IDisposable SubscribeOnAfterAttack(BuffInstance inst, Action<AttackEventArgs> args)
     {
-        Owner.OnAfterAttack += args;
-        return Track(inst, new ActionDisposable(() => Owner.OnAfterAttack -= args));
+        Owner.OnAttackAfter += args;
+        return Track(inst, new ActionDisposable(() => Owner.OnAttackAfter -= args));
+    }
+
+    //모험에서 1초마다
+    public IDisposable SubscribeOnSecond(BuffInstance inst, Action action)
+    {
+        AdventureManager.Instance.OnSecond += action;
+        return Track(inst, new ActionDisposable(() => AdventureManager.Instance.OnSecond -= action));
     }
 }
 

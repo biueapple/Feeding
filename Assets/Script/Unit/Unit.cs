@@ -30,15 +30,27 @@ public class Unit : MonoBehaviour
     public int level;
 
     //공격 전후에 호출하는 이벤트
-    public event Action<AttackEventArgs> OnBeforeAttack;
-    public event Action<AttackEventArgs> OnAfterAttack;
+    public event Action<AttackEventArgs> OnAttackBefore;
+    public event Action<AttackEventArgs> OnAttackAfter;
+
+    //공격을 받은 전후에 호출하는 이벤트
+    public event Action<AttackEventArgs> OnHitBefore;
+    public event Action<AttackEventArgs> OnHitAfter;
 
     //맞기 전후에 호출하는 이벤트
-    public event Action<AttackEventArgs> OnBeforeTakeDamage;
-    public event Action<AttackEventArgs> OnAfterTakeDamage;
+    public event Action<AttackEventArgs> OnTakeDamageBefore;
+    public event Action<AttackEventArgs> OnTakeDamageAfter;
 
     //피해량 계산 직전
     public event Action<AttackEventArgs> OnCalculateDamage;
+
+    //회복 받을 때
+    public event Action<RecoveryEventArgs> OnHealingBefore;
+    public event Action<RecoveryEventArgs> OnHealingAfter;
+
+    //회복 되었을 때
+    public event Action<RecoveryEventArgs> OnRecoveryBefore;
+    public event Action<RecoveryEventArgs> OnRecoveryAfter;
 
     //죽었을때
     public event Action<AttackEventArgs> OnDeath;
@@ -56,6 +68,10 @@ public class Unit : MonoBehaviour
         CurrentHP = StatValue(DerivationKind.HP);
         OnChangeHP?.Invoke(this);
     }
+
+    //
+    // unit의 기능에 대해
+    //
 
     public void BasicAttack(Unit target)
     {
@@ -76,16 +92,27 @@ public class Unit : MonoBehaviour
 
     public virtual void PerformAttack(AttackEventArgs args)
     {
-        OnBeforeAttack?.Invoke(args);
+        OnAttackBefore?.Invoke(args);
 
-        args.Defender.TakeDamage(args);
+        args.Defender.Hit(args);
 
-        OnAfterAttack?.Invoke(args);
+        OnAttackAfter?.Invoke(args);
     }
 
+    //공격을 받을 시 호출
+    public virtual void Hit(AttackEventArgs args)
+    {
+        OnHitBefore?.Invoke(args);
+
+        TakeDamage(args);
+
+        OnHitAfter?.Invoke(args);
+    }
+
+    //대미지를 계산해서 적용
     public void TakeDamage(AttackEventArgs args)
     {
-        OnBeforeTakeDamage?.Invoke(args);
+        OnTakeDamageBefore?.Invoke(args);
 
         OnCalculateDamage?.Invoke(args);
 
@@ -104,10 +131,39 @@ public class Unit : MonoBehaviour
         }
         OnChangeHP?.Invoke(this);
 
-        OnAfterTakeDamage?.Invoke(args);
+        OnTakeDamageAfter?.Invoke(args);
 
         if (currentHP <= 0) OnDeath?.Invoke(args);
     }
+
+    //회복 (다른 무언가에게 회복을 받음)
+    public void Healing(RecoveryEventArgs args)
+    {
+        OnHealingBefore?.Invoke(args);
+
+        Recovery(args);
+
+        OnHealingAfter?.Invoke(args);
+    }
+
+    //회복 적용 (회복 받지 않아도 사용 가능함 예를 들어서 부활해 체력이 찬다던가 자연 회복이라던가)
+    public void Recovery(RecoveryEventArgs args)
+    {
+        OnRecoveryBefore?.Invoke(args);
+
+        foreach(var pack in args.Recovery)
+        {
+            CurrentHP += pack.Value;
+        }
+
+        OnRecoveryAfter?.Invoke(args);
+    }
+
+
+
+    //
+    //스탯의 변화
+    //
 
     public void AddStatModifier(StatModifier modifier, string id)
     {
@@ -131,6 +187,7 @@ public class Unit : MonoBehaviour
         }
     }
 
+    //스탯의 리턴
     public float StatValue(DerivationKind kind)
     {
         var total = DictExt.SumDicts(derivation, modifiersValue);
@@ -140,6 +197,7 @@ public class Unit : MonoBehaviour
     //도트 대미지들 (버프나 디퍼프로 구현하려 했지만 구조가 다른 버프들이랑은 달라서 {스택이나 대미지} 구현하기 어려움이 있음)
 }
 
+//스탯의 리턴을 위해 두 dic을 합치는 클래스
 public static class DictExt
 {
     public static float GetOrZero(this IReadOnlyDictionary<DerivationKind, float> dict, DerivationKind k)

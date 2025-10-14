@@ -18,8 +18,9 @@ public class AdventureManager : MonoBehaviour
 
     //여기에 모험이 끝나면 일어날 다음 단계를 넣어서 동작시키기
     public event Action OnAdventureEnded;
-    //모험의 한 사이클 (용사와 몬스터가 서로 한대씩 때린 후) 마다 호출
-    public event Action OnAdventureCycle;
+    //모험의 매 프레임 호출과 1초마다 호출 이벤트
+    public event Action OnFrame;
+    public event Action OnSecond;
     //모험에 이벤트를 넣어서 콜백을 해줘야 할지 모르겠네 그럼 args도 만들어야 하나
 
     private Coroutine coroutine = null;
@@ -33,6 +34,7 @@ public class AdventureManager : MonoBehaviour
     {
         float heroAtkTimer = 0;
         float enemyAtkTimer = 0;
+        float secondTimer = 0f;
 
         Enemy enemy = CreateEnemy();
 
@@ -42,11 +44,10 @@ public class AdventureManager : MonoBehaviour
             
         while (hero.CurrentHP > 0)
         {
-            yield return null;
-            float dalta = Time.deltaTime;
+            float delta = Time.deltaTime;
             //공격속도에 영향을 받는 타이머
-            heroAtkTimer += dalta * hero.StatValue(DerivationKind.AS);
-            enemyAtkTimer += dalta * enemy.StatValue(DerivationKind.AS);
+            heroAtkTimer += delta * hero.StatValue(DerivationKind.AS);
+            enemyAtkTimer += delta * enemy.StatValue(DerivationKind.AS);
 
             //공격 기회
             if(heroAtkTimer >= BasedTimer)
@@ -59,13 +60,6 @@ public class AdventureManager : MonoBehaviour
                 enemy.BasicAttack(hero);
                 enemyAtkTimer = 0;
             }
-
-            //버프들의 시간 지남
-            //if(heroBuffAdministrator != null)
-            //    heroBuffAdministrator.TimeTick(dalta);
-            //if(enemyBuffAdministrator != null)
-            //    enemyBuffAdministrator.TimeTick(dalta);
-            OnAdventureCycle?.Invoke();     //버프들을 직접 호출하지 않고 버프가 이벤트를 구독하도록
 
             //몬스터 사망
             if (enemy.CurrentHP <= 0)
@@ -81,6 +75,18 @@ public class AdventureManager : MonoBehaviour
 
                 Destroy(enemy.gameObject);
                 enemy = CreateEnemy();
+            }
+
+            yield return null;
+
+            OnFrame?.Invoke();
+
+            secondTimer += delta; // ← 매 프레임마다 누적
+            // 1초 경과 시 OnSecond 호출
+            if (secondTimer >= 1f)
+            {
+                secondTimer -= 1f; // ← 남은 시간 유지 (정확한 주기 유지)
+                OnSecond?.Invoke();
             }
         }
 

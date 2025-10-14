@@ -25,8 +25,8 @@ public class Test : MonoBehaviour
         equipment.OnEquipped += OnEquipment;
         equipment.OnUnequipped += OnUnequipment;
 
-        hero.OnAfterAttack += OnAfterDamage;
-        enemy.OnAfterAttack += OnAfterDamage;
+        hero.OnAttackAfter += OnAfterDamage;
+        enemy.OnAttackAfter += OnAfterDamage;
         buffAdministrator.ApplyBuff(buff);
         buffAdministrator.ApplyBuff(bg);
 

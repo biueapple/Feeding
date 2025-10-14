@@ -1,10 +1,14 @@
 using System;
 using UnityEngine;
 
-//o
+//걸때마다 du가 1씩 증가하도록
+//한번에 여러번 걸어야 du가 길어저서 점점 중첩하기 쉽고 쌔지도록
+//근데 공격마다 출혈의 du가 줄어드니 쉽지 않을듯
 [CreateAssetMenu(menuName = "RPG/Debuff/DotType_Bleeding")]
 public class Bleeding : Dot
 {
+    public override string BuffID => "Bleeding";
+
     public override string BuildDescription(BuffInstance inst)
     {
         string s = base.BuildDescription(inst);
@@ -19,10 +23,9 @@ public class Bleeding : Dot
 
         void action(AttackEventArgs args)
         {
-            Debug.Log($"bleeding으로 인한 피해 {inst.Duration}");
-            administrator.Owner.CurrentHP -= inst.Duration;
-            Debug.Log(inst.Duration / 2);
-            if (inst.Tick(inst.Duration / 2))
+            Debug.Log($"bleeding으로 인한 피해 {inst.Stacks}");
+            administrator.Owner.CurrentHP -= inst.Stacks;
+            if (inst.Tick(1))
             {
                 Debug.Log("출혈 끝남");
                 administrator.RemoveBuff(this);
@@ -34,7 +37,8 @@ public class Bleeding : Dot
 
     public override void Reapply(BuffAdministrator administrator, BuffInstance inst)
     {
-
+        inst.Duration++;
+        inst.AddStack(stack);
     }
 
     public override void Remove(BuffAdministrator administrator, BuffInstance inst)
@@ -45,7 +49,12 @@ public class Bleeding : Dot
 
     public override BuffInstance CreateInstance(BuffAdministrator administrator)
     {
-        return new BuffInstance(this, administrator);
+        BuffInstance inst = new(this, administrator)
+        {
+            Duration = 1
+        };
+        inst.AddStack(stack);
+        return inst;
     }
 
     

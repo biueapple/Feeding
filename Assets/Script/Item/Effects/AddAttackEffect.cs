@@ -15,13 +15,13 @@ public class AddAttackEffect : EquipmentEffect
     public override void Apply(Unit target)
     {
         if (target == null) return;
-        target.OnAfterAttack += Target_OnAfterAttack;
+        target.OnAttackAfter += Target_OnAfterAttack;
     }
 
     public override void Remove(Unit target)
     {
         if (target == null) return;
-        target.OnAfterAttack -= Target_OnAfterAttack;
+        target.OnAttackAfter -= Target_OnAfterAttack;
     }
 
     private void Target_OnAfterAttack(AttackEventArgs args)

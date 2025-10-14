@@ -14,13 +14,13 @@ public class AddDamageEffect : EquipmentEffect
     public override void Apply(Unit target)
     {
         if (target == null) return;
-        target.OnBeforeAttack += Target_OnBeforeAttack;
+        target.OnAttackBefore += Target_OnBeforeAttack;
     }
 
     public override void Remove(Unit target)
     {
         if (target == null) return;
-        target.OnBeforeAttack -= Target_OnBeforeAttack;
+        target.OnAttackBefore -= Target_OnBeforeAttack;
     }
 
     private void Target_OnBeforeAttack(AttackEventArgs args)
