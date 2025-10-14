@@ -9,24 +9,24 @@ public class Buffbar : MonoBehaviour
     [SerializeField]
     private BuffIcon prefab;
 
-    private Dictionary<Buff, BuffIcon> list = new ();
+    private Dictionary<BuffInstance, BuffIcon> list = new ();
     private Queue<BuffIcon> queue = new();
 
     private void Awake()
     {
-        buffAdministrator.OnAfterApply += BuffAdministrator_OnAfterApply;
-        buffAdministrator.OnAfterRemove += BuffAdministrator_OnAfterRemove;
+        buffAdministrator.OnCreateInstanceAfter += BuffAdministrator_OnAfterApply;
+        buffAdministrator.OnDeleteInstanceAfter += BuffAdministrator_OnAfterRemove;
     }
 
-    private void BuffAdministrator_OnAfterApply(Buff buff)
+    private void BuffAdministrator_OnAfterApply(BuffInstance instance)
     {
-        Debug.Log(buff.BuffName);
+        Debug.Log(instance.Buff.BuffName);
         BuffIcon icon = CreateBuffIcon();
-        icon.Init(buff);
-        list.Add(buff, icon);
+        icon.Init(instance);
+        list.Add(instance, icon);
     }
 
-    private void BuffAdministrator_OnAfterRemove(Buff buff)
+    private void BuffAdministrator_OnAfterRemove(BuffInstance buff)
     {
         if(list.TryGetValue(buff, out var value))
         {

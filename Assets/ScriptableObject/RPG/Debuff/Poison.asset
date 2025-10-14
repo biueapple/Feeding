@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bb13380e93d4ac4297a84a102991561, type: 3}
+  m_Name: Poison
+  m_EditorClassIdentifier: 
+  buffID: 5c902d7b-2c18-480b-81de-70772fd1778f
+  buffName: "\uB3C5"
+  duration: 2
+  kind: 2
+  icon: {fileID: 0}
+  description: "1\uCD08\uB9C8\uB2E4 {stack}\uB9CC\uD07C {type}\uB300\uBBF8\uC9C0\uB97C
+    \uC785\uD799\uB2C8\uB2E4.\n{reduction} \uB9CC\uD07C \uCE58\uC720 \uAC10\uC18C
+    \uD6A8\uACFC\uAC00 \uC788\uC2B5\uB2C8\uB2E4."
+  type: 2
+  stack: 0

@@ -8,8 +8,13 @@ public class BuffAdministrator : MonoBehaviour
     public Unit Owner { get; private set; }
 
     //인자는 달라질 수 있음
-    public event Action<Buff> OnBeforeApply;
-    public event Action<Buff> OnAfterApply;
+    public event Action<Buff> OnApplyBefore;
+    public event Action<Buff> OnApplyAfter;
+
+    //버프 인스턴스가 생성될 때
+    public event Action<BuffInstance> OnCreateInstanceAfter;
+    //인스턴스를 삭제할 때
+    public event Action<BuffInstance> OnDeleteInstanceAfter;
 
     public event Action<Buff> OnBeforeRemove;
     public event Action<Buff> OnAfterRemove;
@@ -56,17 +61,19 @@ public class BuffAdministrator : MonoBehaviour
 
     public void ApplyBuff(Buff buff)
     {
-        OnBeforeApply?.Invoke(buff);
+        OnApplyBefore?.Invoke(buff);
         if (buffs.TryGetValue(buff.BuffID, out var value))
         {
             value.Buff.Reapply(this, value);
         }
         else
         {
-            buffs[buff.BuffID] = buff.CreateInstance(this);
-            buff.Apply(this, buffs[buff.BuffID]);
+            BuffInstance inst = buff.CreateInstance(this);
+            buffs[buff.BuffID] = inst;
+            OnCreateInstanceAfter?.Invoke(inst);
+            buff.Apply(this, inst);
         }
-        OnAfterApply?.Invoke(buff);
+        OnApplyAfter?.Invoke(buff);
     }
 
     public void RemoveBuff(Buff buff)
@@ -81,6 +88,7 @@ public class BuffAdministrator : MonoBehaviour
 
         //버프가 없어질때 해야할 행동을 해
         buff.Remove(this, inst);
+        OnDeleteInstanceAfter?.Invoke(inst);
 
         //dic에서 없애기
         buffs.Remove(buff.BuffID);
@@ -113,6 +121,13 @@ public class BuffAdministrator : MonoBehaviour
     {
         AdventureManager.Instance.OnSecond += action;
         return Track(inst, new ActionDisposable(() => AdventureManager.Instance.OnSecond -= action));
+    }
+
+    //회복하기 전
+    public IDisposable SubscribeOnRecoveryBefore(BuffInstance inst, Action<RecoveryEventArgs> action)
+    {
+        Owner.OnRecoveryBefore += action;
+        return Track(inst, new ActionDisposable(() => Owner.OnRecoveryBefore -= action));
     }
 }
 

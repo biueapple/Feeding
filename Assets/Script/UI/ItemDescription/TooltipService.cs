@@ -58,7 +58,11 @@ public class TooltipService : MonoBehaviour
         //desc.gameObject.SetActive(true);
         //view.Attaching(desc.Rect);
 
+        RectTransform rect = view.GetComponent<RectTransform>();
+        Vector2 size = new Vector2(this.header.Rect.rect.width, this.header.Rect.rect.height + desc.Rect.rect.height);
+        rect.sizeDelta = size;
         view.transform.position = provider.Transform.position + (Vector3)provider.Offset;
+        UIManager.Instance.ClampPosition(view.GetComponent<RectTransform>());
     }
 
     public void TooltipClose()

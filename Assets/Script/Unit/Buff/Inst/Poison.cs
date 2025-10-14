@@ -7,6 +7,14 @@ using UnityEngine;
 public class Poison : Dot
 {
     public override string BuffID => "Poison";
+    public override int Stack => 1;             //항상 스택이 1
+
+    public override string BuildDescription(BuffInstance inst)
+    {
+        string s = base.BuildDescription(inst);
+        s = s.Replace("{reduction}", (inst.Stacks * 0.01f).ToString());
+        return s;
+    }
 
     public override void Apply(BuffAdministrator administrator, BuffInstance inst)
     {
@@ -24,8 +32,19 @@ public class Poison : Dot
             }
         }
 
+        void reduction(RecoveryEventArgs args)
+        {
+            foreach (var pack in args.Recovery)
+            {
+                //최대 치감 수치는 30퍼
+                float stack = Mathf.Min(inst.Stacks, 30);
+                pack.Value -= pack.Value * stack * 0.01f;
+            }
+        }
+
         //치유감소
-        administrator.Owner.OnRecoveryBefore += Owner_OnRecoveryBefore;
+        administrator.SubscribeOnRecoveryBefore(inst, reduction);
+        //지속시간 계산
         administrator.SubscribeOnSecond(inst, action);
     }
 
@@ -38,7 +57,6 @@ public class Poison : Dot
     public override void Remove(BuffAdministrator administrator, BuffInstance inst)
     {
         if (administrator == null) return;
-        administrator.Owner.OnRecoveryBefore -= Owner_OnRecoveryBefore;
     }
 
     public override BuffInstance CreateInstance(BuffAdministrator administrator)
@@ -48,16 +66,7 @@ public class Poison : Dot
             Duration = Duration
         };
 
-        inst.AddStack(1);
+        inst.AddStack(Stack);
         return inst;
     }
-
-    private void Owner_OnRecoveryBefore(RecoveryEventArgs args)
-    {
-        foreach(var pack in args.Recovery)
-        {
-            pack.Value -= Mathf.Max(pack.Value * stack * 0.01f, 30);
-        }
-    }
-
 }

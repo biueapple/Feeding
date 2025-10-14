@@ -34,9 +34,19 @@ public class Dot : Buff
 {
     public override string BuffID => "DOT";
     [SerializeField]
+    protected DamageType type;
+    [SerializeField]
     protected int stack;
-    
-    
+    public virtual int Stack { get => stack; }
+
+    public override string BuildDescription(BuffInstance inst)
+    {
+        string s = base.BuildDescription(inst);
+        s = s.Replace("{stack}", inst.Stacks.ToString());
+        s = s.Replace("{type}", type.ToString());
+        return s;
+    }
+
     public override void Apply(BuffAdministrator administrator, BuffInstance inst)
     {
         if (administrator.Owner == null)

@@ -7,17 +7,17 @@ public class BuffIcon : MonoBehaviour, ITooltipHeaderProvider, ITooltipBottomPro
     [SerializeField]
     private Image icon;
 
-    private Buff buff;
+    private BuffInstance instance;
 
     public Transform Transform => transform;
 
     public Vector2 Offset => new(50, 100);
 
     //마우스를 올리면 설명도 보여야 함
-    public void Init(Buff buff)
+    public void Init(BuffInstance instance)
     {
-        this.buff = buff;
-        icon.sprite = buff.Icon;
+        this.instance = instance;
+        icon.sprite = instance.Buff.Icon;
     }
 
     public bool TooltipHeader(out string leftText, out Color leftColor, out string rightText, out Color rightColor)
@@ -26,13 +26,13 @@ public class BuffIcon : MonoBehaviour, ITooltipHeaderProvider, ITooltipBottomPro
         leftColor = default;
         rightText = string.Empty;
         rightColor = default;
-        if (buff == null) return false;
+        if (instance == null) return false;
 
         leftColor = Color.black;
         rightColor = Color.black;
 
-        rightText = buff.Duration.ToString();
-        leftText = buff.BuffName;
+        rightText = instance.Duration.ToString();
+        leftText = instance.Buff.BuffName;
 
         return true;
     }
@@ -41,9 +41,9 @@ public class BuffIcon : MonoBehaviour, ITooltipHeaderProvider, ITooltipBottomPro
     {
         text = string.Empty;
         color = default;
-        if (buff == null) return false;
+        if (instance == null) return false;
 
-        text = buff.Description;
+        text = instance.Buff.BuildDescription(instance);
         color = Color.red;
         return true;
     }

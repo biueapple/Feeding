@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 //세트 효과나 다른 효과들 보여줄 내용 만들기
 public class Test : MonoBehaviour
@@ -18,7 +17,8 @@ public class Test : MonoBehaviour
     public int pay;
     public Item input;
     public Buff buff;
-    public Buff bg;
+    public Buff bl;
+    public Buff po;
     private void Start()
     {
         //unit.OnBeforeAttack += OnAttackEvent;
@@ -28,7 +28,17 @@ public class Test : MonoBehaviour
         hero.OnAttackAfter += OnAfterDamage;
         enemy.OnAttackAfter += OnAfterDamage;
         buffAdministrator.ApplyBuff(buff);
-        buffAdministrator.ApplyBuff(bg);
+        buffAdministrator.ApplyBuff(bl);
+        buffAdministrator.ApplyBuff(po);
+
+        AttackEventArgs args = new AttackEventArgs(null, hero, true);
+        args.Damages.Add(new DamagePacket(DamageType.True, hero.ToString(), 10));
+        hero.TakeDamage(args);
+
+        RecoveryEventArgs re = new(hero, hero);
+        re.Recovery.Add(new RecoveryPacket("hero", 10));
+        hero.Healing(re);
+
 
         Inventory inventory = hero.GetComponent<Inventory>();
         inventory.InventoryInterface.OnAfterGold += OnAfterGold;
@@ -44,7 +54,6 @@ public class Test : MonoBehaviour
         InventoryManager.Instance.HeroChest.InsertItem(input);
         InventoryManager.Instance.PlayerChest.OnAfterGold += OnAfterGold;
     }
-
 
     public ShopManager shopManager;
 

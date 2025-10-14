@@ -8,13 +8,7 @@ using UnityEngine;
 public class Bleeding : Dot
 {
     public override string BuffID => "Bleeding";
-
-    public override string BuildDescription(BuffInstance inst)
-    {
-        string s = base.BuildDescription(inst);
-        s = s.Replace("{type}", DamageType.Physical.ToString());
-        return s;
-    }
+    public override float Duration => 1;    //출혈은 항상 지속시간 1
 
     public override void Apply(BuffAdministrator administrator, BuffInstance inst)
     {
@@ -51,7 +45,7 @@ public class Bleeding : Dot
     {
         BuffInstance inst = new(this, administrator)
         {
-            Duration = 1
+            Duration = Duration
         };
         inst.AddStack(stack);
         return inst;

@@ -23,7 +23,7 @@ public class TooltipAutoBinder : MonoBehaviour, IPointerEnterHandler, IPointerMo
 
     public void OnPointerMove(PointerEventData eventData)
     {
-        TooltipService.Instance.TooltipMove(provider);
+        //TooltipService.Instance.TooltipMove(provider);
     }
 }
 

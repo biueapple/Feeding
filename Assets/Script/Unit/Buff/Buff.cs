@@ -23,7 +23,7 @@ public abstract class Buff : ScriptableObject
 
     [SerializeField]
     private float duration;                   //지속시간
-    public float Duration => duration;
+    public virtual float Duration => duration;
 
     [SerializeField]
     private BuffKind kind;
@@ -35,7 +35,7 @@ public abstract class Buff : ScriptableObject
 
     [SerializeField, TextArea(2,4)]
     private string description;
-    public virtual string Description { get => "{name}\n남은시간: {duration}s\n"; }
+    public virtual string Description { get => description; }
     public virtual string BuildDescription(BuffInstance inst)
     {
         string s = Description;
