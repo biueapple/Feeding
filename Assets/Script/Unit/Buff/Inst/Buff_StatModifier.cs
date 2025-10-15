@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "RPG/Buff/StatModifier")]
@@ -31,16 +32,18 @@ public class Buff_StatModifier : Buff
         {
             if (inst.Tick(1))
             {
-                administrator.RemoveBuff(this);
+                administrator.RemoveBuff(inst);
             }
         }
     }
 
-    public override void Reapply(BuffAdministrator administrator, BuffInstance inst)
+    public override void Reapply(BuffAdministrator administrator, List<BuffInstance> list)
     {
-        if (inst == null) return;
+        if (list == null || administrator == null) return;
 
-        inst.Duration = Duration;
+        //사실 list에 여러개가 있을리가 없긴 함
+        foreach(var inst in list)
+            inst.Duration = Duration;
     }
 
     public override void Remove(BuffAdministrator administrator, BuffInstance inst)

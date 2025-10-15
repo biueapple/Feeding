@@ -9,8 +9,8 @@ public class Buffbar : MonoBehaviour
     [SerializeField]
     private BuffIcon prefab;
 
-    private Dictionary<BuffInstance, BuffIcon> list = new ();
-    private Queue<BuffIcon> queue = new();
+    private readonly Dictionary<BuffInstance, BuffIcon> list = new ();
+    private readonly Queue<BuffIcon> queue = new();
 
     private void Awake()
     {

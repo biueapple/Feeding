@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 //걸릴때마다 스택이 1씩 증가하는 형태
@@ -28,7 +29,7 @@ public class Poison : Dot
             if (inst.Tick(1))
             {
                 Debug.Log("poison 끝남");
-                administrator.RemoveBuff(this);
+                administrator.RemoveBuff(inst);
             }
         }
 
@@ -48,10 +49,16 @@ public class Poison : Dot
         administrator.SubscribeOnSecond(inst, action);
     }
 
-    public override void Reapply(BuffAdministrator administrator, BuffInstance inst)
+    public override void Reapply(BuffAdministrator administrator, List<BuffInstance> list)
     {
-        inst.AddStack();
-        if (inst.Duration < Duration) inst.Duration = Duration;
+        if (administrator == null || list == null) return;
+
+        //사실 list에 여러개가 있을리가 없음
+        foreach(var inst in list)
+        {
+            inst.AddStack();
+            if (inst.Duration < Duration) inst.Duration = Duration;
+        }
     }
 
     public override void Remove(BuffAdministrator administrator, BuffInstance inst)

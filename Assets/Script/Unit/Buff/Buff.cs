@@ -44,9 +44,11 @@ public abstract class Buff : ScriptableObject
         return s;
     }
 
+    //reapply는 list인데 apply는 list가 아닌 이유는 reapply는 이미 inst가 만들어진 이후 호출될 수 있지만
+    //apply는 반드시 instance가 하나일 때만 호출되기에 list일 이유가 없음
     public abstract void Apply(BuffAdministrator administrator, BuffInstance inst);
     public abstract void Remove(BuffAdministrator administrator, BuffInstance inst);
-    public abstract void Reapply(BuffAdministrator administrator, BuffInstance inst);
+    public abstract void Reapply(BuffAdministrator administrator, List<BuffInstance> list);
     public abstract BuffInstance CreateInstance(BuffAdministrator administrator);
 
 #if UNITY_EDITOR

@@ -9,13 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c54fb7f3cae356b44aafb0cf6105955b, type: 3}
-  m_Name: Gift Bleeding
+  m_Script: {fileID: 11500000, guid: 118b9d2364316f440917d45939fc7d91, type: 3}
+  m_Name: Dot
   m_EditorClassIdentifier: 
-  buffID: 2ec10df6-da6e-4c26-9ade-c8bccf1940c2
-  buffName: "\uCD9C\uD608 \uC0DD\uC131"
-  duration: 0
+  buffID: eeb34efb-4738-4ab2-9fd3-83b3efdf1b05
+  buffName: "\uB3C4\uD2B8"
+  duration: 2
   kind: 2
   icon: {fileID: 0}
-  dot: {fileID: 11400000, guid: 6397b687cb1340b40be9052d5ffc6d70, type: 2}
-  value: 5
+  description: "\uB9E4 \uCD08\uB9C8\uB2E4 {stack}\uB9CC\uD07C {type}\uB300\uBBF8\uC9C0\uB97C
+    \uC785\uD799\uB2C8\uB2E4."
+  type: 0
+  stack: 2

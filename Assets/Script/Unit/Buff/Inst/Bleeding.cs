@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 //걸때마다 du가 1씩 증가하도록
@@ -22,17 +23,23 @@ public class Bleeding : Dot
             if (inst.Tick(1))
             {
                 Debug.Log("출혈 끝남");
-                administrator.RemoveBuff(this);
+                administrator.RemoveBuff(inst);
             }
         }
 
         administrator.SubscribeOnAfterAttack(inst, action);
     }
 
-    public override void Reapply(BuffAdministrator administrator, BuffInstance inst)
+    public override void Reapply(BuffAdministrator administrator, List<BuffInstance> list)
     {
-        inst.Duration++;
-        inst.AddStack(stack);
+        if (administrator == null || list == null) return;
+
+        //사실 list에 여러개가 있을리가 없음
+        foreach(var inst in list)
+        {
+            inst.Duration++;
+            inst.AddStack(stack);
+        }
     }
 
     public override void Remove(BuffAdministrator administrator, BuffInstance inst)

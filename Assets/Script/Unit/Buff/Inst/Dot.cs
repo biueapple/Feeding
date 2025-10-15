@@ -1,4 +1,6 @@
+using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 //어떤 도트딜을 얼마나 추가할지 없다면 만들기
@@ -30,6 +32,7 @@ using UnityEngine;
 //턴대신 1초마다로 해야겠네
 
 //스택 합산 du는 높은쪽
+[CreateAssetMenu(menuName = "RPG/Debuff/DotType_DOT")]
 public class Dot : Buff
 {
     public override string BuffID => "DOT";
@@ -49,7 +52,7 @@ public class Dot : Buff
 
     public override void Apply(BuffAdministrator administrator, BuffInstance inst)
     {
-        if (administrator.Owner == null)
+        if (administrator == null || administrator.Owner == null || inst == null)
             return;
 
         void action()
@@ -59,33 +62,28 @@ public class Dot : Buff
             if (inst.Tick(1))
             {
                 Debug.Log("dot 끝남");
-                administrator.RemoveBuff(this);
+                administrator.RemoveBuff(inst);
             }
         }
 
         administrator.SubscribeOnSecond(inst, action);
     }
 
-    public override void Reapply(BuffAdministrator administrator, BuffInstance inst)
+    //여긴 list에 여러개일 수 있음
+    public override void Reapply(BuffAdministrator administrator, List<BuffInstance> list)
     {
-        if (administrator.Owner == null)
+        if (administrator == null || list == null)
             return;
 
-        inst.AddStack(stack);
-        if (inst.Duration < Duration) inst.Duration = Duration;
-        
-        //void action(AttackEventArgs args)
+        //Reapply를 호출할때는 CreateInstance 하지 않고 호출하기에 직접 만들어서 넣어주기
+        BuffInstance inst = CreateInstance(administrator);
+        Apply(administrator, inst);
+        administrator.AddInstance(inst);
+        //foreach(var inst in list)
         //{
-        //    Debug.Log($"dot로 인한 피해 {inst.Stacks}");
-        //    administrator.Owner.CurrentHP -= inst.Stacks;
-        //    if (inst.Tick(1))
-        //    {
-        //        Debug.Log("dot 끝남");
-        //        administrator.RemoveBuff(this);
-        //    }
+        //    inst.AddStack(stack);
+        //    if (inst.Duration < Duration) inst.Duration = Duration;
         //}
-
-        //administrator.SubscribeOnAfterAttack(inst, action);
     }
 
     public override void Remove(BuffAdministrator administrator, BuffInstance inst)

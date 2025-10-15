@@ -19,6 +19,7 @@ public class Test : MonoBehaviour
     public Buff buff;
     public Buff bl;
     public Buff po;
+    public Buff dot;
     private void Start()
     {
         //unit.OnBeforeAttack += OnAttackEvent;
@@ -29,9 +30,12 @@ public class Test : MonoBehaviour
         enemy.OnAttackAfter += OnAfterDamage;
         buffAdministrator.ApplyBuff(buff);
         buffAdministrator.ApplyBuff(bl);
+        buffAdministrator.ApplyBuff(bl);
         buffAdministrator.ApplyBuff(po);
+        buffAdministrator.ApplyBuff(dot);
+        buffAdministrator.ApplyBuff(dot);
 
-        AttackEventArgs args = new AttackEventArgs(null, hero, true);
+        AttackEventArgs args = new (null, hero, true);
         args.Damages.Add(new DamagePacket(DamageType.True, hero.ToString(), 10));
         hero.TakeDamage(args);
 

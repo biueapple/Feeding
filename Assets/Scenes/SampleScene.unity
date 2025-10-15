@@ -3765,6 +3765,7 @@ MonoBehaviour:
   buff: {fileID: 11400000, guid: 354ff61f63a491942b13888dc9d1308b, type: 2}
   bl: {fileID: 11400000, guid: 6397b687cb1340b40be9052d5ffc6d70, type: 2}
   po: {fileID: 11400000, guid: f74d6fd281ef6df4499bee89f31e3fdc, type: 2}
+  dot: {fileID: 11400000, guid: a4c1a8b23acb36345a5241d0e4a2855c, type: 2}
   shopManager: {fileID: 2043051948}
 --- !u!4 &1233343019
 Transform:
