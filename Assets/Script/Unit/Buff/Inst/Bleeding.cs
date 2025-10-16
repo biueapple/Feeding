@@ -11,28 +11,33 @@ public class Bleeding : Dot
     public override string BuffID => "Bleeding";
     public override float Duration => 1;    //출혈은 항상 지속시간 1
 
-    public override void Apply(BuffAdministrator administrator, BuffInstance inst)
+    public override void Apply(Unit caster, BuffAdministrator target, BuffInstance inst)
     {
-        if (administrator.Owner == null)
+        if (target.Owner == null)
             return;
 
         void action(AttackEventArgs args)
         {
-            Debug.Log($"bleeding으로 인한 피해 {inst.Stacks}");
-            administrator.Owner.CurrentHP -= inst.Stacks;
+            float damage = inst.Stacks;
+            Debug.Log($"bleeding으로 인한 피해 {damage}");
+
+            AttackEventArgs a = new(caster, target.Owner, false);
+            a.Damages.Add(new DamagePacket(type, "Bleeding", damage));
+            target.Owner.TakeDamage(a);
+
             if (inst.Tick(1))
             {
                 Debug.Log("출혈 끝남");
-                administrator.RemoveBuff(inst);
+                target.RemoveBuff(inst);
             }
         }
 
-        administrator.SubscribeOnAfterAttack(inst, action);
+        target.SubscribeOnAfterAttack(inst, action);
     }
 
-    public override void Reapply(BuffAdministrator administrator, List<BuffInstance> list)
+    public override void Reapply(Unit caster, BuffAdministrator target, List<BuffInstance> list)
     {
-        if (administrator == null || list == null) return;
+        if (target == null || list == null) return;
 
         //사실 list에 여러개가 있을리가 없음
         foreach(var inst in list)
@@ -41,22 +46,4 @@ public class Bleeding : Dot
             inst.AddStack(stack);
         }
     }
-
-    public override void Remove(BuffAdministrator administrator, BuffInstance inst)
-    {
-        if (administrator == null) return;
-
-    }
-
-    public override BuffInstance CreateInstance(BuffAdministrator administrator)
-    {
-        BuffInstance inst = new(this, administrator)
-        {
-            Duration = Duration
-        };
-        inst.AddStack(stack);
-        return inst;
-    }
-
-    
 }

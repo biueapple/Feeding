@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a32ebf7ca8391414da9941ccc6cb8e3d, type: 3}
+  m_Name: Burn
+  m_EditorClassIdentifier: 
+  buffID: 9543ad06-a22e-4e5d-a325-02a10a5ddbd7
+  buffName: "\uD654\uC0C1"
+  duration: 2
+  kind: 2
+  icon: {fileID: 0}
+  description: "\uACF5\uACA9\uC744 \uBC1B\uC744 \uB54C\uB9C8\uB2E4 {stack}\uB9CC\uD07C
+    {type}\uB300\uBBF8\uC9C0\uB97C \uC785\uD799\uB2C8\uB2E4."
+  type: 0
+  stack: 2

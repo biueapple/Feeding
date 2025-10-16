@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.Rendering.CoreUtils;
 
 public class TooltipService : MonoBehaviour
 {
@@ -10,14 +11,20 @@ public class TooltipService : MonoBehaviour
     private TooltipView view;
 
     [SerializeField]
-    private ItemDHeader prefab_header;
+    private ProviderHeader prefab_header;
     [SerializeField]
-    private ItemDDescription prefab_desc;
+    private ProviderKeyValue prefab_keyValue;
+    [SerializeField]
+    private ProviderSections prefab_section;
+    [SerializeField]
+    private ProviderBottom prefab_desc;
     [SerializeField]
     private ItemDEquipment prefab_equip;
 
-    private ItemDHeader header;
-    private ItemDDescription desc;
+    private ProviderHeader header;
+    private ProviderKeyValue keyValue;
+    private ProviderSections sections;
+    private ProviderBottom bottom;
     private ItemDEquipment equip;
     //private readonly Queue<ItemDEquipment> equip = new();
 
@@ -27,7 +34,9 @@ public class TooltipService : MonoBehaviour
         else Destroy(gameObject);
 
         header = Instantiate(prefab_header, transform);
-        desc = Instantiate(prefab_desc, transform);
+        keyValue = Instantiate(prefab_keyValue, transform);
+        sections = Instantiate(prefab_section, transform);
+        bottom = Instantiate(prefab_desc, transform);
         equip = Instantiate(prefab_equip, transform);
     }
 
@@ -35,31 +44,20 @@ public class TooltipService : MonoBehaviour
     {
         if (provider == null) return;
 
-        //var header = provider as ITooltipHeaderProvider;
-        //var bottom = provider as ITooltipBottomProvider;
-
         if(provider is ITooltipHeaderProvider header)
             this.header.Setting(header, view);
-        if(provider is ITooltipBottomProvider bottom)
-            desc.Setting(bottom, view);
 
-        //header.Setting(slot.Slot.Item);
-        //header.gameObject.SetActive(true);
-        //view.Attaching(header.Rect);
+        if (provider is ITooltipKeyValueProvider keyValue)
+            this.keyValue.Setting(keyValue, view);
 
-        //if(slot.Slot.Item.TryGetAttribute<EquipmentAttribute>(out var result))
-        //{
-        //    equip.Setting(result);
-        //    equip.gameObject.SetActive(true);
-        //    view.Attaching(equip.Rect);
-        //}
+        if (provider is ITooltipSectionsProvider sections)
+            this.sections.Setting(sections, view);
 
-        //desc.Setting(slot.Slot.Item);
-        //desc.gameObject.SetActive(true);
-        //view.Attaching(desc.Rect);
+        if (provider is ITooltipBottomProvider bottom)
+            this.bottom.Setting(bottom, view);
 
         RectTransform rect = view.GetComponent<RectTransform>();
-        Vector2 size = new Vector2(this.header.Rect.rect.width, this.header.Rect.rect.height + desc.Rect.rect.height);
+        Vector2 size = new Vector2(this.header.Rect.rect.width, this.header.Rect.rect.height + this.keyValue.Rect.rect.height + this.sections.Rect.rect.height + this.bottom.Rect.rect.height);
         rect.sizeDelta = size;
         view.transform.position = provider.Transform.position + (Vector3)provider.Offset;
         UIManager.Instance.ClampPosition(view.GetComponent<RectTransform>());
@@ -68,8 +66,10 @@ public class TooltipService : MonoBehaviour
     public void TooltipClose()
     {
         header.gameObject.SetActive(false);
+        keyValue.gameObject.SetActive(false);
+        sections.gameObject.SetActive(false);
+        bottom.gameObject.SetActive(false);
         equip.gameObject.SetActive(false);
-        desc.gameObject.SetActive(false);
         view.Clear();
     }
 
@@ -77,13 +77,4 @@ public class TooltipService : MonoBehaviour
     {
         view.transform.position = Mouse.current.position.value + provider.Offset;
     }
-
-    //private ItemDEquipment CreateEquip()
-    //{
-    //    if(!equip.TryDequeue(out var result))
-    //    {
-    //        result = Instantiate(prefab_equip, transform);
-    //    }
-    //    return result;
-    //}
 }

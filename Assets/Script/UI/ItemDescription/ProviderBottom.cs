@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class ItemDDescription : MonoBehaviour
+public class ProviderBottom : MonoBehaviour
 {
     [SerializeField]
     private TextMeshProUGUI text_Description;

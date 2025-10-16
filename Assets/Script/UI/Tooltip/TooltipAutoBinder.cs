@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -25,6 +26,11 @@ public class TooltipAutoBinder : MonoBehaviour, IPointerEnterHandler, IPointerMo
     {
         //TooltipService.Instance.TooltipMove(provider);
     }
+
+    private void OnDisable()
+    {
+        TooltipService.Instance.TooltipClose();
+    }
 }
 
 
@@ -44,7 +50,20 @@ public interface ITooltipBottomProvider : ITooltipProvider
     public bool TooltipBottom(out string text, out Color color);
 }
 
+//왼쪽에 이름 오른쪽에 설명같은 느낌으로
+public interface ITooltipKeyValueProvider : ITooltipProvider
+{
+    public bool TooltipKeyValue(out string key, out Color keyColor, out string value, out Color valueColor);
+}
+
+//리스트 형식으로 보여주는
+public interface ITooltipListProvider : ITooltipProvider
+{
+    public bool TooltipList(out List<(string, Color)> strings);
+}
+
+//그냥 텍스트로 보여주기
 public interface ITooltipSectionsProvider : ITooltipProvider
 {
-
+    public bool TooltipSection(out string str, out Color color);
 }

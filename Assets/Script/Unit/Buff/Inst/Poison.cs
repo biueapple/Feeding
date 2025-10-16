@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.GPUSort;
 
 //걸릴때마다 스택이 1씩 증가하는 형태
 //du는 어쩌지 더 높은쪽으로
@@ -17,19 +18,23 @@ public class Poison : Dot
         return s;
     }
 
-    public override void Apply(BuffAdministrator administrator, BuffInstance inst)
+    public override void Apply(Unit caster, BuffAdministrator target, BuffInstance inst)
     {
-        if (administrator.Owner == null)
+        if (target.Owner == null)
             return;
 
         void action()
         {
-            Debug.Log($"poison으로 인한 피해 {inst.Stacks}");
-            administrator.Owner.CurrentHP -= inst.Stacks;
+            float damage = inst.Stacks;
+            Debug.Log($"poison으로 인한 피해 {damage}");
+            AttackEventArgs a = new(caster, target.Owner, false);
+            a.Damages.Add(new DamagePacket(type, "Poison", damage));
+            target.Owner.TakeDamage(a);
+
             if (inst.Tick(1))
             {
                 Debug.Log("poison 끝남");
-                administrator.RemoveBuff(inst);
+                target.RemoveBuff(inst);
             }
         }
 
@@ -44,14 +49,14 @@ public class Poison : Dot
         }
 
         //치유감소
-        administrator.SubscribeOnRecoveryBefore(inst, reduction);
+        target.SubscribeOnRecoveryBefore(inst, reduction);
         //지속시간 계산
-        administrator.SubscribeOnSecond(inst, action);
+        target.SubscribeOnSecond(inst, action);
     }
 
-    public override void Reapply(BuffAdministrator administrator, List<BuffInstance> list)
+    public override void Reapply(Unit caster, BuffAdministrator target, List<BuffInstance> list)
     {
-        if (administrator == null || list == null) return;
+        if (target == null || list == null) return;
 
         //사실 list에 여러개가 있을리가 없음
         foreach(var inst in list)
@@ -59,21 +64,5 @@ public class Poison : Dot
             inst.AddStack();
             if (inst.Duration < Duration) inst.Duration = Duration;
         }
-    }
-
-    public override void Remove(BuffAdministrator administrator, BuffInstance inst)
-    {
-        if (administrator == null) return;
-    }
-
-    public override BuffInstance CreateInstance(BuffAdministrator administrator)
-    {
-        BuffInstance inst = new(this, administrator)
-        {
-            Duration = Duration
-        };
-
-        inst.AddStack(Stack);
-        return inst;
     }
 }

@@ -1,12 +1,12 @@
 using UnityEngine;
 using TMPro;
 
-public class ItemDHeader : MonoBehaviour
+public class ProviderHeader : MonoBehaviour
 {
     [SerializeField]
-    private TextMeshProUGUI text_Name;
+    private TextMeshProUGUI leftText;
     [SerializeField]
-    private TextMeshProUGUI text_rating;
+    private TextMeshProUGUI rightText;
 
     private RectTransform rect;
     public RectTransform Rect { get { if (rect == null) rect = GetComponent<RectTransform>(); return rect; } }
@@ -20,10 +20,10 @@ public class ItemDHeader : MonoBehaviour
     {
         if(provider.TooltipHeader(out string leftText, out Color leftColor, out string rightText, out Color rightColor))
         {
-            text_rating.text = rightText;
-            text_rating.color = rightColor;
-            text_Name.text = leftText;
-            text_Name.color = leftColor;
+            this.rightText.text = rightText;
+            this.rightText.color = rightColor;
+            this.leftText.text = leftText;
+            this.leftText.color = leftColor;
             gameObject.SetActive(true);
             tooltipView.Attaching(rect);
         }

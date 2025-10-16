@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, ITooltipHeaderProvider, ITooltipBottomProvider
+public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, ITooltipHeaderProvider, ITooltipKeyValueProvider, ITooltipBottomProvider, ITooltipSectionsProvider
 {
     public ItemSlot Slot { get; private set; }
 
@@ -86,6 +86,44 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         leftColor = RarityManager.Instance.RarityColor[Slot.Item.Rarity];
     
         return true;
+    }
+
+    public bool TooltipKeyValue(out string key, out Color keyColor, out string value, out Color valueColor)
+    {
+        key = string.Empty;
+        keyColor = default;
+        value = string.Empty;
+        valueColor = default;
+        if (Slot.Item == null) return false;
+
+        //장비아이템이 아니더라도 사용 가능
+        if(Slot.Item.TryGetAttribute<EquipmentAttribute>(out var equipment))
+        {
+            key = equipment.Level.ToString();
+            keyColor = Color.white;
+            value = equipment.Part.ToString();
+            valueColor = Color.white;
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool TooltipSection(out string str, out Color color)
+    {
+        str = string.Empty;
+        color = default;
+        if (Slot.Item == null) return false;
+
+        //아마 장비아이템만 사용할지도?
+        if(Slot.Item.TryGetAttribute<EquipmentAttribute>(out var equipment))
+        {
+            str = equipment.EquipmentSet.ToString();
+            color = Color.white;
+            return true;
+        }
+
+        return false;
     }
 
     public bool TooltipBottom(out string text, out Color color)

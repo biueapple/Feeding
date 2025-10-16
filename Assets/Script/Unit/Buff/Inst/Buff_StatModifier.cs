@@ -19,27 +19,27 @@ public class Buff_StatModifier : Buff
         return s;
     }
 
-    public override void Apply(BuffAdministrator administrator, BuffInstance inst)
+    public override void Apply(Unit caster, BuffAdministrator target, BuffInstance inst)
     {
-        if (administrator.Owner == null)
+        if (target.Owner == null)
             return;
 
-        administrator.SubscribeOnNight(inst, action);
+        target.SubscribeOnNight(inst, action);
         
-        administrator.Owner.AddStatModifier(new StatModifier(type, value, BuffName), BuffID);
+        target.Owner.AddStatModifier(new StatModifier(type, value, BuffName), BuffID);
 
         void action()
         {
             if (inst.Tick(1))
             {
-                administrator.RemoveBuff(inst);
+                target.RemoveBuff(inst);
             }
         }
     }
 
-    public override void Reapply(BuffAdministrator administrator, List<BuffInstance> list)
+    public override void Reapply(Unit caster, BuffAdministrator target, List<BuffInstance> list)
     {
-        if (list == null || administrator == null) return;
+        if (list == null || target == null) return;
 
         //사실 list에 여러개가 있을리가 없긴 함
         foreach(var inst in list)

@@ -31,7 +31,7 @@ using UnityEngine;
 //근데 턴이 어딨냐 이 게임은 턴개념이 없는데
 //턴대신 1초마다로 해야겠네
 
-//스택 합산 du는 높은쪽
+//받을때마다 새로 넣어서 여러개가 동시에 존재할 수 있는 도트댐
 [CreateAssetMenu(menuName = "RPG/Debuff/DotType_DOT")]
 public class Dot : Buff
 {
@@ -50,40 +50,37 @@ public class Dot : Buff
         return s;
     }
 
-    public override void Apply(BuffAdministrator administrator, BuffInstance inst)
+    public override void Apply(Unit caster, BuffAdministrator target, BuffInstance inst)
     {
-        if (administrator == null || administrator.Owner == null || inst == null)
+        if (target == null || target.Owner == null || inst == null)
             return;
 
         void action()
         {
-            Debug.Log($"dot로 인한 피해 {inst.Stacks}");
-            administrator.Owner.CurrentHP -= inst.Stacks;
+            float damage = inst.Stacks;
+            Debug.Log($"dot로 인한 피해 {damage}");
+            AttackEventArgs args = new(caster, target.Owner, false);
+            args.Damages.Add(new DamagePacket(type, "DOT", damage));
+            target.Owner.TakeDamage(args);
             if (inst.Tick(1))
             {
                 Debug.Log("dot 끝남");
-                administrator.RemoveBuff(inst);
+                target.RemoveBuff(inst);
             }
         }
 
-        administrator.SubscribeOnSecond(inst, action);
+        target.SubscribeOnSecond(inst, action);
     }
 
     //여긴 list에 여러개일 수 있음
-    public override void Reapply(BuffAdministrator administrator, List<BuffInstance> list)
+    public override void Reapply(Unit caster, BuffAdministrator target, List<BuffInstance> list)
     {
-        if (administrator == null || list == null)
+        if (target == null || list == null)
             return;
 
         //Reapply를 호출할때는 CreateInstance 하지 않고 호출하기에 직접 만들어서 넣어주기
-        BuffInstance inst = CreateInstance(administrator);
-        Apply(administrator, inst);
-        administrator.AddInstance(inst);
-        //foreach(var inst in list)
-        //{
-        //    inst.AddStack(stack);
-        //    if (inst.Duration < Duration) inst.Duration = Duration;
-        //}
+        BuffInstance inst = CreateInstance(target);
+        target.AddInstance(caster, inst);
     }
 
     public override void Remove(BuffAdministrator administrator, BuffInstance inst)
@@ -98,7 +95,7 @@ public class Dot : Buff
             Duration = Duration 
         };
         
-        inst.AddStack(stack);
+        inst.AddStack(Stack);
         return inst;
     }
 }

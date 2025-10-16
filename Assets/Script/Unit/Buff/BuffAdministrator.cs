@@ -18,7 +18,6 @@ public class BuffAdministrator : MonoBehaviour
 
     public event Action<BuffInstance> OnBeforeRemove;
     public event Action<BuffInstance> OnAfterRemove;
-    //버프 디버프를 통합하고 도트 대미지는 뭔가 수정만 할지 개편을 해야할지 고민해야 할듯
 
     //버프들
     private readonly Dictionary<string, (Buff so, List<BuffInstance> list)> buffs = new();
@@ -29,10 +28,25 @@ public class BuffAdministrator : MonoBehaviour
     private void Awake()
     {
         Owner = GetComponent<Unit>();
+        Owner.OnDeath += Owner_OnDeath;
     }
 
-    //owner가 죽었을 때 모든 버프를 없앤다던가 하는 OnDisable() OnDestroy() 같은걸 이용해서 만드는것도 생각해 볼 문제
 
+    //owner가 죽었을 때 모든 버프를 없앤다던가 하는 OnDisable() OnDestroy() 같은걸 이용해서 만드는것도 생각해 볼 문제
+    private void Owner_OnDeath(AttackEventArgs args)
+    {
+        //일단 죽었으니 모든 버프를 없애자
+        //뭑 디버프만 없앤다던가 dot딜만 없앤다던가도 가능 일단 BuffKind로 구분이 가능하도록 만들었으니까
+        foreach (var value in buffs)
+        {
+            foreach(var inst in value.Value.list)
+            {
+                RemoveBuff(inst);
+            }
+        }
+    }
+
+    
     //인스턴스 등록
     private IDisposable Track(BuffInstance inst, IDisposable d)
     {
@@ -59,29 +73,27 @@ public class BuffAdministrator : MonoBehaviour
     }
 
 
-    public void AddInstance(BuffInstance instance)
+    public void AddInstance(Unit caster, BuffInstance instance)
     {
         if(!buffs.ContainsKey(instance.Buff.BuffID)) buffs[instance.Buff.BuffID] = new(instance.Buff, new());
         buffs[instance.Buff.BuffID].list.Add(instance);
 
         OnCreateInstanceAfter?.Invoke(instance);
 
-        instance.Buff.Apply(this, instance);
+        instance.Buff.Apply(caster, this, instance);
     }
 
-    public void ApplyBuff(Buff buff)
+    public void ApplyBuff(Unit caster, Buff buff)
     {
         OnApplyBefore?.Invoke(buff);
         if (buffs.TryGetValue(buff.BuffID, out var value))
         {
-            Buff so = value.so;
-            List<BuffInstance> list = value.list;
-            so.Reapply(this, list);
+            buff.Reapply(caster, this, value.list);
         }
         else
         {
             BuffInstance inst = buff.CreateInstance(this);
-            AddInstance(inst);
+            AddInstance(caster, inst);
         }
         OnApplyAfter?.Invoke(buff);
     }
@@ -109,7 +121,8 @@ public class BuffAdministrator : MonoBehaviour
         instance.Buff.Remove(this, instance);
 
         //dic에서 없애기
-        buffs.Remove(instance.Buff.BuffID);
+        if(value.list.Count == 0)
+            buffs.Remove(instance.Buff.BuffID);
 
         //이벤트
         OnAfterRemove?.Invoke(instance);
@@ -127,11 +140,18 @@ public class BuffAdministrator : MonoBehaviour
         return Track(inst, new ActionDisposable(() => DayCycleManager.Instance.OnNight -= action));
     }
 
-    //모험에서 공격할때마다
+    //모험에서 공격한 후에
     public IDisposable SubscribeOnAfterAttack(BuffInstance inst, Action<AttackEventArgs> args)
     {
         Owner.OnAttackAfter += args;
         return Track(inst, new ActionDisposable(() => Owner.OnAttackAfter -= args));
+    }
+
+    //모험에서 공격을 받은 후에
+    public IDisposable SubscribeOnHitAfter(BuffInstance inst, Action<AttackEventArgs> args)
+    {
+        Owner.OnHitAfter += args;
+        return Track(inst, new ActionDisposable(() => Owner.OnHitAfter -= args));
     }
 
     //모험에서 1초마다

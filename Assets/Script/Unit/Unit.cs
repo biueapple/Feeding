@@ -156,6 +156,7 @@ public class Unit : MonoBehaviour
             CurrentHP += pack.Value;
         }
 
+        OnChangeHP?.Invoke(this);
         OnRecoveryAfter?.Invoke(args);
     }
 

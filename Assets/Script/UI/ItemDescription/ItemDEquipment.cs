@@ -1,6 +1,5 @@
 using UnityEngine;
 using TMPro;
-using static UnityEditor.Progress;
 
 public class ItemDEquipment : MonoBehaviour
 {
