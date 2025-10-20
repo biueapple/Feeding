@@ -49,7 +49,11 @@ public abstract class Buff : ScriptableObject
     public abstract void Apply(Unit caster, BuffAdministrator target, BuffInstance inst);
     public abstract void Remove(BuffAdministrator administrator, BuffInstance inst);
     public abstract void Reapply(Unit caster, BuffAdministrator target, List<BuffInstance> list);
-    public abstract BuffInstance CreateInstance(BuffAdministrator administrator);
+    public virtual BuffInstance CreateInstance(Unit caster, BuffAdministrator target)
+    {
+        return new(this, caster, target);
+    }
+
 
 #if UNITY_EDITOR
     private void OnValidate()
@@ -68,17 +72,19 @@ public class BuffInstance
 {
     public readonly Buff Buff;
     public BuffKind Kind => Buff.Kind;
+    public readonly Unit Caster;              //이걸 무슨 타입으로 해야할지 모르겠어서 일단은 object
     public readonly BuffAdministrator Target;
     public float Duration { get; set; }
     public int Stacks { get; private set; } = 0;
     public void AddStack(int amount = 1) => Stacks += amount;
     
 
-    public BuffInstance(Buff buff, BuffAdministrator target)
+    public BuffInstance(Buff buff, Unit caster, BuffAdministrator target)
     {
         if (buff == null || target == null) return;
 
         Buff = buff;
+        Caster = caster;
         Target = target;
         Duration = buff.Duration;
     }

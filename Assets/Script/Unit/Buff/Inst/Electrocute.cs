@@ -46,7 +46,7 @@ public class Electrocute : Dot
         }
 
         //Reapply를 호출할때는 CreateInstance 하지 않고 호출하기에 직접 만들어서 넣어주기
-        BuffInstance instance = CreateInstance(target);
+        BuffInstance instance = CreateInstance(caster, target);
         target.AddInstance(caster, instance);
     }
 }

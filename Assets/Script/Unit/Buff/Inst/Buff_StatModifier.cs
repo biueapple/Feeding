@@ -51,9 +51,4 @@ public class Buff_StatModifier : Buff
         if (administrator.Owner == null) return;
         administrator.Owner.RemoveStatModifier(BuffID);
     }
-
-    public override BuffInstance CreateInstance(BuffAdministrator administrator)
-    {
-        return new (this, administrator);
-    }
 }

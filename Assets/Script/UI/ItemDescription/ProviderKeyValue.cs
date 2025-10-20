@@ -16,16 +16,16 @@ public class ProviderKeyValue : MonoBehaviour
         if (rect == null) rect = GetComponent<RectTransform>();
     }
 
-    public void Setting(ITooltipKeyValueProvider provider, TooltipView tooltipView)
-    {
-        if (provider.TooltipKeyValue(out string key, out Color keyColor, out string value, out Color valueColor))
-        {
-            this.value.text = value;
-            this.value.color = valueColor;
-            this.key.text = key;
-            this.key.color = keyColor;
-            gameObject.SetActive(true);
-            tooltipView.Attaching(rect);
-        }
-    }
+    //public void Setting(ITooltipKeyValueProvider provider, TooltipView tooltipView)
+    //{
+    //    if (provider.TooltipKeyValue(out string key, out Color keyColor, out string value, out Color valueColor))
+    //    {
+    //        this.value.text = value;
+    //        this.value.color = valueColor;
+    //        this.key.text = key;
+    //        this.key.color = keyColor;
+    //        gameObject.SetActive(true);
+    //        tooltipView.Attaching(rect);
+    //    }
+    //}
 }

@@ -1,8 +1,9 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class BuffIcon : MonoBehaviour, ITooltipHeaderProvider, ITooltipBottomProvider
+public class BuffIcon : MonoBehaviour, ITooltipProvider
 {
     [SerializeField]
     private Image icon;
@@ -20,31 +21,59 @@ public class BuffIcon : MonoBehaviour, ITooltipHeaderProvider, ITooltipBottomPro
         icon.sprite = instance.Buff.Icon;
     }
 
-    public bool TooltipHeader(out string leftText, out Color leftColor, out string rightText, out Color rightColor)
+    //public bool TooltipHeader(out string leftText, out Color leftColor, out string rightText, out Color rightColor)
+    //{
+    //    leftText = string.Empty;
+    //    leftColor = default;
+    //    rightText = string.Empty;
+    //    rightColor = default;
+    //    if (instance == null) return false;
+
+    //    leftColor = Color.black;
+    //    rightColor = Color.black;
+
+    //    rightText = instance.Duration.ToString();
+    //    leftText = instance.Buff.BuffName;
+
+    //    return true;
+    //}
+
+    //public bool TooltipBottom(out string text, out Color color)
+    //{
+    //    text = string.Empty;
+    //    color = default;
+    //    if (instance == null) return false;
+
+    //    text = instance.Buff.BuildDescription(instance);
+    //    color = Color.red;
+    //    return true;
+    //}
+
+    public IEnumerable<TooltipElementModel> GetTooltipElements()
     {
-        leftText = string.Empty;
-        leftColor = default;
-        rightText = string.Empty;
-        rightColor = default;
-        if (instance == null) return false;
+        if (instance == null) yield break;
 
-        leftColor = Color.black;
-        rightColor = Color.black;
+        yield return new TooltipElementModel
+        {
+            Type = TooltipElementType.Header,
+            LeftText = instance.Buff.BuffName,
+            RightText = instance.Duration.ToString()
+        };
 
-        rightText = instance.Duration.ToString();
-        leftText = instance.Buff.BuffName;
+        yield return new TooltipElementModel
+        { 
+            Type = TooltipElementType.KeyValueList,
+            Pairs = new(string, string)[]
+            {
+                ("스택", instance.Stacks.ToString()),
+                ("시전자", instance.Caster.name != null ? instance.Caster.name : "알 수 없음")
+            }
+        };
 
-        return true;
-    }
-
-    public bool TooltipBottom(out string text, out Color color)
-    {
-        text = string.Empty;
-        color = default;
-        if (instance == null) return false;
-
-        text = instance.Buff.BuildDescription(instance);
-        color = Color.red;
-        return true;
+        yield return new TooltipElementModel
+        {
+            Type = TooltipElementType.Footer,
+            Text = instance.Buff.BuildDescription(instance)
+        };
     }
 }

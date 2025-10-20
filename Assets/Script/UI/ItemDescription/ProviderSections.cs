@@ -1,27 +1,67 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ProviderSections : MonoBehaviour
 {
-    [SerializeField]
-    private TextMeshProUGUI section;
+    [System.Serializable]
+    public struct Entry { public TooltipElementType type; public TooltipElementRenderer prefab; }
 
-    private RectTransform rect;
-    public RectTransform Rect { get { if (rect == null) rect = GetComponent<RectTransform>(); return rect; } }
+    [SerializeField]
+    private RectTransform content;
+    [SerializeField]
+    private Entry[] registry;
+
+    private readonly Dictionary<TooltipElementType, TooltipElementRenderer> map = new();
+    private readonly Dictionary<TooltipElementType, Stack<TooltipElementRenderer>> pool = new();
 
     private void Awake()
     {
-        if (rect == null) rect = GetComponent<RectTransform>();
+        foreach(var e in registry)
+        {
+            map[e.type] = e.prefab;
+            pool[e.type] = new();
+        }
     }
 
-    public void Setting(ITooltipSectionsProvider provider, TooltipView tooltipView)
+    public RectTransform Rect => (RectTransform)transform;
+
+    public void Clear()
     {
-        if (provider.TooltipSection(out string str, out Color color))
+        for(int i = content.childCount - 1; i >= 0; i--)
         {
-            section.text = str;
-            section.color = color;
-            gameObject.SetActive(true);
-            tooltipView.Attaching(rect);
+            var r = content.GetChild(i).GetComponent<TooltipElementRenderer>();
+            if(r != null)
+            {
+                r.OnDespawn();
+                r.transform.SetParent(transform, false);
+                r.gameObject.SetActive(false);
+                pool[r.Type].Push(r);
+            }
         }
+    }
+
+    public void Render(IEnumerable<TooltipElementModel> elements)
+    {
+        Clear();
+        if (elements == null) return;
+
+        foreach (var m in elements)
+        {
+            var r = Spawn(m.Type);
+            r.transform.SetParent(content, false);
+            r.gameObject.SetActive(true);
+            r.Bind(m);
+        }
+
+        Canvas.ForceUpdateCanvases();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(content);
+    }
+
+    private TooltipElementRenderer Spawn(TooltipElementType t)
+    {
+        if (pool[t].Count > 0) return pool[t].Pop();
+        return Instantiate(map[t]);
     }
 }

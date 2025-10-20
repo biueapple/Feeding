@@ -79,7 +79,7 @@ public class Dot : Buff
             return;
 
         //Reapply를 호출할때는 CreateInstance 하지 않고 호출하기에 직접 만들어서 넣어주기
-        BuffInstance inst = CreateInstance(target);
+        BuffInstance inst = CreateInstance(caster, target);
         target.AddInstance(caster, inst);
     }
 
@@ -88,13 +88,11 @@ public class Dot : Buff
 
     }
 
-    public override BuffInstance CreateInstance(BuffAdministrator administrator)
+    public override BuffInstance CreateInstance(Unit caster, BuffAdministrator target)
     {
-        BuffInstance inst = new(this, administrator)
-        { 
-            Duration = Duration 
-        };
+        BuffInstance inst = base.CreateInstance(caster, target);
         
+        inst.Duration = Duration;
         inst.AddStack(Stack);
         return inst;
     }

@@ -1,7 +1,8 @@
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEngine.Rendering.CoreUtils;
+using UnityEngine.UI;
 
 public class TooltipService : MonoBehaviour
 {
@@ -11,70 +12,48 @@ public class TooltipService : MonoBehaviour
     private TooltipView view;
 
     [SerializeField]
-    private ProviderHeader prefab_header;
-    [SerializeField]
-    private ProviderKeyValue prefab_keyValue;
-    [SerializeField]
-    private ProviderSections prefab_section;
-    [SerializeField]
-    private ProviderBottom prefab_desc;
-    [SerializeField]
-    private ItemDEquipment prefab_equip;
-
-    private ProviderHeader header;
-    private ProviderKeyValue keyValue;
     private ProviderSections sections;
-    private ProviderBottom bottom;
-    private ItemDEquipment equip;
-    //private readonly Queue<ItemDEquipment> equip = new();
 
     private void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
-
-        header = Instantiate(prefab_header, transform);
-        keyValue = Instantiate(prefab_keyValue, transform);
-        sections = Instantiate(prefab_section, transform);
-        bottom = Instantiate(prefab_desc, transform);
-        equip = Instantiate(prefab_equip, transform);
     }
 
     public void TooltipOpen(ITooltipProvider provider)
     {
         if (provider == null) return;
 
-        if(provider is ITooltipHeaderProvider header)
-            this.header.Setting(header, view);
+        sections.Render(provider.GetTooltipElements());
+        view.Show();
 
-        if (provider is ITooltipKeyValueProvider keyValue)
-            this.keyValue.Setting(keyValue, view);
+        var rect = view.Root;
 
-        if (provider is ITooltipSectionsProvider sections)
-            this.sections.Setting(sections, view);
+        rect.position = provider.Transform.position + (Vector3)provider.Offset;
+        //UIManager.Instance.ClampPosition(rect);
 
-        if (provider is ITooltipBottomProvider bottom)
-            this.bottom.Setting(bottom, view);
-
-        RectTransform rect = view.GetComponent<RectTransform>();
-        Vector2 size = new Vector2(this.header.Rect.rect.width, this.header.Rect.rect.height + this.keyValue.Rect.rect.height + this.sections.Rect.rect.height + this.bottom.Rect.rect.height);
-        rect.sizeDelta = size;
-        view.transform.position = provider.Transform.position + (Vector3)provider.Offset;
-        UIManager.Instance.ClampPosition(view.GetComponent<RectTransform>());
+        // 4) (권장) 한 프레임 뒤에 한 번 더 클램프 — TMP 줄바꿈/폰트 fallback 등 대비
+        StartCoroutine(ClampNextFrame(rect, provider.Transform.position, provider.Offset));
     }
 
     public void TooltipClose()
     {
-        header.gameObject.SetActive(false);
-        keyValue.gameObject.SetActive(false);
-        sections.gameObject.SetActive(false);
-        bottom.gameObject.SetActive(false);
-        equip.gameObject.SetActive(false);
-        view.Clear();
+        view.Hide();
+        //sections.Clear();
+        //view.Hide();
     }
 
     public void TooltipMove(ITooltipProvider provider)
     {
         view.transform.position = Mouse.current.position.value + provider.Offset;
+    }
+
+    private IEnumerator ClampNextFrame(RectTransform rect, Vector3 basePos, Vector2 offset)
+    {
+        yield return null; // 다음 프레임까지 대기 (레이아웃/텍스트 완전 확정)
+        Canvas.ForceUpdateCanvases();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(rect);
+        rect.position = basePos + (Vector3)offset;
+        UIManager.Instance.ClampPosition(rect);
     }
 }

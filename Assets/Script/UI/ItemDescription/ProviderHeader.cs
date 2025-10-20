@@ -16,16 +16,16 @@ public class ProviderHeader : MonoBehaviour
         if(rect == null) rect = GetComponent<RectTransform>();
     }
 
-    public void Setting(ITooltipHeaderProvider provider, TooltipView tooltipView)
-    {
-        if(provider.TooltipHeader(out string leftText, out Color leftColor, out string rightText, out Color rightColor))
-        {
-            this.rightText.text = rightText;
-            this.rightText.color = rightColor;
-            this.leftText.text = leftText;
-            this.leftText.color = leftColor;
-            gameObject.SetActive(true);
-            tooltipView.Attaching(rect);
-        }
-    }
+    //public void Setting(ITooltipHeaderProvider provider, TooltipView tooltipView)
+    //{
+    //    if(provider.TooltipHeader(out string leftText, out Color leftColor, out string rightText, out Color rightColor))
+    //    {
+    //        this.rightText.text = rightText;
+    //        this.rightText.color = rightColor;
+    //        this.leftText.text = leftText;
+    //        this.leftText.color = leftColor;
+    //        gameObject.SetActive(true);
+    //        tooltipView.Attaching(rect);
+    //    }
+    //}
 }

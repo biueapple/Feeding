@@ -3,17 +3,47 @@ using UnityEngine;
 
 public class TooltipView : MonoBehaviour
 {
-    float height = 0;
+    [SerializeField]
+    private RectTransform root;
+    [SerializeField]
+    private ProviderSections sections;
 
-    public void Attaching(RectTransform rect)
+    private CanvasGroup canvasGroup;
+
+    private void Awake()
     {
-        rect.transform.SetParent(transform);
-        rect.transform.localPosition = new (0, height);
-        height -= rect.rect.height;
+        if (root == null) root = GetComponent<RectTransform>();
+
+        canvasGroup = GetComponent<CanvasGroup>();
+        if (canvasGroup == null) canvasGroup = gameObject.AddComponent<CanvasGroup>();
+
+        HideImmediate();
+    }
+
+    public void Show()
+    {
+        gameObject.SetActive(true);
+        canvasGroup.alpha = 1;
+    }
+
+    public void Hide()
+    {
+        Clear();
+        canvasGroup.alpha = 0;
+        gameObject.SetActive(false);
     }
 
     public void Clear()
     {
-        height = 0;        
+        if (sections != null)
+            sections.Clear();
     }
+
+    private void HideImmediate()
+    {
+        canvasGroup.alpha = 0;
+        gameObject.SetActive(false);
+    }
+
+    public RectTransform Root => root;
 }

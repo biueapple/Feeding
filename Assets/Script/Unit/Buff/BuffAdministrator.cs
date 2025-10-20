@@ -92,7 +92,7 @@ public class BuffAdministrator : MonoBehaviour
         }
         else
         {
-            BuffInstance inst = buff.CreateInstance(this);
+            BuffInstance inst = buff.CreateInstance(caster, this);
             AddInstance(caster, inst);
         }
         OnApplyAfter?.Invoke(buff);
