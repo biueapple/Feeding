@@ -15,6 +15,6 @@ public class TooltipHeaderRenderer : TooltipElementRenderer
         leftText.text = model.LeftText ?? string.Empty;
         leftText.color = model.LeftColor == default ? Color.white : model.LeftColor;
         rightText.text = model.RightText ?? string.Empty;
-        leftText.color = model.RightColor == default ? Color.white : model.RightColor;
+        rightText.color = model.RightColor == default ? Color.white : model.RightColor;
     }
 }

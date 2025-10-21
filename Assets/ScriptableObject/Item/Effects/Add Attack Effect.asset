@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Add Attack Effect
   m_EditorClassIdentifier: 
   effectID: 117d2c1e-7473-49f4-9ba1-f332cf55fb34
-  effectName: 
+  effectName: "\uC77C\uACA9"
+  description: "\uACF5\uACA9\uB9C8\uB2E4 \uCD94\uAC00\uB85C {value} {type} \uB370\uBBF8\uC9C0\uB97C
+    \uC90D\uB2C8\uB2E4."
   type: 0
   value: 3

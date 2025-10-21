@@ -22,7 +22,7 @@ public class DayCycleManager : MonoBehaviour
         //하루를 반복
         //while (true)
         //{
-        //yield return Morning();
+        yield return Morning();
         //yield return Dinner();
         //yield return Night();
         //            DayCount++;
@@ -48,16 +48,25 @@ public class DayCycleManager : MonoBehaviour
     public IEnumerator Morning()
     {
         OnMorningStart?.Invoke();
+
+        yield return hero.WakeUp();
+        yield return hero.MoveToChest();
+
         //장비 장착하러 가기
-        yield return InventoryManager.Instance.RunEquipPhase();
+        yield return hero.ToEquip();//InventoryManager.Instance.RunEquipPhase();
         OnEquipAction?.Invoke();
+
+        yield return hero.OutHome();
+        yield return hero.InDungeon();
+
 
         //모험하러 가기
         OnAdventure?.Invoke();
         yield return AdventureManager.Instance.StartAdventure(hero);
+        bool next = false;
         void action()
         {
-            StartCoroutine(Dinner());
+            next = true;
             //거래를 멈추는 무언가가 있어야 하는데
             ShopManager.Instance.TerminationTrade();
             AdventureManager.Instance.OnAdventureEnded -= action;
@@ -69,6 +78,8 @@ public class DayCycleManager : MonoBehaviour
         OnTrade?.Invoke();
         //yield return new WaitForSeconds(1);
         ShopManager.Instance.StartEncounter(ShopManager.Instance.CreateVisitor());
+
+        yield return new WaitUntil(() => next);
     }
 
     //모험 끝남

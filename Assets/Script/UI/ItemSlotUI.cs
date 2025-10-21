@@ -140,6 +140,48 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
     public IEnumerable<TooltipElementModel> GetTooltipElements()
     {
-        return null;
+        if (Slot.Item == null) yield break;
+
+        // Header
+        var col = RarityManager.Instance.RarityColor[Slot.Item.Rarity];
+        yield return new TooltipElementModel
+        {
+            Type = TooltipElementType.Header,
+            LeftText = Slot.Item.ItemName,
+            LeftColor = col,
+            RightText = Slot.Item.Rarity.ToString(),
+            RightColor = col
+        };
+
+        // 세트명 텍스트
+        if (Slot.Item.TryGetAttribute<EquipmentAttribute>(out var eq))
+        {
+            yield return new TooltipElementModel { Type = TooltipElementType.Text, Text = $"<b>[{eq.EquipmentSet.SetName}]</b>" };
+
+            // 태그 리스트
+            List<string> bullet = new();
+            foreach(var e in eq.EquipmentSet.TwoSetEffect)
+            {
+                bullet.Add("2세트 : " + e.BuildDescription(e));
+            }
+            
+                yield return new TooltipElementModel { Type = TooltipElementType.BulletList, Items = bullet };
+
+            // 스탯 Key:Value
+            var pairs = new List<(string, string)>();
+            foreach(var s in eq.Stats)
+            {
+                pairs.Add((s.Derivation.Kind.ToString(), s.Figure.ToString()));
+            }
+            if (pairs.Count > 0)
+                yield return new TooltipElementModel { Type = TooltipElementType.KeyValueList, Pairs = pairs };
+        }
+
+
+
+
+        // Footer (설명)
+        if (!string.IsNullOrEmpty(Slot.Item.Description))
+            yield return new TooltipElementModel { Type = TooltipElementType.Footer, Text = Slot.Item.Description };
     }
 }

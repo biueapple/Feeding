@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -24,6 +25,9 @@ public class TooltipService : MonoBehaviour
     {
         if (provider == null) return;
 
+        IEnumerable<TooltipElementModel> models = provider.GetTooltipElements();
+        if (models == null || !models.Any()) return;
+        
         sections.Render(provider.GetTooltipElements());
         view.Show();
 

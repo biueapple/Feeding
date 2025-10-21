@@ -50,6 +50,7 @@ public class UIManager : MonoBehaviour
         closetInterface.transform.position = position;
         closetInterface.Interlock(inventory);
         closetInterface.Open();
+        ClampPosition(closetInterface.GetComponent<RectTransform>());
     }
 
     public void CloseClosetInterface(ClosetUserInterface closetInterface)

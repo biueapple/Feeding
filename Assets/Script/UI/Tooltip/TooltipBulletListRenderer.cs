@@ -24,6 +24,7 @@ public class TooltipBulletListRenderer : TooltipElementRenderer
             i.transform.SetParent(container, false);
             i.Set(s);
             active.Add(i);
+            i.gameObject.SetActive(true);
         }
     }
 

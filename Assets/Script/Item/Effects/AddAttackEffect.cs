@@ -10,7 +10,15 @@ public class AddAttackEffect : EquipmentEffect
     [SerializeField]
     private float value;
 
-    public override string Description => $"공격마다 추가로 {value} {type} 데미지를 줍니다.";
+    //public override string Description => $"공격마다 추가로 {value} {type} 데미지를 줍니다.";
+
+    public override string BuildDescription(EquipmentEffect effect)
+    {
+        string s = base.BuildDescription(effect);
+        s = s.Replace("{type}", type.ToString());
+        s = s.Replace("{value}", value.ToString());
+        return s;
+    }
 
     public override void Apply(Unit target)
     {

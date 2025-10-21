@@ -11,8 +11,16 @@ public abstract class EquipmentEffect : ScriptableObject
     private string effectName;
     public string EffectName => effectName;
 
-    public abstract string Description { get; }
+    [SerializeField, TextArea(2, 4)]
+    private string description;
 
+    public virtual string BuildDescription(EquipmentEffect effect)
+    {
+        string s = "{name}  " + description;
+        s = s.Replace("{name}", EffectName);
+        s = s.Replace("{description}", description);
+        return s;
+    }
     public abstract void Apply(Unit target);
     public abstract void Remove(Unit target);
 
