@@ -57,7 +57,17 @@ public class Item : ScriptableObject
 
     [SerializeField, TextArea(2, 4)]
     private string description;
-    public string Description => description;
+    protected virtual string Description { get => description; }
+    public virtual string BuildDescription()
+    {
+        string s = Description;
+        s = s.Replace("{name}", itemName);
+        s = s.Replace("{price}", price.ToString());
+        s = s.Replace("{category}", category.ToString());
+        s = s.Replace("{rarity}", rarity.ToString());
+        
+        return s;
+    }
 
     [SerializeReference]
     public List<ItemAttribute> attributes;

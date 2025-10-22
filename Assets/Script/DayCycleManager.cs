@@ -23,8 +23,8 @@ public class DayCycleManager : MonoBehaviour
         //while (true)
         //{
         yield return Morning();
-        //yield return Dinner();
-        //yield return Night();
+        yield return Dinner();
+        yield return Night();
         //            DayCount++;
         //}
         yield return null;
@@ -53,7 +53,7 @@ public class DayCycleManager : MonoBehaviour
         yield return hero.MoveToChest();
 
         //장비 장착하러 가기
-        yield return hero.ToEquip();//InventoryManager.Instance.RunEquipPhase();
+        yield return InventoryManager.Instance.RunEquipPhase();
         OnEquipAction?.Invoke();
 
         yield return hero.OutHome();
@@ -67,8 +67,6 @@ public class DayCycleManager : MonoBehaviour
         void action()
         {
             next = true;
-            //거래를 멈추는 무언가가 있어야 하는데
-            ShopManager.Instance.TerminationTrade();
             AdventureManager.Instance.OnAdventureEnded -= action;
         }
 
@@ -86,9 +84,23 @@ public class DayCycleManager : MonoBehaviour
     public IEnumerator Dinner()
     {
         //모험 끝나면 거래가 끝나야 함
+        ShopManager.Instance.TerminationTrade();
         //용사가 복귀해야 함
+        yield return hero.OutDungeon();
+        yield return hero.InHome();
 
-        //용사가 복귀하면 아이템을 상자애 넣고 밥을 먹어야 함
+        //상자에 아이템 넣기
+        yield return InventoryManager.Instance.RunUnequipPhase();
+
+        yield return hero.MoveToTable();
+
+        //밥먹기
+
+
+        yield return hero.MoveToBad();
+
+        //자기
+
 
         yield return null;
     }

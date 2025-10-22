@@ -75,13 +75,14 @@ public class InventoryInterface
         }
     }
 
-    //테스트 전용 메소드
-    public void Print()
+    //몇개의 아이템을 가지고 있는지
+    public int Count()
     {
-        foreach (var i in itemslots)
+        int count = 0;
+        foreach(var slot in itemslots)
         {
-            if (i.Item != null)
-                Debug.Log($"아이템 이름 {i.Item.ItemName}");
+            if (slot.Item != null) count++;
         }
+        return count;
     }
 }

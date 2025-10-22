@@ -35,7 +35,7 @@ public abstract class Buff : ScriptableObject
 
     [SerializeField, TextArea(2,4)]
     private string description;
-    public virtual string Description { get => description; }
+    protected virtual string Description { get => description; }
     public virtual string BuildDescription(BuffInstance inst)
     {
         string s = Description;
@@ -46,10 +46,10 @@ public abstract class Buff : ScriptableObject
 
     //reapply는 list인데 apply는 list가 아닌 이유는 reapply는 이미 inst가 만들어진 이후 호출될 수 있지만
     //apply는 반드시 instance가 하나일 때만 호출되기에 list일 이유가 없음
-    public abstract void Apply(Unit caster, BuffAdministrator target, BuffInstance inst);
+    public abstract void Apply(object caster, BuffAdministrator target, BuffInstance inst);
     public abstract void Remove(BuffAdministrator administrator, BuffInstance inst);
-    public abstract void Reapply(Unit caster, BuffAdministrator target, List<BuffInstance> list);
-    public virtual BuffInstance CreateInstance(Unit caster, BuffAdministrator target)
+    public abstract void Reapply(object caster, BuffAdministrator target, List<BuffInstance> list);
+    public virtual BuffInstance CreateInstance(object caster, BuffAdministrator target)
     {
         return new(this, caster, target);
     }
@@ -72,14 +72,14 @@ public class BuffInstance
 {
     public readonly Buff Buff;
     public BuffKind Kind => Buff.Kind;
-    public readonly Unit Caster;              //이걸 무슨 타입으로 해야할지 모르겠어서 일단은 object
+    public readonly object Caster;              //이걸 무슨 타입으로 해야할지 모르겠어서 일단은 object
     public readonly BuffAdministrator Target;
     public float Duration { get; set; }
     public int Stacks { get; private set; } = 0;
     public void AddStack(int amount = 1) => Stacks += amount;
     
 
-    public BuffInstance(Buff buff, Unit caster, BuffAdministrator target)
+    public BuffInstance(Buff buff, object caster, BuffAdministrator target)
     {
         if (buff == null || target == null) return;
 

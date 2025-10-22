@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Hero : Unit
 {
-    private Equipment equipment;
     [SerializeField]
     private float speed = 300;
     [SerializeField]
@@ -13,11 +13,9 @@ public class Hero : Unit
     private Vector3[] outRoute;
     [SerializeField]
     private Vector3[] inDungeon;
+    [SerializeField]
+    private Vector3[] tableRoute;
 
-    private void Awake()
-    {
-        equipment = GetComponent<Equipment>();    
-    }
 
     //침대에서 일어나기
     public IEnumerator WakeUp()
@@ -29,79 +27,79 @@ public class Hero : Unit
     //상자까지 이동하기
     public IEnumerator MoveToChest()
     {
-        if (chestRoute == null || chestRoute.Length == 0) yield break;
 
-        transform.localPosition = chestRoute[0];
-        int index = 1;
-        while (index < chestRoute.Length)
-        {
-            transform.localPosition = Vector3.MoveTowards(transform.localPosition, chestRoute[index], Time.deltaTime * speed);
-            yield return null;
-
-            if (Vector2.Distance( transform.localPosition, chestRoute[index]) < 0.1f)
-            {
-                index++;
-            }
-        }
-        yield return new WaitForSeconds(1);
+        yield return Move(chestRoute);
+        //yield return new WaitForSeconds(1);
         Debug.Log("상자까지 이동");
-    }
-
-    //장비를 장착하기
-    public IEnumerator ToEquip()
-    {
-        foreach (var slot in InventoryManager.Instance.HeroCloseInterface.Itemslots)
-        {
-            if (slot.Item == null) continue;
-            equipment.TryEquip(slot.Item, out _);
-            //사운드가 나면 좋을듯
-            Debug.Log(slot.ItemName + " 장착");
-            yield return new WaitForSeconds(0.1f);
-
-        }
-        yield return new WaitForSeconds(1);
-        Debug.Log("옷입기 완료");
     }
 
     //집밖으로 나가기
     public IEnumerator OutHome()
     {
-        if (outRoute == null || outRoute.Length == 0) yield break;
-
-        transform.localPosition = outRoute[0];
-        int index = 1;
-        while (index < outRoute.Length)
-        {
-            transform.localPosition = Vector3.MoveTowards(transform.localPosition, outRoute[index], Time.deltaTime * speed);
-            yield return null;
-
-            if (Vector2.Distance(transform.localPosition, outRoute[index]) < 0.1f)
-            {
-                index++;
-            }
-        }
-        yield return new WaitForSeconds(1);
+        yield return Move(outRoute);
+        //yield return new WaitForSeconds(1);
         Debug.Log("집밖으로 나가기");
     }
 
     //던전에 들어가기
     public IEnumerator InDungeon()
     {
-        if (inDungeon == null || inDungeon.Length == 0) yield break;
+        yield return Move(inDungeon);
+        //yield return new WaitForSeconds(1);
+        Debug.Log("던전에 들어가기");
+    }
 
-        transform.localPosition = inDungeon[0];
-        int index = 1;
-        while (index < inDungeon.Length)
+    public IEnumerator OutDungeon()
+    {
+        Vector3[] outDungeon = inDungeon.Reverse().ToArray();
+        yield return Move(outDungeon);
+        //yield return new WaitForSeconds(1);
+        Debug.Log("던전에서 나가기");
+    }
+
+    public IEnumerator InHome()
+    {
+        Vector3[] inHome = outRoute.Reverse().ToArray();
+        yield return Move(inHome);
+        //yield return new WaitForSeconds(1);
+        Debug.Log("집으로 귀환");
+    }
+
+    public IEnumerator MoveToTable()
+    {
+        yield return Move(tableRoute);
+        //yield return new WaitForSeconds(1);
+        Debug.Log("식탁으로 이동");
+    }
+
+    public IEnumerator MoveToBad()
+    {
+        List<Vector3> list = new()
         {
-            transform.localPosition = Vector3.MoveTowards(transform.localPosition, inDungeon[index], Time.deltaTime * speed);
+            transform.localPosition,
+            chestRoute[0]
+        };
+        yield return Move(list.ToArray());
+        //yield return new WaitForSeconds(1);
+        Debug.Log("침대로 이동");
+    }
+
+    private IEnumerator Move(Vector3[] route)
+    {
+        if (route == null || route.Length == 0) yield break;
+
+        transform.localPosition = route[0];
+        int index = 1;
+        
+        while(index < route.Length)
+        {
+            transform.localPosition = Vector3.MoveTowards(transform.localPosition, route[index], Time.deltaTime * speed);
             yield return null;
 
-            if (Vector2.Distance(transform.localPosition, inDungeon[index]) < 0.1f)
+            if (Vector2.Distance(transform.localPosition, route[index]) < 0.1f)
             {
                 index++;
             }
         }
-        yield return new WaitForSeconds(1);
-        Debug.Log("던전에 들어가기");
     }
 }

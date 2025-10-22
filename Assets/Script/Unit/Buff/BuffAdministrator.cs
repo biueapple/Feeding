@@ -73,7 +73,7 @@ public class BuffAdministrator : MonoBehaviour
     }
 
 
-    public void AddInstance(Unit caster, BuffInstance instance)
+    public void AddInstance(object caster, BuffInstance instance)
     {
         if(!buffs.ContainsKey(instance.Buff.BuffID)) buffs[instance.Buff.BuffID] = new(instance.Buff, new());
         buffs[instance.Buff.BuffID].list.Add(instance);
@@ -83,7 +83,7 @@ public class BuffAdministrator : MonoBehaviour
         instance.Buff.Apply(caster, this, instance);
     }
 
-    public void ApplyBuff(Unit caster, Buff buff)
+    public void ApplyBuff(object caster, Buff buff)
     {
         OnApplyBefore?.Invoke(buff);
         if (buffs.TryGetValue(buff.BuffID, out var value))

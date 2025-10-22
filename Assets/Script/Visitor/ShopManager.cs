@@ -69,8 +69,12 @@ public class ShopManager : MonoBehaviour
     public void StartEncounter(Visitor visitor)
     {
         currentVisitor = visitor;
+
+        if (InventoryManager.Instance.PlayerChest.Count() < 3)
+            currentRequest = new ItemTradeRequest(TradeType.Sell, visitor, itemCollector.Items);
+        else
+            currentRequest = UnityEngine.Random.value > 0.5f ? new ItemTradeRequest(TradeType.Sell, visitor, itemCollector.Items) : new CategoryTradeRequest(TradeType.Buy, visitor);
         
-        currentRequest = UnityEngine.Random.value > 0.5f ? new ItemTradeRequest(TradeType.Sell, visitor, itemCollector.Items) : new CategoryTradeRequest(TradeType.Buy, visitor);
         if (currentRequest.TradeType == TradeType.Buy)
             UIManager.Instance.TradeSlot.gameObject.SetActive(true);
 

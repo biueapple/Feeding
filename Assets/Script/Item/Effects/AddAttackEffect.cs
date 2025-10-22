@@ -34,7 +34,7 @@ public class AddAttackEffect : EquipmentEffect
 
     private void Target_OnAfterAttack(AttackEventArgs args)
     {
-        if(!args.IsExtraAttack)
+        if(!args.IsExtraAttack && args.Attacker != null)
         {
             AttackEventArgs extra = new(args.Attacker, args.Defender, true);
             extra.Damages.Add(new(type, $"{name}", value));

@@ -21,34 +21,6 @@ public class BuffIcon : MonoBehaviour, ITooltipProvider
         icon.sprite = instance.Buff.Icon;
     }
 
-    //public bool TooltipHeader(out string leftText, out Color leftColor, out string rightText, out Color rightColor)
-    //{
-    //    leftText = string.Empty;
-    //    leftColor = default;
-    //    rightText = string.Empty;
-    //    rightColor = default;
-    //    if (instance == null) return false;
-
-    //    leftColor = Color.black;
-    //    rightColor = Color.black;
-
-    //    rightText = instance.Duration.ToString();
-    //    leftText = instance.Buff.BuffName;
-
-    //    return true;
-    //}
-
-    //public bool TooltipBottom(out string text, out Color color)
-    //{
-    //    text = string.Empty;
-    //    color = default;
-    //    if (instance == null) return false;
-
-    //    text = instance.Buff.BuildDescription(instance);
-    //    color = Color.red;
-    //    return true;
-    //}
-
     public IEnumerable<TooltipElementModel> GetTooltipElements()
     {
         if (instance == null) yield break;
@@ -66,7 +38,12 @@ public class BuffIcon : MonoBehaviour, ITooltipProvider
             Pairs = new(string, string)[]
             {
                 ("스택", instance.Stacks.ToString()),
-                ("시전자", instance.Caster.name != null ? instance.Caster.name : "알 수 없음")
+                ("시전자", instance.Caster switch
+                {
+                    GameObject go => go.name,
+                    Component comp => comp.gameObject.name,
+                    _ => "알 수 없음"
+                })
             }
         };
 

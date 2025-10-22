@@ -7,7 +7,7 @@ public class Electrocute : Dot
 {
     public override string BuffID => "Electrocute";
 
-    public override void Apply(Unit caster, BuffAdministrator target, BuffInstance inst)
+    public override void Apply(object caster, BuffAdministrator target, BuffInstance inst)
     {
         if (target.Owner == null)
             return;
@@ -17,7 +17,7 @@ public class Electrocute : Dot
             float damage = inst.Stacks;
             Debug.Log($"Electrocute 인한 피해 {damage}");
 
-            AttackEventArgs a = new(caster, target.Owner, false);
+            AttackEventArgs a = new(caster as Unit, target.Owner, false);
             a.Damages.Add(new DamagePacket(type, "Electrocute", damage));
             target.Owner.TakeDamage(a);
 
@@ -31,7 +31,7 @@ public class Electrocute : Dot
         target.SubscribeOnSecond(inst, action);
     }
 
-    public override void Reapply(Unit caster, BuffAdministrator target, List<BuffInstance> list)
+    public override void Reapply(object caster, BuffAdministrator target, List<BuffInstance> list)
     {
         if (target == null || list == null) return;
 
@@ -39,7 +39,7 @@ public class Electrocute : Dot
         foreach (var inst in list)
         {
             float damage = inst.Stacks * inst.Duration;
-            AttackEventArgs a = new(caster, target.Owner, false);
+            AttackEventArgs a = new(caster as Unit, target.Owner, false);
             a.Damages.Add(new DamagePacket(type, "Electrocute", damage));
             target.Owner.TakeDamage(a);
             target.RemoveBuff(inst);

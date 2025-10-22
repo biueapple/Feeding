@@ -39,9 +39,31 @@ public class InventoryManager : MonoBehaviour
         {
             if (slot.Item == null) continue;
             equip.TryEquip(slot.Item, out _);
+            yield return new WaitForSeconds(0.1f);
         }
         yield return new WaitForSeconds(1);
         Debug.Log("옷입기 완료");
+    }
+
+    public IEnumerator RunUnequipPhase()
+    {
+        Equipment equip = hero.GetComponent<Equipment>();
+        Inventory inventory = hero.GetComponent<Inventory>();
+
+        foreach (EquipmentPart part in Enum.GetValues(typeof(EquipmentPart)))
+        {
+            Item item = equip.Unequip(part);
+            if (item != null)
+            {
+                HeroCloseInterface.InsertItem(item);
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
+
+        HeroChest.InsertInventory(inventory.InventoryInterface);
+
+        yield return new WaitForSeconds(1);
+        Debug.Log("상자로 아이템 옮기기 완료");
     }
 }
 

@@ -11,7 +11,7 @@ public class Bleeding : Dot
     public override string BuffID => "Bleeding";
     public override float Duration => 1;    //출혈은 항상 지속시간 1
 
-    public override void Apply(Unit caster, BuffAdministrator target, BuffInstance inst)
+    public override void Apply(object caster, BuffAdministrator target, BuffInstance inst)
     {
         if (target.Owner == null)
             return;
@@ -21,7 +21,7 @@ public class Bleeding : Dot
             float damage = inst.Stacks;
             Debug.Log($"bleeding으로 인한 피해 {damage}");
 
-            AttackEventArgs a = new(caster, target.Owner, false);
+            AttackEventArgs a = new(caster as Unit, target.Owner, false);
             a.Damages.Add(new DamagePacket(type, "Bleeding", damage));
             target.Owner.TakeDamage(a);
 
@@ -35,7 +35,7 @@ public class Bleeding : Dot
         target.SubscribeOnAfterAttack(inst, action);
     }
 
-    public override void Reapply(Unit caster, BuffAdministrator target, List<BuffInstance> list)
+    public override void Reapply(object caster, BuffAdministrator target, List<BuffInstance> list)
     {
         if (target == null || list == null) return;
 

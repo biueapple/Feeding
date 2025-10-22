@@ -19,7 +19,7 @@ public class Buff_StatModifier : Buff
         return s;
     }
 
-    public override void Apply(Unit caster, BuffAdministrator target, BuffInstance inst)
+    public override void Apply(object caster, BuffAdministrator target, BuffInstance inst)
     {
         if (target.Owner == null)
             return;
@@ -37,7 +37,7 @@ public class Buff_StatModifier : Buff
         }
     }
 
-    public override void Reapply(Unit caster, BuffAdministrator target, List<BuffInstance> list)
+    public override void Reapply(object caster, BuffAdministrator target, List<BuffInstance> list)
     {
         if (list == null || target == null) return;
 

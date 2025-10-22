@@ -141,9 +141,9 @@ public class Test : MonoBehaviour
         InventoryManager.Instance.HeroChest.InsertInventory(inventory.InventoryInterface);
         Debug.Log($"창고로 아이템 옮기기 끝");
 
-        Debug.Log("용사 가방 아이템들");
-        inventory.InventoryInterface.Print();
-        Debug.Log("용사 상자 아이템들");
-        InventoryManager.Instance.HeroChest.Print();
+        //Debug.Log("용사 가방 아이템들");
+        //inventory.InventoryInterface.Print();
+        //Debug.Log("용사 상자 아이템들");
+        //InventoryManager.Instance.HeroChest.Print();
     }
 }

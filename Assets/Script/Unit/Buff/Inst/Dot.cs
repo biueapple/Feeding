@@ -50,7 +50,7 @@ public class Dot : Buff
         return s;
     }
 
-    public override void Apply(Unit caster, BuffAdministrator target, BuffInstance inst)
+    public override void Apply(object caster, BuffAdministrator target, BuffInstance inst)
     {
         if (target == null || target.Owner == null || inst == null)
             return;
@@ -59,7 +59,7 @@ public class Dot : Buff
         {
             float damage = inst.Stacks;
             Debug.Log($"dot로 인한 피해 {damage}");
-            AttackEventArgs args = new(caster, target.Owner, false);
+            AttackEventArgs args = new(caster as Unit, target.Owner, false);
             args.Damages.Add(new DamagePacket(type, "DOT", damage));
             target.Owner.TakeDamage(args);
             if (inst.Tick(1))
@@ -73,7 +73,7 @@ public class Dot : Buff
     }
 
     //여긴 list에 여러개일 수 있음
-    public override void Reapply(Unit caster, BuffAdministrator target, List<BuffInstance> list)
+    public override void Reapply(object caster, BuffAdministrator target, List<BuffInstance> list)
     {
         if (target == null || list == null)
             return;
@@ -88,7 +88,7 @@ public class Dot : Buff
 
     }
 
-    public override BuffInstance CreateInstance(Unit caster, BuffAdministrator target)
+    public override BuffInstance CreateInstance(object caster, BuffAdministrator target)
     {
         BuffInstance inst = base.CreateInstance(caster, target);
         

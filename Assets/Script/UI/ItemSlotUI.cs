@@ -73,71 +73,6 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         UIManager.Instance.DragSlot.Drop(this);
     }
 
-    //public bool TooltipHeader(out string leftText, out Color leftColor, out string rightText, out Color rightColor)
-    //{
-    //    leftText = string.Empty;
-    //    leftColor = default;
-    //    rightText = string.Empty;
-    //    rightColor = default;
-    //    if (Slot.Item == null) return false;
-
-    //    rightText = Slot.Item.Rarity.ToString();
-    //    rightColor = RarityManager.Instance.RarityColor[Slot.Item.Rarity];
-    //    leftText = Slot.Item.ItemName;
-    //    leftColor = RarityManager.Instance.RarityColor[Slot.Item.Rarity];
-    
-    //    return true;
-    //}
-
-    //public bool TooltipKeyValue(out string key, out Color keyColor, out string value, out Color valueColor)
-    //{
-    //    key = string.Empty;
-    //    keyColor = default;
-    //    value = string.Empty;
-    //    valueColor = default;
-    //    if (Slot.Item == null) return false;
-
-    //    //장비아이템이 아니더라도 사용 가능
-    //    if(Slot.Item.TryGetAttribute<EquipmentAttribute>(out var equipment))
-    //    {
-    //        key = equipment.Level.ToString();
-    //        keyColor = Color.white;
-    //        value = equipment.Part.ToString();
-    //        valueColor = Color.white;
-    //        return true;
-    //    }
-
-    //    return false;
-    //}
-
-    //public bool TooltipSection(out string str, out Color color)
-    //{
-    //    str = string.Empty;
-    //    color = default;
-    //    if (Slot.Item == null) return false;
-
-    //    //아마 장비아이템만 사용할지도?
-    //    if(Slot.Item.TryGetAttribute<EquipmentAttribute>(out var equipment))
-    //    {
-    //        str = equipment.EquipmentSet.SetName;
-    //        color = Color.white;
-    //        return true;
-    //    }
-
-    //    return false;
-    //}
-
-    //public bool TooltipBottom(out string text, out Color color)
-    //{
-    //    text = string.Empty;
-    //    color = default;
-    //    if (Slot.Item == null) return false;
-
-    //    text = Slot.Item.Description;
-    //    color = Color.black;
-    //    return text != string.Empty;
-    //}
-
     public IEnumerable<TooltipElementModel> GetTooltipElements()
     {
         if (Slot.Item == null) yield break;
@@ -181,7 +116,8 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
 
         // Footer (설명)
-        if (!string.IsNullOrEmpty(Slot.Item.Description))
-            yield return new TooltipElementModel { Type = TooltipElementType.Footer, Text = Slot.Item.Description };
+        string desc = Slot.Item.BuildDescription();
+        if (!string.IsNullOrEmpty(desc))
+            yield return new TooltipElementModel { Type = TooltipElementType.Footer, Text = desc };
     }
 }

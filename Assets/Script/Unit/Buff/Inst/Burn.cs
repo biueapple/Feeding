@@ -5,7 +5,7 @@ public class Burn : Dot
 {
     public override string BuffID => "Burn";
 
-    public override void Apply(Unit caster, BuffAdministrator target, BuffInstance inst)
+    public override void Apply(object caster, BuffAdministrator target, BuffInstance inst)
     {
         if (target == null || target.Owner == null || inst == null)
             return;
@@ -13,7 +13,7 @@ public class Burn : Dot
         void action(AttackEventArgs args)
         {
             Debug.Log($"Burn 인한 피해 {inst.Stacks}"); 
-            AttackEventArgs a = new(caster, target.Owner, false);
+            AttackEventArgs a = new(caster as Unit, target.Owner, false);
             a.Damages.Add(new DamagePacket(type, "Burn", inst.Stacks));
             target.Owner.TakeDamage(a);
 
