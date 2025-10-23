@@ -5,9 +5,9 @@ public class DamagePacket
     public float OriginalValue { get; private set; }
     public float Value { get; set; }
     public DamageType type;
-    public string Sources { get; private set; }
+    public object Sources { get; private set; }
 
-    public DamagePacket(DamageType type, string sources, float value)
+    public DamagePacket(DamageType type, object sources, float value)
     {
         OriginalValue = value;
         Value = value;

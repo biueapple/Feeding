@@ -18,7 +18,7 @@ public class Electrocute : Dot
             Debug.Log($"Electrocute 인한 피해 {damage}");
 
             AttackEventArgs a = new(caster as Unit, target.Owner, false);
-            a.Damages.Add(new DamagePacket(type, "Electrocute", damage));
+            a.Damages.Add(new DamagePacket(type, this, damage));
             target.Owner.TakeDamage(a);
 
             if (inst.Tick(1))
@@ -40,7 +40,7 @@ public class Electrocute : Dot
         {
             float damage = inst.Stacks * inst.Duration;
             AttackEventArgs a = new(caster as Unit, target.Owner, false);
-            a.Damages.Add(new DamagePacket(type, "Electrocute", damage));
+            a.Damages.Add(new DamagePacket(type, this, damage));
             target.Owner.TakeDamage(a);
             target.RemoveBuff(inst);
         }

@@ -14,7 +14,7 @@ public class Burn : Dot
         {
             Debug.Log($"Burn 인한 피해 {inst.Stacks}"); 
             AttackEventArgs a = new(caster as Unit, target.Owner, false);
-            a.Damages.Add(new DamagePacket(type, "Burn", inst.Stacks));
+            a.Damages.Add(new DamagePacket(type, this, inst.Stacks));
             target.Owner.TakeDamage(a);
 
             if (inst.Tick(1))

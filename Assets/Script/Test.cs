@@ -16,6 +16,8 @@ public class Test : MonoBehaviour
     public Visitor visitor;
     public int pay;
     public Item input;
+    public Item food;
+
     public Buff buff;
     public Buff bl;
     public Buff po;
@@ -23,7 +25,8 @@ public class Test : MonoBehaviour
     public Buff ele;
     private void Start()
     {
-        //unit.OnBeforeAttack += OnAttackEvent;
+        hero.OnTakeDamageAfter += OnTakeDamageAfter;
+
         equipment.OnEquipped += OnEquipment;
         equipment.OnUnequipped += OnUnequipment;
 
@@ -39,7 +42,7 @@ public class Test : MonoBehaviour
         buffAdministrator.ApplyBuff(hero, ele);
 
         AttackEventArgs args = new (null, hero, true);
-        args.Damages.Add(new DamagePacket(DamageType.True, hero.ToString(), 10));
+        args.Damages.Add(new DamagePacket(DamageType.True, hero, 10));
         hero.TakeDamage(args);
 
         RecoveryEventArgs re = new(hero, hero);
@@ -59,6 +62,7 @@ public class Test : MonoBehaviour
         InventoryManager.Instance.PlayerChest.EarnGold(150);
 
         InventoryManager.Instance.HeroChest.InsertItem(input);
+        InventoryManager.Instance.PlayerChest.InsertItem(food);
         InventoryManager.Instance.PlayerChest.OnAfterGold += OnAfterGold;
     }
 
@@ -139,11 +143,25 @@ public class Test : MonoBehaviour
     {
         Inventory inventory = hero.GetComponent<Inventory>();
         InventoryManager.Instance.HeroChest.InsertInventory(inventory.InventoryInterface);
-        Debug.Log($"창고로 아이템 옮기기 끝");
+    }
 
-        //Debug.Log("용사 가방 아이템들");
-        //inventory.InventoryInterface.Print();
-        //Debug.Log("용사 상자 아이템들");
-        //InventoryManager.Instance.HeroChest.Print();
+    public void OnTakeDamageAfter(AttackEventArgs args)
+    {
+        Debug.Log($"{args.Attacker} 가 {args.Defender} 에게 ");
+        foreach(var pack in args.Damages)
+        {
+            Debug.Log($"{pack.Sources} 에게서 나온 {pack.type} 타입의 {pack.Value} 대미지");
+        }
+        Debug.Log($"-----------------------------------------------------------------------");
+    }
+
+    public void OnRecoveryAfter(RecoveryEventArgs args)
+    {
+        Debug.Log($"{args.Healer} 가 {args.Recipient} 에게 ");
+        foreach (var pack in args.Recovery)
+        {
+            Debug.Log($"{pack.Sources} 에게서 {pack.Value} 회복");
+        }
+        Debug.Log($"-----------------------------------------------------------------------");
     }
 }

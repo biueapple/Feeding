@@ -60,7 +60,7 @@ public class Dot : Buff
             float damage = inst.Stacks;
             Debug.Log($"dot로 인한 피해 {damage}");
             AttackEventArgs args = new(caster as Unit, target.Owner, false);
-            args.Damages.Add(new DamagePacket(type, "DOT", damage));
+            args.Damages.Add(new DamagePacket(type, this, damage));
             target.Owner.TakeDamage(args);
             if (inst.Tick(1))
             {

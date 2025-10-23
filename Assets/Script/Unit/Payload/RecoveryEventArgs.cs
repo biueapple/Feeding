@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class RecoveryEventArgs
 {
-    public Unit Healer { get; private set; }
+    public object Healer { get; private set; }
     public Unit Recipient { get; private set; }
     public List<RecoveryPacket> Recovery { get; set; }
 
-    public RecoveryEventArgs(Unit healer, Unit recipient)
+    public RecoveryEventArgs(object healer, Unit recipient)
     {
         Healer = healer;
         Recipient = recipient;

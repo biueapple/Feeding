@@ -34,8 +34,8 @@ public class AddDamageEffect : EquipmentEffect
     private void Target_OnBeforeAttack(AttackEventArgs args)
     {
         if (args.Attacker == null)
-            args.Damages.Add(new DamagePacket(type, $"{name}", value));
+            args.Damages.Add(new DamagePacket(type, this, value));
         else
-            args.Damages.Add(new DamagePacket(type, $"{name}", args.IsCritical ? value * (1 + args.Attacker.StatValue(DerivationKind.CD)) : value));
+            args.Damages.Add(new DamagePacket(type, this, args.IsCritical ? value * (1 + args.Attacker.StatValue(DerivationKind.CD)) : value));
     }
 }

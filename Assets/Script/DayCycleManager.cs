@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class DayCycleManager : MonoBehaviour
 {
@@ -20,14 +21,13 @@ public class DayCycleManager : MonoBehaviour
     private IEnumerator DayCycle()
     {
         //하루를 반복
-        //while (true)
-        //{
-        yield return Morning();
-        yield return Dinner();
-        yield return Night();
+        while (true)
+        {
+            yield return Morning();
+            yield return Dinner();
+            yield return Night();
         //            DayCount++;
-        //}
-        yield return null;
+        }
     }
 
     //아침 시작하면 호출
@@ -95,12 +95,12 @@ public class DayCycleManager : MonoBehaviour
         yield return hero.MoveToTable();
 
         //밥먹기
-
+        yield return IngestionManager.Instance.Ingestion();
 
         yield return hero.MoveToBad();
 
         //자기
-
+        yield return Sleep();
 
         yield return null;
     }
@@ -110,7 +110,25 @@ public class DayCycleManager : MonoBehaviour
     {
         OnNight?.Invoke();
 
-        yield return null;
+        Debug.Log("클릭하면 다음날로 넘어감");
+        yield return WaitForPlayerClick();
     }
     //아침 시작
+
+
+    //수면
+    public IEnumerator Sleep()
+    {
+        yield return new WaitForSeconds(1);
+        RecoveryEventArgs args = new("Sleep", hero);
+        args.Recovery.Add(new RecoveryPacket("Sleep", 20));
+        hero.Recovery(args);
+    }
+
+    private IEnumerator WaitForPlayerClick()
+    {
+        yield return new WaitUntil(() => Keyboard.current.anyKey.isPressed);
+
+        //UIManager.Instance.HideNextButton();
+    }
 }

@@ -1,13 +1,13 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StorageUserInterface : MonoBehaviour
 {
     private InventoryInterface inventoryInterface;
     [SerializeField]
     private ItemSlotUI prefab;
-    [SerializeField]
-    private Transform content;
 
     private ItemSlotUI[] slots;
 
@@ -17,10 +17,7 @@ public class StorageUserInterface : MonoBehaviour
     private RectTransform rect;
     public RectTransform Rect { get { if (rect == null) rect = GetComponent<RectTransform>(); return rect; } }
 
-    [SerializeField]
-    private float size = 100;
-    [SerializeField]
-    private float spacing = 10;
+    public event Action<InventoryInterface> OnClose;
 
     private void Start()
     {
@@ -46,12 +43,13 @@ public class StorageUserInterface : MonoBehaviour
         {
             slots[i].Init(inventoryInterface.Itemslots[i]);
         }
-        Rect.sizeDelta = new(430, (slots.Length / 4 + 1) * size + (slots.Length % 4 * spacing));
         gameObject.SetActive(true);
     }
 
     public void Close()
     {
+        if (slots == null) return;
+
         for (int i = 0; i < slots.Length; i++)
         {
             slots[i].Deinit();
@@ -59,6 +57,7 @@ public class StorageUserInterface : MonoBehaviour
         }
         slots = null;
         gameObject.SetActive(false);
+        OnClose?.Invoke(inventoryInterface);
     }
 
     private ItemSlotUI CreateSlotUI()
@@ -70,7 +69,7 @@ public class StorageUserInterface : MonoBehaviour
         }
         else
         {
-            return Instantiate(prefab, content != null ? content : transform);
+            return Instantiate(prefab, transform);
         }
     }
 

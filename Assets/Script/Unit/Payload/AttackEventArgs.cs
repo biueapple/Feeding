@@ -15,6 +15,6 @@ public class AttackEventArgs
         Defender = defender;
         Damages = new();
         IsExtraAttack = isExtraAttack;
-        IsCritical = attacker != null ? attacker.Critical : false;
+        IsCritical = attacker != null && attacker.Critical;
     }
 }

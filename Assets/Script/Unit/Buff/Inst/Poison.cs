@@ -28,7 +28,7 @@ public class Poison : Dot
             float damage = inst.Stacks;
             Debug.Log($"poison으로 인한 피해 {damage}");
             AttackEventArgs a = new(caster as Unit, target.Owner, false);
-            a.Damages.Add(new DamagePacket(type, "Poison", damage));
+            a.Damages.Add(new DamagePacket(type, this, damage));
             target.Owner.TakeDamage(a);
 
             if (inst.Tick(1))

@@ -11,6 +11,10 @@ public class UIDraggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     private Vector2 m_Difference;
 
     private RectTransform rect;
+    [SerializeField]
+    private Vector2 minOffset;
+    [SerializeField]
+    private Vector2 maxOffset;
 
     private void Awake()
     {
@@ -31,7 +35,7 @@ public class UIDraggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         transform.position = ReadPointerScreenPos() - m_Difference;
         //clamp
         if (clampToParent)
-            UIManager.Instance.ClampPosition(rect);
+            UIManager.Instance.ClampPosition(rect, minOffset, maxOffset);
     }
 
     public void OnEndDrag(PointerEventData eventData)

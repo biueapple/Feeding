@@ -41,7 +41,8 @@ public class BuffAdministrator : MonoBehaviour
         {
             foreach(var inst in value.Value.list)
             {
-                RemoveBuff(inst);
+                if(inst.Kind == BuffKind.DOT_)
+                    RemoveBuff(inst);
             }
         }
     }

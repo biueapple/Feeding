@@ -27,6 +27,8 @@ public class ClosetUserInterface : MonoBehaviour
 
     public void Close()
     {
+        if (slots == null) return;
+
         for (int i = 0; i < slots.Length; i++)
         {
             slots[i].Deinit();

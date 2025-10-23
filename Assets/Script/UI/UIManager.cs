@@ -77,10 +77,11 @@ public class UIManager : MonoBehaviour
         openStorageUI[inventory] = result;
 
         result.transform.position = position;
-        ClampPosition(result.GetComponent<RectTransform>());
+        result.OnClose += CloseStorageInterface;
+        ClampPosition(result.GetComponent<RectTransform>(), Vector2.zero, new Vector2(50, 0));
     }
 
-    public void CloseStorageInterface(InventoryInterface inventory)
+    private void CloseStorageInterface(InventoryInterface inventory)
     {
         if(openStorageUI.ContainsKey(inventory))
         {
@@ -94,19 +95,6 @@ public class UIManager : MonoBehaviour
     //
 
 
-    //
-    //버프 아이콘 관련된 메소드
-    //
-    public void OpenBuffInfo()
-    {
-
-    }
-
-    public void CloseBuffInfo()
-    {
-
-    }
-
 
 
 
@@ -119,6 +107,17 @@ public class UIManager : MonoBehaviour
         float maxY = Screen.height - ui.rect.height * (1 - ui.pivot.y);
 
         Vector2 screen = new (Mathf.Clamp(ui.transform.position.x, minX, maxX) , Mathf.Clamp(ui.transform.position.y, minY, maxY));
+        ui.transform.position = screen;
+    }
+
+    public void ClampPosition(RectTransform ui, Vector2 minOffset, Vector2 maxOffset)
+    {
+        float minX = ui.rect.width * ui.pivot.x + minOffset.x;
+        float maxX = Screen.width - ui.rect.width * (1 - ui.pivot.x) - maxOffset.x;
+        float minY = ui.rect.height * ui.pivot.y + minOffset.y;
+        float maxY = Screen.height - ui.rect.height * (1 - ui.pivot.y) - maxOffset.y;
+
+        Vector2 screen = new(Mathf.Clamp(ui.transform.position.x, minX, maxX), Mathf.Clamp(ui.transform.position.y, minY, maxY));
         ui.transform.position = screen;
     }
 }

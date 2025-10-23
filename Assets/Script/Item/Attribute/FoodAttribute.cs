@@ -10,8 +10,14 @@ public class FoodAttribute : ItemAttribute
     [SerializeField]
     private Buff buff;
 
-    public void Apply(BuffAdministrator administrator)
+    public void Apply(Hero hero)
     {
-        administrator.ApplyBuff(this, buff);
+        RecoveryEventArgs args = new(this, hero);
+        args.Recovery.Add(new RecoveryPacket(this, healing));
+        hero.Healing(args);
+        if(hero.TryGetComponent<BuffAdministrator>(out var administrator))
+        {
+            administrator.ApplyBuff(this, buff);
+        }
     }
 }
