@@ -62,7 +62,7 @@ public class DayCycleManager : MonoBehaviour
 
         //모험하러 가기
         OnAdventure?.Invoke();
-        yield return AdventureManager.Instance.StartAdventure(hero);
+        //yield return AdventureManager.Instance.StartAdventure(hero);
         bool next = false;
         void action()
         {

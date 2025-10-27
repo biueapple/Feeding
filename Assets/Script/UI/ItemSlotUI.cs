@@ -95,12 +95,19 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
             // 태그 리스트
             List<string> bullet = new();
-            foreach(var e in eq.EquipmentSet.TwoSetEffect)
+            Equipment equipment = GameManager.Instance.Hero.GetComponent<Equipment>();
+            int count = equipment.SetCounter.ContainsKey(eq.EquipmentSet) ? equipment.SetCounter[eq.EquipmentSet].count : 0;
+            foreach (var e in eq.EquipmentSet.TwoSetEffect)
             {
-                bullet.Add("2세트 : " + e.BuildDescription(e));
+                bullet.Add("2세트 : " + e.BuildDescription(e) + $"  ({count})");
             }
-            
-                yield return new TooltipElementModel { Type = TooltipElementType.BulletList, Items = bullet };
+
+            foreach (var e in eq.EquipmentSet.FourSetEffect)
+            {
+                bullet.Add("4세트 : " + e.BuildDescription(e) + $"  ({count})");
+            }
+
+            yield return new TooltipElementModel { Type = TooltipElementType.BulletList, Items = bullet };
 
             // 스탯 Key:Value
             var pairs = new List<(string, string)>();

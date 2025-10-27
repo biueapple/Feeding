@@ -17,6 +17,7 @@ public class Test : MonoBehaviour
     public int pay;
     public Item input;
     public Item food;
+    public Item potato;
 
     public Buff buff;
     public Buff bl;
@@ -33,13 +34,13 @@ public class Test : MonoBehaviour
         hero.OnAttackAfter += OnAfterDamage;
         enemy.OnAttackAfter += OnAfterDamage;
         buffAdministrator.ApplyBuff(hero, buff);
-        buffAdministrator.ApplyBuff(hero, bl);
-        buffAdministrator.ApplyBuff(hero, bl);
-        buffAdministrator.ApplyBuff(hero, po);
-        buffAdministrator.ApplyBuff(hero, dot);
-        buffAdministrator.ApplyBuff(hero, dot);
-        buffAdministrator.ApplyBuff(hero, ele);
-        buffAdministrator.ApplyBuff(hero, ele);
+        //buffAdministrator.ApplyBuff(hero, bl);
+        //buffAdministrator.ApplyBuff(hero, bl);
+        //buffAdministrator.ApplyBuff(hero, po);
+        //buffAdministrator.ApplyBuff(hero, dot);
+        //buffAdministrator.ApplyBuff(hero, dot);
+        //buffAdministrator.ApplyBuff(hero, ele);
+        //buffAdministrator.ApplyBuff(hero, ele);
 
         AttackEventArgs args = new (null, hero, true);
         args.Damages.Add(new DamagePacket(DamageType.True, hero, 10));
@@ -63,6 +64,9 @@ public class Test : MonoBehaviour
 
         InventoryManager.Instance.HeroChest.InsertItem(input);
         InventoryManager.Instance.PlayerChest.InsertItem(food);
+        InventoryManager.Instance.PlayerChest.InsertItem(potato);
+        InventoryManager.Instance.PlayerChest.InsertItem(potato);
+        InventoryManager.Instance.PlayerChest.InsertItem(potato);
         InventoryManager.Instance.PlayerChest.OnAfterGold += OnAfterGold;
     }
 
@@ -71,16 +75,6 @@ public class Test : MonoBehaviour
     public void OnEncounterStartButton()
     {
         shopManager.StartEncounter(visitor);
-    }
-
-    public void OnTradeStartButton()
-    {
-        shopManager.StartTrade(pay);
-    }
-
-    public void OnTradeOffer()
-    {
-        //shopManager.OnPlyaerOffer(pay);
     }
 
     public void OnEquip()

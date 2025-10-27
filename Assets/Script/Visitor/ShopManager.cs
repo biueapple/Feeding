@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ShopManager : MonoBehaviour
@@ -22,6 +23,10 @@ public class ShopManager : MonoBehaviour
     private ItemCollector itemCollector;
     [SerializeField]
     private List<Visitor> allVisitor;
+    [SerializeField]
+    private TextMeshProUGUI textPlate;
+    [SerializeField]
+    private NumericInputField numeric;
 
     private TradeService tradeService;
 
@@ -70,7 +75,7 @@ public class ShopManager : MonoBehaviour
     {
         currentVisitor = visitor;
 
-        if (InventoryManager.Instance.PlayerChest.Count() < 3)
+        if (InventoryManager.Instance.PlayerChest.Count() < 10)
             currentRequest = new ItemTradeRequest(TradeType.Sell, visitor, itemCollector.Items);
         else
             currentRequest = UnityEngine.Random.value > 0.5f ? new ItemTradeRequest(TradeType.Sell, visitor, itemCollector.Items) : new CategoryTradeRequest(TradeType.Buy, visitor);
@@ -84,14 +89,17 @@ public class ShopManager : MonoBehaviour
     }
 
     //1 거래시작
-    public void StartTrade(int offer)
+    public void StartTrade()
     {
         if (currentVisitor == null || currentRequest == null) 
         { Debug.Log("만남이 없는데 어떻게 거래를 해"); return; }
 
-        if (tradeSlot.Item == null)
+        if (currentRequest.TradeType == TradeType.Buy && tradeSlot.Item == null)
         { Debug.Log("아무 아이템도 제시하지 않음"); return; }
 
+        int offer = numeric.GetNumericValue();
+
+        textPlate.text = "";
         //첫 거래라는 뜻
         if(current == null)
         {
@@ -257,7 +265,8 @@ public class ShopManager : MonoBehaviour
         if (!string.IsNullOrEmpty(line))
         {
             //ui에 띄우기
-            Debug.Log(evt + line);
+            textPlate.text += line + "\n";
+            //Debug.Log(evt + line);
         }
     }
 

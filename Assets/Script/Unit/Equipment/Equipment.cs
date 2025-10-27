@@ -21,6 +21,7 @@ public class Equipment : MonoBehaviour
     private readonly Dictionary<EquipmentPart, Item> equipment = new();         //장착하고 있는 장비
     //private readonly Dictionary<EquipmentEffect, int> activeEffects = new();    //적용중인 효과와 그 수
     private readonly Dictionary<EquipmentSetSO, (int count, bool two, bool four)> setCounter = new();        //장비의 세트 효과와 숫자
+    public IReadOnlyDictionary<EquipmentSetSO, (int count, bool two, bool four)> SetCounter => setCounter;
 
     //장비를 장착할 수 있는지 확인하는 이벤트    (기본적으로 레벨제한 스텟제한것들이 필요함)
     public readonly List<IEquipCondition> OnCondition = new();

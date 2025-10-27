@@ -39,6 +39,7 @@ public class InventoryManager : MonoBehaviour
         {
             if (slot.Item == null) continue;
             equip.TryEquip(slot.Item, out _);
+            slot.Insert(null);
             yield return new WaitForSeconds(0.1f);
         }
         yield return new WaitForSeconds(1);
