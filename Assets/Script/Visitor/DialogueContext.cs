@@ -5,6 +5,7 @@ public class DialogueContext
     public Visitor visitor;
     public TradeType tradeType;
     public Item item;
+    public ItemCategory category;
     public int offer;               //haggle 의 pay
     public int basePrice;           //trade의 final 후의 값
     public int spread;

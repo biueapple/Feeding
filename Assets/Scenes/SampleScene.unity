@@ -4658,9 +4658,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1233343018}
-        m_TargetAssemblyTypeName: Test, Assembly-CSharp
-        m_MethodName: OnTradeStartButton
+      - m_Target: {fileID: 2043051948}
+        m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
+        m_MethodName: StartTrade
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5955,7 +5955,7 @@ MonoBehaviour:
   allVisitor:
   - {fileID: 11400000, guid: d7748051af2ccbb49aaa2715250e0164, type: 2}
   textPlate: {fileID: 339958560}
-  numeric: {fileID: 0}
+  numeric: {fileID: 1012771540}
 --- !u!114 &2043051949
 MonoBehaviour:
   m_ObjectHideFlags: 0

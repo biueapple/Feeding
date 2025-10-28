@@ -94,7 +94,17 @@ public class ShopManager : MonoBehaviour
         if (currentVisitor == null || currentRequest == null) 
         { Debug.Log("만남이 없는데 어떻게 거래를 해"); return; }
 
-        if (currentRequest.TradeType == TradeType.Buy && tradeSlot.Item == null)
+        Item target;
+        if (currentRequest is ItemTradeRequest itemTradeRequest)
+        {
+            target = itemTradeRequest.TargetItem;
+        }
+        else
+        {
+            target = tradeSlot.Item;
+        }
+
+        if (target == null)
         { Debug.Log("아무 아이템도 제시하지 않음"); return; }
 
         int offer = numeric.GetNumericValue();
@@ -103,7 +113,7 @@ public class ShopManager : MonoBehaviour
         //첫 거래라는 뜻
         if(current == null)
         {
-            StartNewLine(tradeSlot.Item);
+            StartNewLine(target);
 
             Emit(DialogueEvent.OfferAsked, TradeResult.None, offer);
         }

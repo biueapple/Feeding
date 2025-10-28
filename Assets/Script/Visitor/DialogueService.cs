@@ -30,6 +30,7 @@ public static class DialogueService
         int diff = c.offer - (c.basePrice + c.spread);
         line = line.Replace("{visitor}", c.visitor.VisitorName);
         line = line.Replace("{item}", c.item != null ? c.item.ItemName : "ªÛ«∞");
+        line = line.Replace("{category}", c.category.ToString());
         line = line.Replace("{price}", c.offer.ToString());
         line = line.Replace("{base}", c.basePrice.ToString());
         line = line.Replace("{spread}", c.spread.ToString());
