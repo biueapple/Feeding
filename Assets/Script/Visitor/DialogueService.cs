@@ -28,7 +28,7 @@ public static class DialogueService
     private static string Fill(string line, DialogueContext c)
     {
         int diff = c.offer - (c.basePrice + c.spread);
-        line = line.Replace("{visitor}", c.visitor.VisitorName);
+        line = line.Replace("{visitor}", c.visitorSO.VisitorName);
         line = line.Replace("{item}", c.item != null ? c.item.ItemName : "ªÛ«∞");
         line = line.Replace("{category}", c.category.ToString());
         line = line.Replace("{price}", c.offer.ToString());

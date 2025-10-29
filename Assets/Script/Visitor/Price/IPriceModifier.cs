@@ -20,11 +20,11 @@ public interface IPriceModifier
 public class PriceContext
 {
     public readonly Item item;
-    public readonly Visitor visitor;
+    public readonly VisitorSO visitor;
     //public readonly Shop
     public readonly TradeType type;
 
-    public PriceContext(Item item, Visitor visitor, TradeType type)
+    public PriceContext(Item item, VisitorSO visitor, TradeType type)
     {
         this.item = item;
         this.visitor = visitor;

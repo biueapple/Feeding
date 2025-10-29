@@ -15,7 +15,7 @@ public class DayCycleManager : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(DayCycle());
+        //StartCoroutine(DayCycle());
     }
 
     private IEnumerator DayCycle()
@@ -75,7 +75,7 @@ public class DayCycleManager : MonoBehaviour
         //모험 시작하면 거래 시작
         OnTrade?.Invoke();
         //yield return new WaitForSeconds(1);
-        ShopManager.Instance.StartEncounter(ShopManager.Instance.CreateVisitor());
+        //ShopManager.Instance.StartEncounter(ShopManager.Instance.CreateVisitor());
 
         yield return new WaitUntil(() => next);
     }

@@ -11,7 +11,7 @@ public sealed class PricingService
         this.hub = hub;
     }
 
-    public PriceQuote GetQuote(Item item, Visitor visitor, TradeRequest request)
+    public PriceQuote GetQuote(Item item, VisitorSO visitor, TradeRequest request)
     {
         var ctx = new PriceContext(item, visitor, request.TradeType);
         float price = item.Price;

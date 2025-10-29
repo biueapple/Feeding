@@ -31,7 +31,7 @@ MonoBehaviour:
     priority: 0
   - evt: 1
     tradeType:
-      use: 0
+      use: 1
       value: 0
     match:
       use: 0
@@ -41,43 +41,21 @@ MonoBehaviour:
       value: 0
     attemptRange: {x: 0, y: 99}
     lines:
-    - "\uCC38\uACE0\uB85C, \uC2E4\uC6A9\uC801\uC778 \uBB3C\uAC74\uC744 \uC120\uD638\uD558\uB294
-      \uD3B8\uC774\uC57C."
-    - "\uBA4B\uB9CC \uC788\uB294 \uAC83\uBCF4\uB2E8 \uC131\uB2A5\uC774 \uC88B\uC740
-      \uAC78 \uCC3E\uACE0 \uC788\uC5B4."
-    - "\uC624\uB298\uC740 \uAC00\uACA9 \uB300\uBE44 \uB9CC\uC871\uC2A4\uB7EC\uC6B4
-      \uAC78 \uBCF4\uACE0 \uC2F6\uAD70."
+    - "{category} \uCABD \uC544\uC774\uD15C\uC744 \uCC3E\uACE0\uC788\uC5B4"
     priority: 0
   - evt: 1
     tradeType:
-      use: 0
-      value: 0
-    match:
-      use: 0
-      value: 0
-    result:
-      use: 0
-      value: 0
-    attemptRange: {x: 99, y: 99}
-    lines:
-    - "\uADF8 \uB77C\uC778\uC5C5, \uC608\uC804\uBD80\uD130 \uAD00\uC2EC \uC788\uC5C8\uC9C0."
-    - "\uC624, {item} \uAC19\uC740 \uACC4\uC5F4\uC740 \uB0B4 \uCDE8\uD5A5\uC774\uC57C."
-    priority: 1
-  - evt: 1
-    tradeType:
-      use: 0
-      value: 0
-    match:
-      use: 0
+      use: 1
       value: 1
+    match:
+      use: 0
+      value: 0
     result:
       use: 0
       value: 0
-    attemptRange: {x: 99, y: 99}
+    attemptRange: {x: 0, y: 99}
     lines:
-    - "\uC74C\u2026 \uADF8\uCABD \uACC4\uC5F4\uC740 \uB9C8\uC74C\uC5D0 \uC548 \uB4E4\uC5B4.
-      \uB108\uBB34 \uBE44\uC2F8\uAC70\uB098 \uC131\uB2A5\uC774 \uC560\uB9E4\uD558\uB354\uB77C\uACE0."
-    - "\uB0B4 \uCDE8\uD5A5\uC740 \uC544\uB2C8\uC57C. \uB2E4\uB978 \uAC78 \uBCF4\uC790."
+    - "{item}\uC744 \uD314\uB7EC\uC654\uC5B4"
     priority: 1
   - evt: 2
     tradeType:

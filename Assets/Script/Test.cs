@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 //세트 효과나 다른 효과들 보여줄 내용 만들기
 public class Test : MonoBehaviour
@@ -13,7 +14,7 @@ public class Test : MonoBehaviour
     public Buff_StatModifier calm;
 
 
-    public Visitor visitor;
+    public VisitorSO visitor;
     public int pay;
     public Item input;
     public Item food;
@@ -68,7 +69,9 @@ public class Test : MonoBehaviour
         InventoryManager.Instance.PlayerChest.InsertItem(potato);
         InventoryManager.Instance.PlayerChest.InsertItem(potato);
         InventoryManager.Instance.PlayerChest.OnAfterGold += OnAfterGold;
+
     }
+    
 
     public ShopManager shopManager;
 

@@ -9,7 +9,7 @@ public sealed class ItemTradeRequest : TradeRequest
     public readonly Item TargetItem;
     public override string Summary => $"{TradeType}: {TargetItem.ItemName}";
 
-    public ItemTradeRequest(TradeType type, Visitor visitor, IReadOnlyList<Item> list) : base(type, visitor)
+    public ItemTradeRequest(TradeType type, VisitorSO visitor, IReadOnlyList<Item> list) : base(type, visitor)
     {
         TargetItem = PickExactItemFor(visitor, list);
     }
@@ -28,7 +28,7 @@ public sealed class ItemTradeRequest : TradeRequest
     public const float DislikedMul = 0.7f;
     public const float MinWeight = 0.01f;
 
-    public float GetWeight(Visitor v, Item item)
+    public float GetWeight(VisitorSO v, Item item)
     {
         float w = 1;
         if (v.Preferred.Contains(item.Category)) w *= PreferredMul;
@@ -71,7 +71,7 @@ public sealed class ItemTradeRequest : TradeRequest
     }
 
     //전체 아이템중에 선택하기 (필터/제외 리스트는 옵션)
-    public Item PickExactItemFor(Visitor v, IReadOnlyList<Item> allItmes, Predicate<Item> filter = null, HashSet<Item> exclude = null)
+    public Item PickExactItemFor(VisitorSO v, IReadOnlyList<Item> allItmes, Predicate<Item> filter = null, HashSet<Item> exclude = null)
     {
         var pool = new List<Item>(allItmes.Count);
         for (int i = 0; i < allItmes.Count; i++)
@@ -93,7 +93,7 @@ public sealed class CategoryTradeRequest : TradeRequest
     public readonly ItemCategory Category;
     public override string Summary => $"{TradeType}: {Category}";
 
-    public CategoryTradeRequest(TradeType type, Visitor visitor) : base(type, visitor)
+    public CategoryTradeRequest(TradeType type, VisitorSO visitor) : base(type, visitor)
     {
         Category = PickExactItemFor(visitor);
     }
@@ -112,7 +112,7 @@ public sealed class CategoryTradeRequest : TradeRequest
     public const float DislikedMul = 0.7f;
     public const float MinWeight = 0.01f;
 
-    public float GetWeight(Visitor v, ItemCategory category)
+    public float GetWeight(VisitorSO v, ItemCategory category)
     {
         float w = 1;
         if (v.Preferred.Contains(category)) w *= PreferredMul;
@@ -155,7 +155,7 @@ public sealed class CategoryTradeRequest : TradeRequest
     }
 
     //전체 아이템중에 선택하기 (필터/제외 리스트는 옵션)
-    public ItemCategory PickExactItemFor(Visitor v, Predicate<ItemCategory> filter = null, HashSet<ItemCategory> exclude = null)
+    public ItemCategory PickExactItemFor(VisitorSO v, Predicate<ItemCategory> filter = null, HashSet<ItemCategory> exclude = null)
     {
         List<ItemCategory> pool = new ();
         int length = Enum.GetValues(typeof(ItemCategory)).Length;

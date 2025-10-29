@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -11,5 +12,15 @@ public class GameManager : MonoBehaviour
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+    }
+
+    public Coroutine RunCoroutine(IEnumerator enumerator)
+    {
+        return StartCoroutine(enumerator);
+    }
+
+    public void StopCoroutineExtern(Coroutine enumerator)
+    {
+        StopCoroutine(enumerator);
     }
 }

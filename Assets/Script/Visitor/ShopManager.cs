@@ -22,43 +22,38 @@ public class ShopManager : MonoBehaviour
     [SerializeField]
     private ItemCollector itemCollector;
     [SerializeField]
-    private List<Visitor> allVisitor;
-    [SerializeField]
     private TextMeshProUGUI textPlate;
     [SerializeField]
     private NumericInputField numeric;
 
+    //거래가 성사될때 사용하지만 없애도 됌
     private TradeService tradeService;
 
-
+    //이벤트로 인한 가격의 변동을 해주는 
     private PricingService pricing;
+    //현재 거래에 대한 모든것을 가지고 있음
     private TradeSession current;
 
     public event Action<TradeSession> OnCreateTradeSession;
+    public event Action OnEndSession;
 
     private void Start()
     {
         UIManager.Instance.TradeSlot.Init(tradeSlot);
     }
 
-    public PriceQuote Quote(Item item, Visitor visitor, TradeRequest tradeRequest) => pricing.GetQuote(item, visitor, tradeRequest);
-
-
-    private Visitor currentVisitor;
+    //현재 거래 관련
+    private VisitorSO currentVisitorSO;
     private TradeRequest currentRequest;
+    //플레이어가 아이템을 올려놓는 슬롯
     private ItemSlot tradeSlot;
 
-    //나중에는 다른곳으로 옮기던가 할 수 있음
-    public Visitor CreateVisitor()
-    {
-        return allVisitor[UnityEngine.Random.Range(0, allVisitor.Count)];
-    }
-
+    //거래 중간에 중단
     public void TerminationTrade()
     {
         current = null;
         currentRequest = null;
-        currentVisitor = null;
+        currentVisitorSO = null;
         if(InventoryManager.Instance.PlayerChest.InsertItem(tradeSlot.Item))
         {
             Debug.Log("trade -> playerchest");
@@ -71,9 +66,9 @@ public class ShopManager : MonoBehaviour
     }
 
     //만남
-    public void StartEncounter(Visitor visitor)
+    public void StartEncounter(VisitorSO visitor)
     {
-        currentVisitor = visitor;
+        currentVisitorSO = visitor;
 
         if (InventoryManager.Instance.PlayerChest.Count() < 10)
             currentRequest = new ItemTradeRequest(TradeType.Sell, visitor, itemCollector.Items);
@@ -83,6 +78,9 @@ public class ShopManager : MonoBehaviour
         if (currentRequest.TradeType == TradeType.Buy)
             UIManager.Instance.TradeSlot.gameObject.SetActive(true);
 
+        current = new(currentRequest, currentVisitorSO);
+        OnCreateTradeSession?.Invoke(current);
+
         Debug.Log("상대가 원하는 것 " + currentRequest.Summary);
         Emit(DialogueEvent.Arrive, TradeResult.None, 0);
         Emit(DialogueEvent.BrowseHint, TradeResult.None, 0);
@@ -91,7 +89,7 @@ public class ShopManager : MonoBehaviour
     //1 거래시작
     public void StartTrade()
     {
-        if (currentVisitor == null || currentRequest == null) 
+        if (currentVisitorSO == null || currentRequest == null) 
         { Debug.Log("만남이 없는데 어떻게 거래를 해"); return; }
 
         Item target;
@@ -120,7 +118,7 @@ public class ShopManager : MonoBehaviour
         //첫 거래는 아닌데 기존 아이템이 아니라 가격 견적을 새로 내야함
         else if(current.Item != tradeSlot.Item)
         {
-            RequoteAndRetarget(tradeSlot.Item, false);
+            RequoteAndRetarget(target, false);
 
             Emit(DialogueEvent.BrowseHint, TradeResult.None, offer);
         }
@@ -150,14 +148,16 @@ public class ShopManager : MonoBehaviour
 
     }
 
+
     private void StartNewLine(Item selected)
     {
-        var quote = Quote(selected, currentVisitor, currentRequest);
+        var quote = pricing.GetQuote(selected, currentVisitorSO, currentRequest);
         var haggle = new HaggleSession();
-        haggle.Start(quotedPrice: quote.FinalPrice, spread: CalcSpread(quote.FinalPrice, currentVisitor), maxRound: currentVisitor.MaxRounds, concedePerRound: currentVisitor.ConcedePerRound);
+        haggle.Start(quotedPrice: quote.FinalPrice, spread: CalcSpread(quote.FinalPrice, currentVisitorSO), maxRound: currentVisitorSO.MaxRounds, concedePerRound: currentVisitorSO.ConcedePerRound);
 
-        current = new(currentRequest, selected, currentVisitor, quote, haggle);
-        OnCreateTradeSession?.Invoke(current);
+        current.Item = selected;
+        current.PriceQuote = quote;
+        current.Haggle = haggle;
 
         //ui
         Debug.Log("내가 준 물건 " + current.Item);
@@ -174,11 +174,11 @@ public class ShopManager : MonoBehaviour
 
     private void RequoteAndRetarget(Item selected, bool resetConcession)
     {
-        var quote = Quote(selected, currentVisitor, currentRequest);
+        var quote = pricing.GetQuote(selected, currentVisitorSO, currentRequest);
 
         current.Item = selected;
         current.PriceQuote = quote;
-        current.Haggle.Retarget(quote.FinalPrice, CalcSpread(quote.FinalPrice, currentVisitor), resetConcession);
+        current.Haggle.Retarget(quote.FinalPrice, CalcSpread(quote.FinalPrice, currentVisitorSO), resetConcession);
 
         Debug.Log($"아이템 변경-> {selected}");
         Debug.Log($"새 견적가 {quote.FinalPrice}, 새 스프레드 {current.Haggle.Spread}");
@@ -240,25 +240,43 @@ public class ShopManager : MonoBehaviour
         Debug.Log(success + " " + reason);
         current = null;
         UIManager.Instance.TradeSlot.gameObject.SetActive(false);
+        OnEndSession?.Invoke();
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private void Emit(DialogueEvent evt, TradeResult result, int offer)
     {
-        if (currentRequest == null || currentVisitor == null) return;
+        if (currentRequest == null || currentVisitorSO == null) return;
 
-        bool hasCurrent = current != null;
+        bool hasCurrent = current.Haggle != null;
 
-        var v = currentVisitor;
+        var v = currentVisitorSO;
         var req = currentRequest;
         var it = hasCurrent ? current.Item : null;
         var dlg = v.DialoguePack;
 
         int generosity = hasCurrent ? Mathf.RoundToInt(v.Generosity * current.Haggle.BaseQuote) : 0;
-
+        
 
         var ctx = new DialogueContext
         {
-            visitor = v,
+            visitorSO = v,
             tradeType = req.TradeType,
             item = it,
             offer = offer,
@@ -280,9 +298,9 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    private int CalcSpread(int baseQueto, Visitor visitor)
+    private int CalcSpread(int baseQueto, VisitorSO visitorSO)
     {
-        return Mathf.Max(1, Mathf.RoundToInt(baseQueto * visitor.Generosity));
+        return Mathf.Max(1, Mathf.RoundToInt(baseQueto * visitorSO.Generosity));
     }
 }
 
@@ -290,16 +308,13 @@ public class ShopManager : MonoBehaviour
 public sealed class TradeSession
 {
     public readonly TradeRequest Request;
+    public readonly VisitorSO VisitorSO;
     public Item Item { get; set; }
-    public readonly Visitor Visitor;
     public PriceQuote PriceQuote { get; set; }
-    public readonly HaggleSession Haggle;
-    public TradeSession(TradeRequest req, Item item, Visitor visitor, PriceQuote quote, HaggleSession haggle)
+    public HaggleSession Haggle { get; set; }
+    public TradeSession(TradeRequest req, VisitorSO visitorSO)
     {
         Request = req;
-        Item = item;
-        Visitor = visitor;
-        PriceQuote = quote;
-        Haggle = haggle;
+        VisitorSO = visitorSO;
     }
 }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class DialogueContext
 {
-    public Visitor visitor;
+    public VisitorSO visitorSO;
     public TradeType tradeType;
     public Item item;
     public ItemCategory category;

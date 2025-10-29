@@ -21,8 +21,8 @@ public enum TradeResult
 public abstract class TradeRequest
 {
     public readonly TradeType TradeType;
-    public readonly Visitor Visitor;
-    protected TradeRequest(TradeType tradeType, Visitor visitor) { TradeType = tradeType; Visitor = visitor; }
+    public readonly VisitorSO Visitor;
+    protected TradeRequest(TradeType tradeType, VisitorSO visitor) { TradeType = tradeType; Visitor = visitor; }
     public abstract string Summary { get; }
 
     public abstract int Margin(Item item);
