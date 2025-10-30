@@ -11,9 +11,9 @@ public sealed class PricingService
         this.hub = hub;
     }
 
-    public PriceQuote GetQuote(Item item, VisitorSO visitor, TradeRequest request)
+    public PriceQuote GetQuote(Item item, VisitorSO visitor, TradeRequest request, TradeType tradeType)
     {
-        var ctx = new PriceContext(item, visitor, request.TradeType);
+        var ctx = new PriceContext(item, visitor, tradeType);
         float price = item.Price;
         int margin = request.Margin(item);
         var steps = new List<PriceStep>();
@@ -69,7 +69,7 @@ public sealed class PricingService
         int final = Mathf.RoundToInt(price);
         steps.Add(new PriceStep("Rounding & Clamp", PriceOP.FlatADD, 0, final));
         //상대가 사러 왔을때만 마진을 추가
-        if(request.TradeType == TradeType.Buy)
+        if(tradeType == TradeType.Buy)
         {
             final += margin;
             steps.Add(new PriceStep("Margin", PriceOP.PercentADD, margin, final));

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -7,6 +8,10 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Hero hero;
     public Hero Hero => hero;
+    
+    [SerializeField]
+    private ItemCollector itemCollector;
+    public IReadOnlyList<Item> ItemCollector => itemCollector.Items;
 
     private void Awake()
     {

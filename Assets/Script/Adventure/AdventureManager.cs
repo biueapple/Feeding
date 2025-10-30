@@ -71,7 +71,7 @@ public class AdventureManager : MonoBehaviour
                     inventory.InventoryInterface.InsertItem(i);
                 }
                 Debug.Log($"적이 드랍한 골드 양 {gold}");
-                inventory.InventoryInterface.EarnGold(gold);
+                InventoryManager.Instance.EarnGold(gold);
 
                 Destroy(enemy.gameObject);
                 enemy = CreateEnemy();

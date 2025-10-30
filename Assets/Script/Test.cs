@@ -43,17 +43,17 @@ public class Test : MonoBehaviour
         //buffAdministrator.ApplyBuff(hero, ele);
         //buffAdministrator.ApplyBuff(hero, ele);
 
-        AttackEventArgs args = new (null, hero, true);
-        args.Damages.Add(new DamagePacket(DamageType.True, hero, 10));
-        hero.TakeDamage(args);
+        //AttackEventArgs args = new (null, hero, true);
+        //args.Damages.Add(new DamagePacket(DamageType.True, hero, 10));
+        //hero.TakeDamage(args);
 
-        RecoveryEventArgs re = new(hero, hero);
-        re.Recovery.Add(new RecoveryPacket("hero", 10));
-        hero.Healing(re);
+        //RecoveryEventArgs re = new(hero, hero);
+        //re.Recovery.Add(new RecoveryPacket("hero", 10));
+        //hero.Healing(re);
 
 
         Inventory inventory = hero.GetComponent<Inventory>();
-        inventory.InventoryInterface.OnAfterGold += OnAfterGold;
+        InventoryManager.Instance.OnAfterGold += OnAfterGold;
         for(int i = 0; i < inventory.InventoryInterface.Itemslots.Length; i++)
         {
             inventory.InventoryInterface.Itemslots[i].OnBeforeChange += OnBeforeInven;
@@ -61,14 +61,14 @@ public class Test : MonoBehaviour
         }
 
         AdventureManager.Instance.OnAdventureEnded += OnAfterAdventure;
-        InventoryManager.Instance.PlayerChest.EarnGold(150);
+        InventoryManager.Instance.EarnGold(150);
 
         InventoryManager.Instance.HeroChest.InsertItem(input);
         InventoryManager.Instance.PlayerChest.InsertItem(food);
         InventoryManager.Instance.PlayerChest.InsertItem(potato);
         InventoryManager.Instance.PlayerChest.InsertItem(potato);
         InventoryManager.Instance.PlayerChest.InsertItem(potato);
-        InventoryManager.Instance.PlayerChest.OnAfterGold += OnAfterGold;
+        InventoryManager.Instance.OnAfterGold += OnAfterGold;
 
     }
     

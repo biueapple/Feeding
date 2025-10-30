@@ -7,11 +7,11 @@ using NUnit.Framework;
 public sealed class ItemTradeRequest : TradeRequest
 {
     public readonly Item TargetItem;
-    public override string Summary => $"{TradeType}: {TargetItem.ItemName}";
+    public override string Summary => $"{TargetItem.ItemName}";
 
-    public ItemTradeRequest(TradeType type, VisitorSO visitor, IReadOnlyList<Item> list) : base(type, visitor)
+    public ItemTradeRequest(VisitorSO visitor) : base(visitor)
     {
-        TargetItem = PickExactItemFor(visitor, list);
+        TargetItem = PickExactItemFor(visitor);
     }
 
     public override int Margin(Item item)
@@ -71,8 +71,9 @@ public sealed class ItemTradeRequest : TradeRequest
     }
 
     //전체 아이템중에 선택하기 (필터/제외 리스트는 옵션)
-    public Item PickExactItemFor(VisitorSO v, IReadOnlyList<Item> allItmes, Predicate<Item> filter = null, HashSet<Item> exclude = null)
+    public Item PickExactItemFor(VisitorSO v, Predicate<Item> filter = null, HashSet<Item> exclude = null)
     {
+        IReadOnlyList<Item> allItmes = GameManager.Instance.ItemCollector;
         var pool = new List<Item>(allItmes.Count);
         for (int i = 0; i < allItmes.Count; i++)
         {
@@ -91,9 +92,9 @@ public sealed class ItemTradeRequest : TradeRequest
 public sealed class CategoryTradeRequest : TradeRequest
 {
     public readonly ItemCategory Category;
-    public override string Summary => $"{TradeType}: {Category}";
+    public override string Summary => $"{Category}";
 
-    public CategoryTradeRequest(TradeType type, VisitorSO visitor) : base(type, visitor)
+    public CategoryTradeRequest( VisitorSO visitor) : base(visitor)
     {
         Category = PickExactItemFor(visitor);
     }

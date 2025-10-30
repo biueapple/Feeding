@@ -31,6 +31,9 @@ public class InventoryManager : MonoBehaviour
     [SerializeField]
     private Hero hero;
 
+    public int Gold { get; private set; }
+    public event Action<int> OnAfterGold;
+
     //여기서 애니메이션이나 그런거 컨트롤 해야할듯
     public IEnumerator RunEquipPhase()
     {
@@ -65,6 +68,25 @@ public class InventoryManager : MonoBehaviour
 
         yield return new WaitForSeconds(1);
         Debug.Log("상자로 아이템 옮기기 완료");
+    }
+
+    public void EarnGold(int amount)
+    {
+        Gold = Mathf.Max(0, Gold + amount);
+        OnAfterGold?.Invoke(Gold);
+    }
+
+    public bool TryEarnGold(int amount)
+    {
+        if (!CanAfford(amount)) return false;
+        EarnGold(amount);
+        return true;
+    }
+
+    public bool CanAfford(int cost)
+    {
+        if (Gold >= cost) return true;
+        return false;
     }
 }
 

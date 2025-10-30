@@ -5,8 +5,6 @@ public class InventoryInterface
 {
     private readonly ItemSlot[] itemslots;
     public ItemSlot[] Itemslots => itemslots;
-    public int Gold { get; private set; }
-    public event Action<int> OnAfterGold;
 
     public InventoryInterface(int length)
     {
@@ -15,25 +13,6 @@ public class InventoryInterface
         {
             itemslots[i] = new();
         }
-    }
-
-    public void EarnGold(int amount)
-    {
-        Gold = Mathf.Max(0, Gold + amount);
-        OnAfterGold?.Invoke(Gold);
-    }
-
-    public bool TryEarnGold(int amount)
-    {
-        if (!CanAfford(amount)) return false;
-        EarnGold(amount);
-        return true;
-    }
-
-    public bool CanAfford(int cost)
-    {
-        if (Gold >= cost) return true;
-        return false;
     }
 
     public bool InsertItem(Item item)
@@ -53,9 +32,6 @@ public class InventoryInterface
     //인벤토리에서 가능한 만큼 가져오기
     public void InsertInventory(InventoryInterface inventory)
     {
-        EarnGold(inventory.Gold);
-        inventory.EarnGold(-inventory.Gold);
-
         int index = 0;
         for(int i = 0; i < itemslots.Length; i++)
         {
