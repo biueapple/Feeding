@@ -6221,6 +6221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hero: {fileID: 563695530}
+  itemCollector: {fileID: 11400000, guid: 0e534cf1b0a14204eb8a327566227d6e, type: 2}
 --- !u!114 &2043051957
 MonoBehaviour:
   m_ObjectHideFlags: 0

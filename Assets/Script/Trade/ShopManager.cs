@@ -62,7 +62,7 @@ public class ShopManager : MonoBehaviour
     {
         numeric.gameObject.SetActive(true);
 
-        if (InventoryManager.Instance.PlayerChest.Count() < 0 )
+        if (InventoryManager.Instance.PlayerChest.Count() < 3 || UnityEngine.Random.value > 0.5f)
         {
             tradeService = new SellTrade(hub);
             tradeService.Encounter(visitor);
