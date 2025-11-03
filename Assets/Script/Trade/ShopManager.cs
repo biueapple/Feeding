@@ -40,9 +40,17 @@ public class ShopManager : MonoBehaviour
     //플레이어가 아이템을 올려놓는 슬롯
     private ItemSlot tradeSlot;
 
+    public void StartShop()
+    {
+        VisitorManager.Instance.VisitorManagerStart();
+    }
+
+
     //거래 중간에 중단
     public void TerminationTrade()
     {
+        VisitorManager.Instance.VisitorManagerEnd();
+
         //currentRequest = null;
         //currentVisitorSO = null;
         if(InventoryManager.Instance.PlayerChest.InsertItem(tradeSlot.Item))
@@ -54,6 +62,7 @@ public class ShopManager : MonoBehaviour
             Debug.Log("trade -> null");
         }
         tradeSlot.Insert(null);
+        textPlate.text = "";
         numeric.gameObject.SetActive(false);
     }
 

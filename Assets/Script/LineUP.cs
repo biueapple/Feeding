@@ -48,6 +48,17 @@ public class LineUP<T> where T : MonoBehaviour
         coroutine = GameManager.Instance.StartCoroutine(Push());
     }
 
+    public void AllDelete()
+    {
+        if (coroutine != null) { GameManager.Instance.StopCoroutineExtern(coroutine); }
+
+        while(line.Count > 0)
+        {
+            DeleteObject(line[0]);
+            line.RemoveAt(0);
+        }
+    }
+
     private IEnumerator Push()
     {
         if (line.Count == 0) yield break;

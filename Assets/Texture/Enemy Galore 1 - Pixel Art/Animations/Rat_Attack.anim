@@ -7,7 +7,7 @@ AnimationClip:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Rat_Attack
-  serializedVersion: 6
+  serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
   m_UseHighQualityCurve: 1
@@ -16,29 +16,91 @@ AnimationClip:
   m_EulerCurves: []
   m_PositionCurves: []
   m_ScaleCurves: []
-  m_FloatCurves: []
+  m_FloatCurves:
+  - serializedVersion: 2
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.16666667
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.5833333
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_IsActive
+    path: FX
+    classID: 1
+    script: {fileID: 0}
+    flags: 16
   m_PPtrCurves:
-  - curve:
+  - serializedVersion: 2
+    curve:
     - time: 0
-      value: {fileID: 4807302976523773726, guid: 644b5e0fc2845cd42961d91d1151e072, type: 3}
+      value: {fileID: -284388638163825642, guid: 6bcc22196438ea542b9177f5fbaf5933, type: 3}
     - time: 0.083333336
-      value: {fileID: 8580169393291790282, guid: 644b5e0fc2845cd42961d91d1151e072, type: 3}
+      value: {fileID: -671448322994471273, guid: 6bcc22196438ea542b9177f5fbaf5933, type: 3}
     - time: 0.16666667
-      value: {fileID: -5602548871143879945, guid: 644b5e0fc2845cd42961d91d1151e072, type: 3}
+      value: {fileID: 237780741983019432, guid: 6bcc22196438ea542b9177f5fbaf5933, type: 3}
     - time: 0.25
-      value: {fileID: 8986176777830439530, guid: 644b5e0fc2845cd42961d91d1151e072, type: 3}
+      value: {fileID: -8734225929422637144, guid: 6bcc22196438ea542b9177f5fbaf5933, type: 3}
     - time: 0.33333334
-      value: {fileID: 6484397934913687566, guid: 644b5e0fc2845cd42961d91d1151e072, type: 3}
+      value: {fileID: -8856388896005021851, guid: 6bcc22196438ea542b9177f5fbaf5933, type: 3}
     - time: 0.41666666
-      value: {fileID: -6722306106482004015, guid: 644b5e0fc2845cd42961d91d1151e072, type: 3}
+      value: {fileID: -3092952472455665484, guid: 6bcc22196438ea542b9177f5fbaf5933, type: 3}
     - time: 0.5
-      value: {fileID: 1178384562213430967, guid: 644b5e0fc2845cd42961d91d1151e072, type: 3}
+      value: {fileID: -3038192285825470256, guid: 6bcc22196438ea542b9177f5fbaf5933, type: 3}
     - time: 0.5833333
-      value: {fileID: -6767387555615838607, guid: 644b5e0fc2845cd42961d91d1151e072, type: 3}
+      value: {fileID: 4751188050038841178, guid: 6bcc22196438ea542b9177f5fbaf5933, type: 3}
     attribute: m_Sprite
     path: 
-    classID: 212
-    script: {fileID: 0}
+    classID: 114
+    script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+    flags: 2
+  - serializedVersion: 2
+    curve:
+    - time: 0
+      value: {fileID: 0}
+    - time: 0.16666667
+      value: {fileID: -5557907655521164248, guid: 9f4666dd2c43d6c4eabd7fca76affcec, type: 3}
+    - time: 0.25
+      value: {fileID: 6502774178751332282, guid: 9f4666dd2c43d6c4eabd7fca76affcec, type: 3}
+    - time: 0.33333334
+      value: {fileID: 499191387670048270, guid: 9f4666dd2c43d6c4eabd7fca76affcec, type: 3}
+    - time: 0.41666666
+      value: {fileID: -867419021912912971, guid: 9f4666dd2c43d6c4eabd7fca76affcec, type: 3}
+    - time: 0.5
+      value: {fileID: 6549750029126042241, guid: 9f4666dd2c43d6c4eabd7fca76affcec, type: 3}
+    - time: 0.6666666
+      value: {fileID: 0}
+    attribute: m_Sprite
+    path: FX
+    classID: 114
+    script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+    flags: 2
   m_SampleRate: 12
   m_WrapMode: 0
   m_Bounds:
@@ -47,27 +109,54 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 0
-      attribute: 0
+      path: 2185896890
+      attribute: 2086281974
       script: {fileID: 0}
-      typeID: 212
-      customType: 23
+      typeID: 1
+      customType: 0
+      isPPtrCurve: 0
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
+    - serializedVersion: 2
+      path: 0
+      attribute: 2015549526
+      script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+      typeID: 114
+      customType: 0
       isPPtrCurve: 1
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
+    - serializedVersion: 2
+      path: 2185896890
+      attribute: 2015549526
+      script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+      typeID: 114
+      customType: 0
+      isPPtrCurve: 1
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 4807302976523773726, guid: 644b5e0fc2845cd42961d91d1151e072, type: 3}
-    - {fileID: 8580169393291790282, guid: 644b5e0fc2845cd42961d91d1151e072, type: 3}
-    - {fileID: -5602548871143879945, guid: 644b5e0fc2845cd42961d91d1151e072, type: 3}
-    - {fileID: 8986176777830439530, guid: 644b5e0fc2845cd42961d91d1151e072, type: 3}
-    - {fileID: 6484397934913687566, guid: 644b5e0fc2845cd42961d91d1151e072, type: 3}
-    - {fileID: -6722306106482004015, guid: 644b5e0fc2845cd42961d91d1151e072, type: 3}
-    - {fileID: 1178384562213430967, guid: 644b5e0fc2845cd42961d91d1151e072, type: 3}
-    - {fileID: -6767387555615838607, guid: 644b5e0fc2845cd42961d91d1151e072, type: 3}
+    - {fileID: -284388638163825642, guid: 6bcc22196438ea542b9177f5fbaf5933, type: 3}
+    - {fileID: -671448322994471273, guid: 6bcc22196438ea542b9177f5fbaf5933, type: 3}
+    - {fileID: 237780741983019432, guid: 6bcc22196438ea542b9177f5fbaf5933, type: 3}
+    - {fileID: -8734225929422637144, guid: 6bcc22196438ea542b9177f5fbaf5933, type: 3}
+    - {fileID: -8856388896005021851, guid: 6bcc22196438ea542b9177f5fbaf5933, type: 3}
+    - {fileID: -3092952472455665484, guid: 6bcc22196438ea542b9177f5fbaf5933, type: 3}
+    - {fileID: -3038192285825470256, guid: 6bcc22196438ea542b9177f5fbaf5933, type: 3}
+    - {fileID: 4751188050038841178, guid: 6bcc22196438ea542b9177f5fbaf5933, type: 3}
+    - {fileID: 0}
+    - {fileID: -5557907655521164248, guid: 9f4666dd2c43d6c4eabd7fca76affcec, type: 3}
+    - {fileID: 6502774178751332282, guid: 9f4666dd2c43d6c4eabd7fca76affcec, type: 3}
+    - {fileID: 499191387670048270, guid: 9f4666dd2c43d6c4eabd7fca76affcec, type: 3}
+    - {fileID: -867419021912912971, guid: 9f4666dd2c43d6c4eabd7fca76affcec, type: 3}
+    - {fileID: 6549750029126042241, guid: 9f4666dd2c43d6c4eabd7fca76affcec, type: 3}
+    - {fileID: 0}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.6666666
+    m_StopTime: 0.74999994
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -82,7 +171,46 @@ AnimationClip:
     m_KeepOriginalPositionXZ: 0
     m_HeightFromFeet: 0
     m_Mirror: 0
-  m_EditorCurves: []
+  m_EditorCurves:
+  - serializedVersion: 2
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.16666667
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.5833333
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_IsActive
+    path: FX
+    classID: 1
+    script: {fileID: 0}
+    flags: 16
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0

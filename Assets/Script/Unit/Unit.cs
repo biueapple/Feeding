@@ -73,7 +73,7 @@ public class Unit : MonoBehaviour
     // unit의 기능에 대해
     //
 
-    public void BasicAttack(Unit target)
+    public virtual void BasicAttack(Unit target)
     {
         AttackEventArgs args = new(this, target, false);
         Attack(args);

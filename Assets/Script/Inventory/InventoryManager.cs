@@ -65,6 +65,8 @@ public class InventoryManager : MonoBehaviour
         }
 
         HeroChest.InsertInventory(inventory.InventoryInterface);
+        Instance.Gold += inventory.Gold;
+        inventory.Gold = 0;
 
         yield return new WaitForSeconds(1);
         Debug.Log("상자로 아이템 옮기기 완료");

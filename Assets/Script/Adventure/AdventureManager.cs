@@ -71,7 +71,7 @@ public class AdventureManager : MonoBehaviour
                     inventory.InventoryInterface.InsertItem(i);
                 }
                 Debug.Log($"적이 드랍한 골드 양 {gold}");
-                InventoryManager.Instance.EarnGold(gold);
+                inventory.Gold += gold;
 
                 Destroy(enemy.gameObject);
                 enemy = CreateEnemy();
@@ -96,7 +96,11 @@ public class AdventureManager : MonoBehaviour
 
     private Enemy CreateEnemy()
     {
-        return Instantiate(enemies[0]);
+        Enemy enemy = Instantiate(enemies[0]);
+
+        enemy.transform.position = new Vector3(350, -400); 
+        
+        return enemy;
     }
 }
 

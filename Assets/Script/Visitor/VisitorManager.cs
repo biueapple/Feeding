@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -12,9 +14,7 @@ public class VisitorManager : MonoBehaviour
         else Destroy(gameObject);
 
         lineUP = new(prefab, parent, createPosition.position, tradePosition.position, spacing, speed);
-        lineUP.OnCreateEvent += CreateVisitor;
-        lineUP.OnActive += ToActive;
-        lineUP.OnLineFirst += OnTradeStart;
+        
     }
 
     [SerializeField]
@@ -34,9 +34,36 @@ public class VisitorManager : MonoBehaviour
 
     LineUP<Visitor> lineUP;
 
-    private void Start()
+    public void VisitorManagerStart()
     {
+        lineUP.OnCreateEvent += CreateVisitor;
+        lineUP.OnActive += ToActive;
+
+        //µµÂø
+        lineUP.OnLineFirst += OnTradeStart;
         ShopManager.Instance.OnEndSession += Instance_OnEndSession;
+        StartCoroutine(StartCreate(3, 1));
+    }
+
+    public void VisitorManagerEnd()
+    {
+        lineUP.OnCreateEvent -= CreateVisitor;
+        lineUP.OnActive -= ToActive;
+
+        //µµÂø
+        lineUP.OnLineFirst -= OnTradeStart;
+        ShopManager.Instance.OnEndSession -= Instance_OnEndSession;
+
+        lineUP.AllDelete();
+    }
+
+    private IEnumerator StartCreate(int count, int t)
+    {
+        for(int i = 0; i < count; i++)
+        {
+            lineUP.Create();
+            yield return new WaitForSeconds(t);
+        }
     }
 
     private void Instance_OnEndSession()
@@ -49,24 +76,26 @@ public class VisitorManager : MonoBehaviour
         ShopManager.Instance.StartEncounter(visitor.SO);
     }
 
+
+    //³»ºÎ
     private Visitor CreateVisitor()
     {
         Visitor v = Instantiate(prefab);
-        v.SO = allVisitor[Random.Range(0, allVisitor.Count)];
+        v.SO = allVisitor[UnityEngine.Random.Range(0, allVisitor.Count)];
         return v;
     }
 
     private void ToActive(Visitor visitor)
     {
-        visitor.SO = allVisitor[Random.Range(0, allVisitor.Count)];
+        visitor.SO = allVisitor[UnityEngine.Random.Range(0, allVisitor.Count)];
     }
 
     private void Update()
     {
-        if (Keyboard.current.spaceKey.wasPressedThisFrame)
-            lineUP.Create();
+        //if (Keyboard.current.spaceKey.wasPressedThisFrame)
+        //    lineUP.Create();
 
-        if (Keyboard.current.tabKey.wasPressedThisFrame)
-            lineUP.Delete();
+        //if (Keyboard.current.tabKey.wasPressedThisFrame)
+        //    lineUP.Delete();
     }
 }

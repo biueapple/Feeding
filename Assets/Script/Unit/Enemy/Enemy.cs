@@ -8,6 +8,9 @@ public class Enemy : Unit
     [SerializeField]
     private LootEntry lootEntry;
     public LootEntry LootEntry => lootEntry;
+
+    [SerializeField]
+    protected Animator animator;
 }
 
 
