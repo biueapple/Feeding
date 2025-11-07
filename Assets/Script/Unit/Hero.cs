@@ -6,6 +6,9 @@ using UnityEngine;
 public class Hero : Unit
 {
     [SerializeField]
+    private Animator animator;
+
+    [SerializeField]
     private float speed = 300;
     [SerializeField]
     private Vector3[] chestRoute;
@@ -16,6 +19,12 @@ public class Hero : Unit
     [SerializeField]
     private Vector3[] tableRoute;
 
+
+    public override void BasicAttack(Unit target)
+    {
+        animator.SetTrigger("Attack");
+        base.BasicAttack(target);
+    }
 
     //침대에서 일어나기
     public IEnumerator WakeUp()
@@ -90,10 +99,17 @@ public class Hero : Unit
 
         transform.localPosition = route[0];
         int index = 1;
-        
+
+        animator.SetBool("Move", true);
         while(index < route.Length)
         {
-            transform.localPosition = Vector3.MoveTowards(transform.localPosition, route[index], Time.deltaTime * speed);
+            Vector3 newPosition = Vector3.MoveTowards(transform.localPosition, route[index], Time.deltaTime * speed);
+            if (newPosition.x < transform.localPosition.x)
+                transform.localScale = new(-1, 1, 1);
+            else
+                transform.localScale = new(1, 1, 1);
+
+            transform.localPosition = newPosition;
             yield return null;
 
             if (Vector2.Distance(transform.localPosition, route[index]) < 0.1f)
@@ -101,5 +117,11 @@ public class Hero : Unit
                 index++;
             }
         }
+        animator.SetBool("Move", false);
+    }
+
+    public void SetAnimationBool(string key, bool b)
+    {
+        animator.SetBool(key, b);
     }
 }

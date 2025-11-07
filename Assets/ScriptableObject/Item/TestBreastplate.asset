@@ -17,6 +17,7 @@ MonoBehaviour:
   category: 0
   rarity: 0
   price: 50
-  icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  icon: {fileID: -782993222, guid: 2cc2e02928833ec4d8ed88b9cb25100d, type: 3}
+  description: 
   attributes:
   - {fileID: 11400000, guid: 9d7045bc0e9bf5143a59916c905c00cf, type: 2}

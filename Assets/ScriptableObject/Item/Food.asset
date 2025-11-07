@@ -17,7 +17,7 @@ MonoBehaviour:
   category: 4
   rarity: 0
   price: 20
-  icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  icon: {fileID: 700177555, guid: 2cc2e02928833ec4d8ed88b9cb25100d, type: 3}
   description: "\uD14C\uC2A4\uD2B8\uC6A9 \uC74C\uC2DD\uC774\uACE0 \uC774\uAC83\uC740
     \uCCB4\uB825\uC744 10 \uD68C\uBCF5\uC2DC\uD0A4\uACE0 \uAC74\uAC15\uD568 \uBC84\uD504\uB97C
     \uBD80\uC5EC\uD558\uACE0"

@@ -7,9 +7,10 @@ public class CoinUI : MonoBehaviour
     private TextMeshProUGUI text;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake()
+    void Start()
     {
         InventoryManager.Instance.OnAfterGold += OnAfterGold;
+        OnAfterGold(InventoryManager.Instance.Gold);
     }
 
     private void OnAfterGold(int gold)

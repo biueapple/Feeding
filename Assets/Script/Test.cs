@@ -27,14 +27,14 @@ public class Test : MonoBehaviour
     public Buff ele;
     private void Start()
     {
-        hero.OnTakeDamageAfter += OnTakeDamageAfter;
+        //hero.OnTakeDamageAfter += OnTakeDamageAfter;
 
-        equipment.OnEquipped += OnEquipment;
-        equipment.OnUnequipped += OnUnequipment;
+        //equipment.OnEquipped += OnEquipment;
+        //equipment.OnUnequipped += OnUnequipment;
 
-        hero.OnAttackAfter += OnAfterDamage;
-        enemy.OnAttackAfter += OnAfterDamage;
-        buffAdministrator.ApplyBuff(hero, buff);
+        //hero.OnAttackAfter += OnAfterDamage;
+        //enemy.OnAttackAfter += OnAfterDamage;
+        //buffAdministrator.ApplyBuff(hero, buff);
         //buffAdministrator.ApplyBuff(hero, bl);
         //buffAdministrator.ApplyBuff(hero, bl);
         //buffAdministrator.ApplyBuff(hero, po);
@@ -60,7 +60,7 @@ public class Test : MonoBehaviour
             inventory.InventoryInterface.Itemslots[i].OnAfterChange += OnAfterInven;
         }
 
-        AdventureManager.Instance.OnAdventureEnded += OnAfterAdventure;
+        //AdventureManager.Instance.OnAdventureEnded += OnAfterAdventure;
         InventoryManager.Instance.EarnGold(150);
 
         InventoryManager.Instance.HeroChest.InsertItem(input);
@@ -68,7 +68,7 @@ public class Test : MonoBehaviour
         InventoryManager.Instance.PlayerChest.InsertItem(potato);
         InventoryManager.Instance.PlayerChest.InsertItem(potato);
         InventoryManager.Instance.PlayerChest.InsertItem(potato);
-        InventoryManager.Instance.OnAfterGold += OnAfterGold;
+        //InventoryManager.Instance.OnAfterGold += OnAfterGold;
 
     }
     

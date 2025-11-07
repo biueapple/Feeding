@@ -65,7 +65,7 @@ public class InventoryManager : MonoBehaviour
         }
 
         HeroChest.InsertInventory(inventory.InventoryInterface);
-        Instance.Gold += inventory.Gold;
+        EarnGold(inventory.Gold);
         inventory.Gold = 0;
 
         yield return new WaitForSeconds(1);

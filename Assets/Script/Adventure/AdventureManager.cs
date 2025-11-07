@@ -23,7 +23,17 @@ public class AdventureManager : MonoBehaviour
     public event Action OnSecond;
     //모험에 이벤트를 넣어서 콜백을 해줘야 할지 모르겠네 그럼 args도 만들어야 하나
 
+    [SerializeField]
+    private Transform parent;
+    [SerializeField]
+    private Transform createPosition;
+
+    [SerializeField]
+    private UIMovingTile uiMovingTile;
+
     private Coroutine coroutine = null;
+
+
     public IEnumerator StartAdventure(Hero hero)
     {
         yield return new WaitForSeconds(1);
@@ -37,6 +47,7 @@ public class AdventureManager : MonoBehaviour
         float secondTimer = 0f;
 
         Enemy enemy = CreateEnemy();
+        yield return MoveEnemy(enemy);
 
         BuffAdministrator heroBuffAdministrator = hero.GetComponent<BuffAdministrator>();
         BuffAdministrator enemyBuffAdministrator = enemy.GetComponent<BuffAdministrator>();
@@ -74,7 +85,9 @@ public class AdventureManager : MonoBehaviour
                 inventory.Gold += gold;
 
                 Destroy(enemy.gameObject);
+
                 enemy = CreateEnemy();
+                yield return NextEnemy(enemy);
             }
 
             yield return null;
@@ -94,11 +107,34 @@ public class AdventureManager : MonoBehaviour
         coroutine = null;
     }
 
+    private IEnumerator NextEnemy(Enemy enemy)
+    {
+        GameManager.Instance.Hero.SetAnimationBool("Move", true);
+        uiMovingTile.StartMovingTile();
+
+        yield return MoveEnemy(enemy);
+        
+        GameManager.Instance.Hero.SetAnimationBool("Move", false);
+        uiMovingTile.StopMovingTile();
+    }
+
+    private IEnumerator MoveEnemy(Enemy enemy)
+    {
+        Vector2 position = new Vector2(350, -400);
+        while (Vector2.Distance(enemy.transform.localPosition, position) > 0.1f)
+        {
+            enemy.transform.localPosition = Vector2.MoveTowards(enemy.transform.localPosition, position, 300 * Time.deltaTime);
+            yield return null;
+        }
+    }
+
+    //350 -400
     private Enemy CreateEnemy()
     {
         Enemy enemy = Instantiate(enemies[0]);
 
-        enemy.transform.position = new Vector3(350, -400); 
+        enemy.transform.SetParent(parent);
+        enemy.transform.position = createPosition.position; 
         
         return enemy;
     }

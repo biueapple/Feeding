@@ -59,7 +59,7 @@ public class Unit : MonoBehaviour
     public event Action<Unit> OnChangeHP;
 
 
-    private void Start()
+    private void Awake()
     {
         foreach (var m in stat.Stats)
         {
