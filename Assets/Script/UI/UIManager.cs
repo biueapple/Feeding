@@ -59,10 +59,10 @@ public class UIManager : MonoBehaviour
         closetInterface.Close();
     }
 
-    public void OpenStorageInterface(InventoryInterface inventory, Vector3 position = default)
+    public StorageUserInterface OpenStorageInterface(InventoryInterface inventory, Vector3 position = default)
     {
         //이미 열려있다는 뜻
-        if (openStorageUI.ContainsKey(inventory)) return;
+        if (openStorageUI.ContainsKey(inventory)) return openStorageUI[inventory];
 
 
         //비황성화 상태로 있는 UI가 있다면 그걸로 열기
@@ -79,6 +79,8 @@ public class UIManager : MonoBehaviour
         result.transform.position = position;
         result.OnClose += CloseStorageInterface;
         ClampPosition(result.GetComponent<RectTransform>(), Vector2.zero, new Vector2(50, 0));
+
+        return result;
     }
 
     private void CloseStorageInterface(InventoryInterface inventory)

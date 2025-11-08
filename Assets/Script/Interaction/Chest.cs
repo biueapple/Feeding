@@ -8,6 +8,9 @@ public class Chest : MonoBehaviour, IPointerDownHandler, IClickable
     private int length;
     public int Length => length;
 
+    [SerializeField]
+    private Animator animator;
+
     private InventoryInterface inventoryInterface;
     public InventoryInterface InventoryInterface => inventoryInterface;
 
@@ -16,10 +19,17 @@ public class Chest : MonoBehaviour, IPointerDownHandler, IClickable
         inventoryInterface = new(length);
     }
 
-    //ui상태인 클릭
+    //ui상태인 클릭 실제 사용은 이거
     public void OnPointerDown(PointerEventData eventData)
     {
-        UIManager.Instance.OpenStorageInterface(inventoryInterface, transform.position + new Vector3(0, 250));
+        animator.SetBool("IsOpened", true);
+        StorageUserInterface storage = UIManager.Instance.OpenStorageInterface(inventoryInterface, transform.position + new Vector3(0, 250));
+        storage.OnClose += Storage_OnClose;
+    }
+
+    private void Storage_OnClose(InventoryInterface obj)
+    {
+        animator.SetBool("IsOpened", false);
     }
 
     //오브젝트 상태인 클릭
