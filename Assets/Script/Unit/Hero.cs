@@ -30,55 +30,41 @@ public class Hero : Unit
     public IEnumerator WakeUp()
     {
         yield return new WaitForSeconds(1);
-        Debug.Log("기상");
     }
 
     //상자까지 이동하기
     public IEnumerator MoveToChest()
     {
-
         yield return Move(chestRoute);
-        //yield return new WaitForSeconds(1);
-        Debug.Log("상자까지 이동");
     }
 
     //집밖으로 나가기
     public IEnumerator OutHome()
     {
         yield return Move(outRoute);
-        //yield return new WaitForSeconds(1);
-        Debug.Log("집밖으로 나가기");
     }
 
     //던전에 들어가기
     public IEnumerator InDungeon()
     {
         yield return Move(inDungeon);
-        //yield return new WaitForSeconds(1);
-        Debug.Log("던전에 들어가기");
     }
 
     public IEnumerator OutDungeon()
     {
         Vector3[] outDungeon = inDungeon.Reverse().ToArray();
         yield return Move(outDungeon);
-        //yield return new WaitForSeconds(1);
-        Debug.Log("던전에서 나가기");
     }
 
     public IEnumerator InHome()
     {
         Vector3[] inHome = outRoute.Reverse().ToArray();
         yield return Move(inHome);
-        //yield return new WaitForSeconds(1);
-        Debug.Log("집으로 귀환");
     }
 
     public IEnumerator MoveToTable()
     {
         yield return Move(tableRoute);
-        //yield return new WaitForSeconds(1);
-        Debug.Log("식탁으로 이동");
     }
 
     public IEnumerator MoveToBad()
@@ -89,8 +75,6 @@ public class Hero : Unit
             chestRoute[0]
         };
         yield return Move(list.ToArray());
-        //yield return new WaitForSeconds(1);
-        Debug.Log("침대로 이동");
     }
 
     private IEnumerator Move(Vector3[] route)

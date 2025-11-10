@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -20,9 +21,10 @@ public class ShopManager : MonoBehaviour
     [SerializeField]
     private ItemCollector itemCollector;
     [SerializeField]
-    private TextMeshProUGUI textPlate;
+    private VisitorText visitorText;
     [SerializeField]
     private NumericInputField numeric;
+
 
     private TradeService tradeService;
 
@@ -34,9 +36,6 @@ public class ShopManager : MonoBehaviour
         UIManager.Instance.TradeSlot.Init(tradeSlot);
     }
 
-    //현재 거래 관련
-    //private VisitorSO currentVisitorSO;
-    //private TradeRequest currentRequest;
     //플레이어가 아이템을 올려놓는 슬롯
     private ItemSlot tradeSlot;
 
@@ -44,7 +43,6 @@ public class ShopManager : MonoBehaviour
     {
         VisitorManager.Instance.VisitorManagerStart();
     }
-
 
     //거래 중간에 중단
     public void TerminationTrade()
@@ -62,8 +60,28 @@ public class ShopManager : MonoBehaviour
             Debug.Log("trade -> null");
         }
         tradeSlot.Insert(null);
-        textPlate.text = "";
+        visitorText.Texting(""); 
         numeric.gameObject.SetActive(false);
+    }
+
+    public IEnumerator Progress()
+    {
+        bool next = false;
+
+        void Next() { next = true; }
+        visitorText.OnClick += Next;
+
+        //인사
+        Emit(DialogueEvent.Arrive, TradeResult.None, 0, tradeService.TradeType);
+        yield return new WaitUntil(() => next);
+        next = false;
+
+        //힌트
+        Emit(DialogueEvent.BrowseHint, TradeResult.None, 0, tradeService.TradeType);
+        yield return new WaitUntil(() => next);
+        next = false;
+
+        //반응
     }
 
     //만남
@@ -88,9 +106,7 @@ public class ShopManager : MonoBehaviour
         }
 
         OnCreateTradeSession?.Invoke(tradeService);
-
-        Emit(DialogueEvent.Arrive, TradeResult.None, 0, tradeService.TradeType);
-        Emit(DialogueEvent.BrowseHint, TradeResult.None, 0, tradeService.TradeType);
+        StartCoroutine(Progress());
     }
 
     //1 거래시작
@@ -98,6 +114,7 @@ public class ShopManager : MonoBehaviour
     {
         if(tradeService == null) { Debug.Log("만남이 없는데 어떻게 거래를 해"); return; }
 
+        visitorText.Texting("");
         int offer = numeric.GetNumericValue();
 
         var result = tradeService.Trade(offer);
@@ -143,10 +160,10 @@ public class ShopManager : MonoBehaviour
     private void EndSession(bool success, string reason = "")
     {
         //ui
+        visitorText.Texting("");
         Emit(DialogueEvent.Goodbye, success ? TradeResult.Success : TradeResult.Failed, 0, tradeService.TradeType);
         UIManager.Instance.TradeSlot.gameObject.SetActive(false);
         OnEndSession?.Invoke();
-        textPlate.text = "";
         numeric.gameObject.SetActive(false);
     }
 
@@ -198,8 +215,8 @@ public class ShopManager : MonoBehaviour
         if (!string.IsNullOrEmpty(line))
         {
             //ui에 띄우기
-            textPlate.text += line + "\n";
-            //Debug.Log(evt + line);
+            visitorText.Texting(line + "\n");
+            Debug.Log(evt + line);
         }
     }
 }

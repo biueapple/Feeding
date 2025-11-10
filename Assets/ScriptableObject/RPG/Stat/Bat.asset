@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4fbc22e451846d49836b668085e104e, type: 3}
+  m_Name: Bat
+  m_EditorClassIdentifier: 
+  stats:
+  - derivation: {fileID: 11400000, guid: 7630ffe6257b99a42a05f166f41fd950, type: 2}
+    figure: 8
+  - derivation: {fileID: 11400000, guid: a88568a034d1ded40b27ac9739978930, type: 2}
+    figure: 1.2
+  - derivation: {fileID: 11400000, guid: b7aa9c2ce2f0cd34c969e0d829ebceb7, type: 2}
+    figure: 2
+  - derivation: {fileID: 11400000, guid: 21fbbd5e234668a46b5c708eb12b8a0a, type: 2}
+    figure: 30

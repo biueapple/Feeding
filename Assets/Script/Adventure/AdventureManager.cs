@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class AdventureManager : MonoBehaviour
@@ -131,7 +132,7 @@ public class AdventureManager : MonoBehaviour
     //350 -400
     private Enemy CreateEnemy()
     {
-        Enemy enemy = Instantiate(enemies[0]);
+        Enemy enemy = Instantiate(enemies[UnityEngine.Random.Range(0, enemies.Count)]);
 
         enemy.transform.SetParent(parent);
         enemy.transform.position = createPosition.position; 

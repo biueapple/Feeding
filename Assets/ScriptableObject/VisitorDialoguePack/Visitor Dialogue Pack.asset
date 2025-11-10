@@ -126,7 +126,7 @@ MonoBehaviour:
       value: 0
     result:
       use: 1
-      value: 2
+      value: 3
     attemptRange: {x: 0, y: 99}
     lines:
     - "\uB0B4 \uCDE8\uD5A5\uC774\uAE34 \uD574. \uC870\uAE08\uB9CC \uB354 \uD604\uC2E4\uC801\uC73C\uB85C
@@ -143,7 +143,7 @@ MonoBehaviour:
       value: 1
     result:
       use: 1
-      value: 2
+      value: 3
     attemptRange: {x: 0, y: 99}
     lines:
     - "\uADF8\uCABD\uC740 \uC6D0\uB798 \uC120\uD638\uD558\uC9C4 \uC54A\uC544. \uB300\uC2E0
@@ -160,7 +160,7 @@ MonoBehaviour:
       value: 2
     result:
       use: 1
-      value: 2
+      value: 3
     attemptRange: {x: 0, y: 99}
     lines:
     - "\uB098\uC058\uC9C0 \uC54A\uC544. \uD55C \uCE78\uB9CC \uB354 \uB2F9\uACA8\uBCF4\uC790."
@@ -240,7 +240,7 @@ MonoBehaviour:
       value: 1
     result:
       use: 1
-      value: 1
+      value: 2
     attemptRange: {x: 0, y: 99}
     lines:
     - "\uC5ED\uC2DC \uB9C8\uC74C\uC774 \uC548 \uAC00. \uAC00\uACA9\uB3C4 \uC548 \uB9DE\uC544."
@@ -255,7 +255,7 @@ MonoBehaviour:
       value: 2
     result:
       use: 1
-      value: 1
+      value: 2
     attemptRange: {x: 0, y: 99}
     lines:
     - "\uC774\uBC88\uC5D4 \uC778\uC5F0\uC774 \uC544\uB2CC\uAC00 \uBCF4\uAD70."
