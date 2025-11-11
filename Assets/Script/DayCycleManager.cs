@@ -111,7 +111,7 @@ public class DayCycleManager : MonoBehaviour
     {
         OnNight?.Invoke();
 
-        Debug.Log("클릭하면 다음날로 넘어감");
+        Debug.Log("아무키나 누르면 다음날로 넘어감");
         yield return WaitForPlayerClick();
     }
     //아침 시작

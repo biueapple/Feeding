@@ -1907,7 +1907,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -405, y: 614}
-  m_SizeDelta: {x: 360, y: 24}
+  m_SizeDelta: {x: 360, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &705149359
 MonoBehaviour:
@@ -5189,6 +5189,7 @@ MonoBehaviour:
   hub: {fileID: 2043051947}
   itemCollector: {fileID: 11400000, guid: 0e534cf1b0a14204eb8a327566227d6e, type: 2}
   visitorText: {fileID: 1985706896}
+  tradeButton: {fileID: 1591381642}
   numeric: {fileID: 1012771540}
 --- !u!114 &2043051949
 MonoBehaviour:

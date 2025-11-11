@@ -1,8 +1,19 @@
-using System;
+Ôªøusing System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+
+
+public enum TradeFlowState
+{
+    Idle,
+    EncounterIntro,   // ÏÜêÎãò ÎèÑÏ∞©~ÎëòÎü¨Î≥¥Í∏∞ ÏïàÎÇ¥
+    Trading,          // ÌîåÎ†àÏù¥Ïñ¥ Í∞ÄÍ≤© ÏûÖÎ†•/Ìù•Ï†ï
+    PostResult,       // Í±∞Îûò Í≤∞Í≥º Î©òÌä∏ Ï∂úÎ†• Îã®Í≥Ñ
+    Goodbye           // ÏûëÎ≥Ñ Î©òÌä∏ Îã®Í≥Ñ
+}
 
 public class ShopManager : MonoBehaviour
 {
@@ -23,72 +34,77 @@ public class ShopManager : MonoBehaviour
     [SerializeField]
     private VisitorText visitorText;
     [SerializeField]
+    private Button tradeButton;
+    public Button TradeButton => tradeButton;
+    [SerializeField]
     private NumericInputField numeric;
+    public NumericInputField Numeric => numeric;
 
 
     private TradeService tradeService;
+    public TradeService TradeService { get => tradeService; private set { tradeService = value; } }
+
+    //ÌîåÎ†àÏù¥Ïñ¥Í∞Ä ÏïÑÏù¥ÌÖúÏùÑ Ïò¨Î†§ÎÜìÎäî Ïä¨Î°Ø
+    private ItemSlot tradeSlot;
+    public ItemSlot TradeSlot => tradeSlot;
 
     public event Action<TradeService> OnCreateTradeSession;
     public event Action OnEndSession;
 
+
+    private ITradePipe now = null;
+    private ArriveStep arriveStep;
+    private BrowseHintStep browseHintStep;
+    private TradeActiveStep tradeActiveStep;
+    private SubmitStep submitStep;
+    private ResolveTradeStep resolveTradeStep;
+    private TradeDeactiveStep resultDialogueStep;
+    private GoodbyeStep goodbyeStep;
+
     private void Start()
     {
         UIManager.Instance.TradeSlot.Init(tradeSlot);
-    }
 
-    //«√∑π¿ÃæÓ∞° æ∆¿Ã≈€¿ª ø√∑¡≥ı¥¬ ΩΩ∑‘
-    private ItemSlot tradeSlot;
+        goodbyeStep = new(visitorText, null);
+        resultDialogueStep = new(visitorText, goodbyeStep);
+        resolveTradeStep = new(resultDialogueStep);
+        submitStep = new(resolveTradeStep);
+        tradeActiveStep = new(submitStep);
+        browseHintStep = new(visitorText, tradeActiveStep);
+        arriveStep = new(visitorText, browseHintStep);
+
+        resolveTradeStep.Prv = submitStep;
+
+        now = arriveStep;
+    }
 
     public void StartShop()
     {
         VisitorManager.Instance.VisitorManagerStart();
     }
 
-    //∞≈∑° ¡ﬂ∞£ø° ¡ﬂ¥‹
+    //Í±∞Îûò Ï§ëÍ∞ÑÏóê Ï§ëÎã®
     public void TerminationTrade()
     {
         VisitorManager.Instance.VisitorManagerEnd();
 
-        //currentRequest = null;
-        //currentVisitorSO = null;
-        if(InventoryManager.Instance.PlayerChest.InsertItem(tradeSlot.Item))
-        {
+        if (InventoryManager.Instance.PlayerChest.InsertItem(tradeSlot.Item))
             Debug.Log("trade -> playerchest");
-        }
         else
-        {
             Debug.Log("trade -> null");
-        }
+
         tradeSlot.Insert(null);
-        visitorText.Texting(""); 
+        visitorText.Texting("");
         numeric.gameObject.SetActive(false);
+
+        now = null;
+        tradeService = null;
     }
 
-    public IEnumerator Progress()
-    {
-        bool next = false;
 
-        void Next() { next = true; }
-        visitorText.OnClick += Next;
-
-        //¿ŒªÁ
-        Emit(DialogueEvent.Arrive, TradeResult.None, 0, tradeService.TradeType);
-        yield return new WaitUntil(() => next);
-        next = false;
-
-        //»˘∆Æ
-        Emit(DialogueEvent.BrowseHint, TradeResult.None, 0, tradeService.TradeType);
-        yield return new WaitUntil(() => next);
-        next = false;
-
-        //π›¿¿
-    }
-
-    //∏∏≥≤
+    //ÎßåÎÇ®
     public void StartEncounter(VisitorSO visitor)
     {
-        numeric.gameObject.SetActive(true);
-
         if (InventoryManager.Instance.PlayerChest.Count() < 3 || UnityEngine.Random.value > 0.5f)
         {
             tradeService = new SellTrade(hub);
@@ -102,69 +118,40 @@ public class ShopManager : MonoBehaviour
             }
             tradeService = new BuyTrade(hub, GetItem);
             tradeService.Encounter(visitor);
-            UIManager.Instance.TradeSlot.gameObject.SetActive(true);
         }
 
         OnCreateTradeSession?.Invoke(tradeService);
-        StartCoroutine(Progress());
+
+        now.Play();
     }
 
-    //1 ∞≈∑°Ω√¿€
-    public void StartTrade()
-    {
-        if(tradeService == null) { Debug.Log("∏∏≥≤¿Ã æ¯¥¬µ• æÓ∂ª∞‘ ∞≈∑°∏¶ «ÿ"); return; }
 
-        visitorText.Texting("");
-        int offer = numeric.GetNumericValue();
 
-        var result = tradeService.Trade(offer);
-
-        switch (result)
-        {
-            case HaggleResult.Accept:
-                TryCommit(offer);
-                Debug.Log("ºˆ∂Ù");
-                break;
-            case HaggleResult.Counter:
-                //ui
-                Emit(DialogueEvent.DealMaintain, TradeResult.Maintenance, offer, tradeService.TradeType);
-                Debug.Log("¿Á»Ô¡§ ");
-                break;
-            case HaggleResult.Reject:
-                if (tradeService.Haggle.Attempt >= tradeService.Haggle.MaxRound)
-                    Emit(DialogueEvent.MaxRoundsReached, TradeResult.Failed, offer, tradeService.TradeType);
-                else
-                    Emit(DialogueEvent.DealFail, TradeResult.Failed, offer, tradeService.TradeType);
-                EndSession(false, "»Ô¡§Ω«∆–");
-                break;
-        }
-
-    }
-
-    //3 ƒøπ‘
+    //3 Ïª§Î∞ã
     public void TryCommit(int acceptedPrice)
     {
         if (tradeService.Commit(acceptedPrice))
         {
-            //ui
-            Emit(DialogueEvent.DealSuccess, TradeResult.Success, acceptedPrice, tradeService.TradeType);
-            EndSession(true, "∞≈∑° º∫∞¯");
+            Debug.Log("Í±∞Îûò ÏÑ±Í≥µ");
         }
         else
         {
-            Emit(DialogueEvent.DealFail, TradeResult.Failed, acceptedPrice, tradeService.TradeType);
+            Debug.Log("Ïª§Î∞ã Ïã§Ìå®");
         }
+
         tradeSlot.Insert(null);
     }
 
-    private void EndSession(bool success, string reason = "")
+
+    // Ïã§Ï†úÎ°ú ÏÑ∏ÏÖò ÏôÑÏ†ÑÌûà ÎßàÎ¨¥Î¶¨ÌïòÎäî Ìï®Ïàò
+    public void FinishSession()
     {
-        //ui
+        tradeService = null;
+
+        tradeSlot.Insert(null);
         visitorText.Texting("");
-        Emit(DialogueEvent.Goodbye, success ? TradeResult.Success : TradeResult.Failed, 0, tradeService.TradeType);
-        UIManager.Instance.TradeSlot.gameObject.SetActive(false);
-        OnEndSession?.Invoke();
-        numeric.gameObject.SetActive(false);
+
+        OnEndSession?.Invoke(); // VisitorManagerÏóêÏÑú Ïó¨Í∏∞ Î∞õÏïÑÏÑú Îã§Ïùå StartEncounter Ìò∏Ï∂ú
     }
 
 
@@ -173,19 +160,13 @@ public class ShopManager : MonoBehaviour
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-    private void Emit(DialogueEvent evt, TradeResult result, int offer, TradeType tradeType)
+    public string Dialogue(DialogueEvent evt, TradeResult result, int offer)
     {
+        if (tradeService == null)
+        {
+            return string.Empty;
+        }
+
         bool hasCurrent = tradeService.Haggle != null;
 
         var v = tradeService.Visitor;
@@ -193,13 +174,14 @@ public class ShopManager : MonoBehaviour
         var it = tradeService.Item != null ? tradeService.Item : null;
         var dlg = v.DialoguePack;
 
-        int generosity = hasCurrent && v != null ? Mathf.RoundToInt(v.Generosity * tradeService.Haggle.BaseQuote) : 0;
-
+        int generosity = hasCurrent && v != null
+            ? Mathf.RoundToInt(v.Generosity * tradeService.Haggle.BaseQuote)
+            : 0;
 
         var ctx = new DialogueContext
         {
             visitorSO = v,
-            tradeType = tradeType,
+            tradeType = tradeService.TradeType,
             item = it,
             offer = offer,
             basePrice = hasCurrent ? tradeService.Haggle.BaseQuote : 0,
@@ -214,9 +196,50 @@ public class ShopManager : MonoBehaviour
         string line = DialogueService.Pick(dlg, evt, ctx);
         if (!string.IsNullOrEmpty(line))
         {
-            //uiø° ∂ÁøÏ±‚
+            return line;
+        }
+        return string.Empty;
+    }
+
+    public void ShowDialogue(DialogueEvent evt, TradeResult result, int offer)
+    {
+        if (tradeService == null)
+        {
+            visitorText.Texting("");
+            return;
+        }
+
+        bool hasCurrent = tradeService.Haggle != null;
+
+        var v = tradeService.Visitor;
+        var req = tradeService.Request;
+        var it = tradeService.Item != null ? tradeService.Item : null;
+        var dlg = v.DialoguePack;
+
+        int generosity = hasCurrent && v != null
+            ? Mathf.RoundToInt(v.Generosity * tradeService.Haggle.BaseQuote)
+            : 0;
+
+        var ctx = new DialogueContext
+        {
+            visitorSO = v,
+            tradeType = tradeService.TradeType,
+            item = it,
+            offer = offer,
+            basePrice = hasCurrent ? tradeService.Haggle.BaseQuote : 0,
+            spread = hasCurrent ? tradeService.Haggle.Spread : 0,
+            generosity = generosity,
+            attempt = hasCurrent ? tradeService.Haggle.Attempt : 0,
+            maxRound = hasCurrent ? tradeService.Haggle.MaxRound : 0,
+            result = result,
+            match = req.ComputeMatch(it)
+        };
+
+        string line = DialogueService.Pick(dlg, evt, ctx);
+        if (!string.IsNullOrEmpty(line))
+        {
             visitorText.Texting(line + "\n");
-            Debug.Log(evt + line);
+            Debug.Log(evt + " " + line);
         }
     }
 }
@@ -230,4 +253,15 @@ public sealed class TradeSession
     public ItemCategory Category { get; set; }
     public PriceQuote PriceQuote { get; set; }
     public HaggleSession Haggle { get; set; }
+}
+
+
+
+[Serializable]
+public class DialogueCommand
+{
+    public DialogueEvent Event;
+    public TradeResult Result;
+    public int Offer;
+    public TradeType TradeType;
 }
