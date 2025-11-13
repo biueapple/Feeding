@@ -41,7 +41,8 @@ public enum TooltipElementType
     BulletList,
     TowColumn,
     Divider,
-    Footer
+    Footer,
+    Sprite
 }
 
 public sealed class TooltipElementModel
@@ -62,6 +63,8 @@ public sealed class TooltipElementModel
     public IReadOnlyList<string> Items;
     public IReadOnlyList<(string key, string val)> Pairs;
     public (IReadOnlyList<string> left, IReadOnlyList<string> right) TwoCol;
+
+    public IReadOnlyList<Sprite> sprites;
 
     public object Data;
 }

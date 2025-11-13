@@ -36,6 +36,18 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Transform thr;
 
+    [SerializeField]
+    private GameObject villageSelectUI;
+
+    private void Start()
+    {
+        WorldContext.Instance.OnVillageChanged += Instance_OnVillageChanged;
+    }
+
+    private void Instance_OnVillageChanged(VillageSO obj)
+    {
+        villageSelectUI.gameObject.SetActive(false);
+    }
 
     //
     //인벤토리 관련된 메소드

@@ -55,6 +55,7 @@ MonoBehaviour:
   stat: {fileID: 11400000, guid: 27acae11fe8a334409cb67b6ef5f7e07, type: 2}
   currentHP: 0
   level: 0
+  icon: {fileID: -159299079651030013, guid: 7fa445e39c7ef624587e3b7fb23ff552, type: 3}
   lootEntry:
     entry:
     - item: {fileID: 11400000, guid: 0cb1e7c56d1546b4aa292b0049a1470c, type: 2}

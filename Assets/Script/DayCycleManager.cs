@@ -15,6 +15,12 @@ public class DayCycleManager : MonoBehaviour
 
     void Start()
     {
+        WorldContext.Instance.OnVillageChanged += Instance_OnVillageChanged;
+        //StartCoroutine(DayCycle());
+    }
+
+    private void Instance_OnVillageChanged(VillageSO obj)
+    {
         StartCoroutine(DayCycle());
     }
 

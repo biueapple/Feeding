@@ -132,7 +132,8 @@ public class AdventureManager : MonoBehaviour
     //350 -400
     private Enemy CreateEnemy()
     {
-        Enemy enemy = Instantiate(enemies[UnityEngine.Random.Range(0, enemies.Count)]);
+        var e = WorldContext.Instance.CurrentVillage.Enemies;
+        Enemy enemy = Instantiate(e[UnityEngine.Random.Range(0, e.Count)]);
 
         enemy.transform.SetParent(parent);
         enemy.transform.position = createPosition.position; 

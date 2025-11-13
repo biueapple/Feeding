@@ -193,7 +193,7 @@ MonoBehaviour:
       value: 0
     result:
       use: 1
-      value: 0
+      value: 1
     attemptRange: {x: 0, y: 99}
     lines:
     - "\uB9D8\uC5D0 \uB4E4\uC5B4. {price}\uBA74 \uC11C\uB85C \uAE30\uBD84 \uC88B\uAC8C
@@ -220,11 +220,11 @@ MonoBehaviour:
       use: 0
       value: 1
     match:
-      use: 1
+      use: 0
       value: 1
     result:
       use: 1
-      value: 0
+      value: 1
     attemptRange: {x: 0, y: 99}
     lines:
     - "\uC6D0\uB798 \uCDE8\uD5A5\uC740 \uC544\uB2C8\uC9C0\uB9CC\u2026 {price}\uBA74
@@ -277,6 +277,21 @@ MonoBehaviour:
     - "\uD55C\uB3C4 \uB05D. \uC815\uB9AC\uD558\uC790."
     priority: 0
   - evt: 4
+    tradeType:
+      use: 0
+      value: 1
+    match:
+      use: 0
+      value: 2
+    result:
+      use: 0
+      value: 2
+    attemptRange: {x: 0, y: 99}
+    lines:
+    - "\uC218\uACE0\uD588\uC5B4. \uB2E4\uC74C\uC5D0 \uBCF4\uC790."
+    - "\uC624\uB298\uC740 \uC774\uB9CC. \uD589\uC6B4\uC744 \uBE4C\uC9C0."
+    priority: 0
+  - evt: 9
     tradeType:
       use: 0
       value: 1

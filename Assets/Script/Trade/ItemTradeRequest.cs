@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using UnityEngine;
-using NUnit.Framework;
 
 public sealed class ItemTradeRequest : TradeRequest
 {
@@ -33,6 +32,16 @@ public sealed class ItemTradeRequest : TradeRequest
         float w = 1;
         if (v.Preferred.Contains(item.Category)) w *= PreferredMul;
         if (v.Disliked.Contains(item.Category)) w *= DislikedMul;
+
+        var village = WorldContext.Instance.CurrentVillage;
+        if (village != null)
+        {
+            if (village.Export.Contains(item))
+                w *= 1.5f;
+            if (village.Import.Contains(item))
+                w *= 0.5f;
+        }
+            
         if (w < MinWeight) w = MinWeight;
         return w;
     }
@@ -94,7 +103,7 @@ public sealed class CategoryTradeRequest : TradeRequest
     public readonly ItemCategory Category;
     public override string Summary => $"{Category}";
 
-    public CategoryTradeRequest( VisitorSO visitor) : base(visitor)
+    public CategoryTradeRequest(VisitorSO visitor) : base(visitor)
     {
         Category = PickExactItemFor(visitor);
     }

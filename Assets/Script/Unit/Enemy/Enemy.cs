@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Enemy : Unit
 {
+    [SerializeField]
+    private Sprite icon;
+    public Sprite Icon => icon;
     //drop
     [SerializeField]
     private LootEntry lootEntry;
