@@ -48,7 +48,7 @@ public class AdventureManager : MonoBehaviour
         float secondTimer = 0f;
 
         Enemy enemy = CreateEnemy();
-        yield return MoveEnemy(enemy);
+        yield return MoveEnemy(enemy, new Vector2(350, -400));
 
         BuffAdministrator heroBuffAdministrator = hero.GetComponent<BuffAdministrator>();
         BuffAdministrator enemyBuffAdministrator = enemy.GetComponent<BuffAdministrator>();
@@ -104,6 +104,7 @@ public class AdventureManager : MonoBehaviour
             }
         }
 
+        StartCoroutine(BackEnemy(enemy));
         OnAdventureEnded?.Invoke();
         coroutine = null;
     }
@@ -113,15 +114,26 @@ public class AdventureManager : MonoBehaviour
         GameManager.Instance.Hero.SetAnimationBool("Move", true);
         uiMovingTile.StartMovingTile();
 
-        yield return MoveEnemy(enemy);
+        yield return MoveEnemy(enemy, new Vector2(350, -400));
         
         GameManager.Instance.Hero.SetAnimationBool("Move", false);
         uiMovingTile.StopMovingTile();
     }
 
-    private IEnumerator MoveEnemy(Enemy enemy)
+    private IEnumerator BackEnemy(Enemy enemy)
     {
-        Vector2 position = new Vector2(350, -400);
+        enemy.transform.localScale *= new Vector2(-1, 1);
+        GameManager.Instance.Hero.SetAnimationBool("Move", true);
+
+        yield return MoveEnemy(enemy, new Vector2(1200, -400));
+
+        GameManager.Instance.Hero.SetAnimationBool("Move", false);
+        Destroy(enemy.gameObject);
+    }
+
+    private IEnumerator MoveEnemy(Enemy enemy, Vector2 target)
+    {
+        Vector2 position = target;//new Vector2(350, -400);
         while (Vector2.Distance(enemy.transform.localPosition, position) > 0.1f)
         {
             enemy.transform.localPosition = Vector2.MoveTowards(enemy.transform.localPosition, position, 300 * Time.deltaTime);

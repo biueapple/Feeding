@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: TestHelmet
   m_EditorClassIdentifier: 
   itemID: afab349e-abed-4c04-a5ea-cbca9feb423f
-  itemName: "\uC2E4\uD5D8\uC6A9 \uD5EC\uBA67"
+  itemNameKey: ItemName_TestHelmet
   category: 0
   rarity: 0
   price: 50
   icon: {fileID: 740246836, guid: 2cc2e02928833ec4d8ed88b9cb25100d, type: 3}
-  description: 
+  descriptionKey: 
   attributes:
   - {fileID: 11400000, guid: 9d8ac8488fe298642942667646ac0de9, type: 2}

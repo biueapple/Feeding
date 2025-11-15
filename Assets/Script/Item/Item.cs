@@ -36,8 +36,8 @@ public class Item : ScriptableObject
     public string ItemID => itemID;
 
     [SerializeField]
-    private string itemName;
-    public string ItemName => itemName;
+    private string itemNameKey;
+    public string ItemNameKey => itemNameKey;
 
     [SerializeField]
     private ItemCategory category;
@@ -55,19 +55,9 @@ public class Item : ScriptableObject
     private Sprite icon;
     public Sprite Icon => icon;
 
-    [SerializeField, TextArea(2, 4)]
-    private string description;
-    protected virtual string Description { get => description; }
-    public virtual string BuildDescription()
-    {
-        string s = Description;
-        s = s.Replace("{name}", itemName);
-        s = s.Replace("{price}", price.ToString());
-        s = s.Replace("{category}", category.ToString());
-        s = s.Replace("{rarity}", rarity.ToString());
-        
-        return s;
-    }
+    [SerializeField]
+    private string descriptionKey;
+    public string DescriptionKey => descriptionKey;
 
     [SerializeReference]
     public List<ItemAttribute> attributes;

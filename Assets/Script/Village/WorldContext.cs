@@ -14,7 +14,6 @@ public class WorldContext : MonoBehaviour
 
     public void SetVillage(VillageSO villageSO)
     {
-        if (CurrentVillage == villageSO) return;
         CurrentVillage = villageSO;
         OnVillageChanged?.Invoke(villageSO);
     }

@@ -27,13 +27,9 @@ public class DayCycleManager : MonoBehaviour
     private IEnumerator DayCycle()
     {
         //하루를 반복
-        while (true)
-        {
-            yield return Morning();
-            yield return Dinner();
-            yield return Night();
-        //            DayCount++;
-        }
+        yield return Morning();
+        yield return Dinner();
+        yield return Night();
     }
 
     //아침 시작하면 호출
@@ -46,6 +42,8 @@ public class DayCycleManager : MonoBehaviour
     public event Action OnTrade;
     //밤이 시작할 때 호출
     public event Action OnNight;
+    //내일 시작할 때 호출
+    public event Action OnNextDay;
 
     [SerializeField]
     private Hero hero;
@@ -117,8 +115,10 @@ public class DayCycleManager : MonoBehaviour
     {
         OnNight?.Invoke();
 
-        Debug.Log("아무키나 누르면 다음날로 넘어감");
-        yield return WaitForPlayerClick();
+        //Debug.Log("아무키나 누르면 다음날로 넘어감");
+        //yield return WaitForPlayerClick();
+        yield return null;
+        OnNextDay?.Invoke();
     }
     //아침 시작
 

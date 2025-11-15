@@ -171,9 +171,8 @@ public class ShopManager : MonoBehaviour
 
         var v = tradeService.Visitor;
         var req = tradeService.Request;
-        var it = tradeService.Item != null ? tradeService.Item : null;
+        var it = tradeService.Item;
         var dlg = v.DialoguePack;
-
         int generosity = hasCurrent && v != null
             ? Mathf.RoundToInt(v.Generosity * tradeService.Haggle.BaseQuote)
             : 0;
@@ -183,6 +182,7 @@ public class ShopManager : MonoBehaviour
             visitorSO = v,
             tradeType = tradeService.TradeType,
             item = it,
+            category = tradeService.Category,
             offer = offer,
             basePrice = hasCurrent ? tradeService.Haggle.BaseQuote : 0,
             spread = hasCurrent ? tradeService.Haggle.Spread : 0,
@@ -225,6 +225,7 @@ public class ShopManager : MonoBehaviour
             visitorSO = v,
             tradeType = tradeService.TradeType,
             item = it,
+            category = tradeService.Category,
             offer = offer,
             basePrice = hasCurrent ? tradeService.Haggle.BaseQuote : 0,
             spread = hasCurrent ? tradeService.Haggle.Spread : 0,

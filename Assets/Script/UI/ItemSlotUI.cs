@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -47,7 +48,10 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     }
     private void OnAfterChange(ItemSlot slot)
     {
-        icon.sprite = slot.Icon;
+        if (slot.Item != null)
+            icon.sprite = slot.Item.Icon;
+        else
+            icon.sprite = null;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -82,9 +86,9 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         yield return new TooltipElementModel
         {
             Type = TooltipElementType.Header,
-            LeftText = Slot.Item.ItemName,
+            LeftText = LocalizationManager.Instance.Get(Slot.Item.ItemNameKey),
             LeftColor = col,
-            RightText = Slot.Item.Rarity.ToString(),
+            RightText = LocalizationManager.Instance.Get( Slot.Item.Rarity.ToString()),
             RightColor = col
         };
 
@@ -123,8 +127,24 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
 
         // Footer (Ό³Έν)
-        string desc = Slot.Item.BuildDescription();
+        string desc = BuildDescription(Slot.Item);
         if (!string.IsNullOrEmpty(desc))
             yield return new TooltipElementModel { Type = TooltipElementType.Footer, Text = desc };
+    }
+
+
+    public string BuildDescription(Item item)
+    {
+        string s = LocalizationManager.Instance.Get(item.DescriptionKey);
+        string n = LocalizationManager.Instance.Get(item.ItemNameKey);
+        string c = LocalizationManager.Instance.Get(item.Category.ToString());
+        string r = LocalizationManager.Instance.Get(item.Rarity.ToString());
+
+        s = s.Replace("{name}", n);
+        s = s.Replace("{price}", item.Price.ToString());
+        s = s.Replace("{category}", c);
+        s = s.Replace("{rarity}", r);
+
+        return s;
     }
 }

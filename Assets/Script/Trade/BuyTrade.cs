@@ -18,6 +18,7 @@ public class BuyTrade : TradeService
     {
         Visitor = visitor;
         request = new CategoryTradeRequest(visitor);
+        Category = request.Category;
         Request = request;
         Haggle = new HaggleSession();
     }

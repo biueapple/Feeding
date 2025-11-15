@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Potato
   m_EditorClassIdentifier: 
   itemID: cbbde99e-7eef-4eee-a767-b7568a105ac3
-  itemName: "\uAC10\uC790"
+  itemNameKey: ItemName_Potato
   category: 2
   rarity: 0
   price: 10
   icon: {fileID: 639157335, guid: 2cc2e02928833ec4d8ed88b9cb25100d, type: 3}
-  description: "\uAC10\uC790 \uAC10\uC790 \u3147\uAC10\uC790"
+  descriptionKey: Item_De_Potato
   attributes:
   - {fileID: 11400000, guid: f1b650ff199c3bf45a5750734e5a8dd5, type: 2}

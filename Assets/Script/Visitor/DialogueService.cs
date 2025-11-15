@@ -20,8 +20,8 @@ public static class DialogueService
         var top = candidates.Where(c => c.priority == topPriority).ToList();
         var rule = top[Random.Range(0, top.Count)];
 
-        if (rule.lines == null || rule.lines.Count == 0) return string.Empty;
-        string line = rule.lines[Random.Range(0, rule.lines.Count)];
+        if (rule.lineKeys == null || rule.lineKeys.Count == 0) return string.Empty;
+        string line = LocalizationManager.Instance.Get(rule.lineKeys[Random.Range(0, rule.lineKeys.Count)]);
         return Fill(line, ctx);
     }
 
@@ -29,8 +29,8 @@ public static class DialogueService
     {
         int diff = c.offer - (c.basePrice + c.spread);
         line = line.Replace("{visitor}", c.visitorSO.VisitorName);
-        line = line.Replace("{item}", c.item != null ? c.item.ItemName : "惑前");
-        line = line.Replace("{category}", c.category.ToString());
+        line = line.Replace("{item}", c.item != null ? LocalizationManager.Instance.Get(c.item.ItemNameKey) : "惑前");     //锅开
+        line = line.Replace("{category}", LocalizationManager.Instance.Get(c.category.ToString()));                     //锅开
         line = line.Replace("{price}", c.offer.ToString());
         line = line.Replace("{base}", c.basePrice.ToString());
         line = line.Replace("{spread}", c.spread.ToString());

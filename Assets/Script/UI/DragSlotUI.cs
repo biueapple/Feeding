@@ -17,7 +17,7 @@ public class DragSlotUI : MonoBehaviour
         //실제 데이터는 이동하지 않음
         gameObject.SetActive(true);
         pre = slot;
-        SetSprite(slot.Slot.Icon);
+        SetSprite(slot.Slot.Item.Icon);
     }
 
     public void Drop(ItemSlotUI slot)

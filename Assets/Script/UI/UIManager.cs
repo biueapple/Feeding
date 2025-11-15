@@ -38,10 +38,17 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private GameObject villageSelectUI;
+    public GameObject VillageSelectUI => villageSelectUI;
 
     private void Start()
     {
         WorldContext.Instance.OnVillageChanged += Instance_OnVillageChanged;
+        DayCycleManager.Instance.OnNextDay += Instance_OnNextDay;
+    }
+
+    private void Instance_OnNextDay()
+    {
+        villageSelectUI.gameObject.SetActive(true);
     }
 
     private void Instance_OnVillageChanged(VillageSO obj)

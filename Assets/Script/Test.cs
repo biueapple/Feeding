@@ -52,13 +52,13 @@ public class Test : MonoBehaviour
         //hero.Healing(re);
 
 
-        Inventory inventory = hero.GetComponent<Inventory>();
-        InventoryManager.Instance.OnAfterGold += OnAfterGold;
-        for(int i = 0; i < inventory.InventoryInterface.Itemslots.Length; i++)
-        {
-            inventory.InventoryInterface.Itemslots[i].OnBeforeChange += OnBeforeInven;
-            inventory.InventoryInterface.Itemslots[i].OnAfterChange += OnAfterInven;
-        }
+        //Inventory inventory = hero.GetComponent<Inventory>();
+        //InventoryManager.Instance.OnAfterGold += OnAfterGold;
+        //for(int i = 0; i < inventory.InventoryInterface.Itemslots.Length; i++)
+        //{
+        //    inventory.InventoryInterface.Itemslots[i].OnBeforeChange += OnBeforeInven;
+        //    inventory.InventoryInterface.Itemslots[i].OnAfterChange += OnAfterInven;
+        //}
 
         //AdventureManager.Instance.OnAdventureEnded += OnAfterAdventure;
         InventoryManager.Instance.EarnGold(150);
@@ -100,16 +100,6 @@ public class Test : MonoBehaviour
         }
     }
 
-    public void OnEquipment(Item item)
-    {
-        Debug.Log($"name {item.ItemName} 장착");
-    }
-
-    public void OnUnequipment(Item item)
-    {
-        Debug.Log($"name {item.ItemName} 해제");
-    }
-
     public void OnAfterDamage(AttackEventArgs args)
     {
         Debug.Log($"{args.Attacker} 가 {args.Defender} 에게 ");
@@ -119,16 +109,6 @@ public class Test : MonoBehaviour
             Debug.Log($"피해 {d.Value} 남은 체력 {args.Defender.CurrentHP}");
             Debug.Log(d.Sources);
         }
-    }
-
-    public void OnBeforeInven(ItemSlot item)
-    {
-        Debug.Log($"바뀌기 전의 아이템 {item.ItemName}");
-    }
-
-    public void OnAfterInven(ItemSlot item)
-    {
-        Debug.Log($"바뀐 후의 아이템 {item.ItemName}");
     }
 
     public void OnAfterGold(int gold)

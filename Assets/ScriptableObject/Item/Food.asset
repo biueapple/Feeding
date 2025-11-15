@@ -13,13 +13,11 @@ MonoBehaviour:
   m_Name: Food
   m_EditorClassIdentifier: 
   itemID: efc3484f-a898-4d39-be99-1d0799428d6c
-  itemName: "\uD14C\uC2A4\uD2B8 \uC74C\uC2DD"
+  itemNameKey: ItemName_Food
   category: 4
   rarity: 0
   price: 20
   icon: {fileID: 700177555, guid: 2cc2e02928833ec4d8ed88b9cb25100d, type: 3}
-  description: "\uD14C\uC2A4\uD2B8\uC6A9 \uC74C\uC2DD\uC774\uACE0 \uC774\uAC83\uC740
-    \uCCB4\uB825\uC744 10 \uD68C\uBCF5\uC2DC\uD0A4\uACE0 \uAC74\uAC15\uD568 \uBC84\uD504\uB97C
-    \uBD80\uC5EC\uD558\uACE0"
+  descriptionKey: Item_De_Test
   attributes:
   - {fileID: 11400000, guid: a8f93746fc61cb449829062036b9ba88, type: 2}

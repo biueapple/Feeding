@@ -22,7 +22,6 @@ public abstract class TradeRequest
 {
     public readonly VisitorSO Visitor;
     protected TradeRequest(VisitorSO visitor) {Visitor = visitor; }
-    public abstract string Summary { get; }
 
     public abstract int Margin(Item item);
 

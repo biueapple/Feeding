@@ -97,8 +97,6 @@ public class ItemSlot
 {
     private Item item;
     public Item Item => item;
-    public Sprite Icon => item == null ? null : item.Icon;
-    public string ItemName => item == null ? "" : item.ItemName;
 
     public event Func<Item, bool> OnCondition;
     public event Action<ItemSlot> OnBeforeChange;

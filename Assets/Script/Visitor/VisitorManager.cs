@@ -42,6 +42,7 @@ public class VisitorManager : MonoBehaviour
         //µµÂø
         lineUP.OnLineFirst += OnTradeStart;
         ShopManager.Instance.OnEndSession += Instance_OnEndSession;
+        ShopManager.Instance.OnEndSession += Add;
         StartCoroutine(StartCreate(3, 1));
     }
 
@@ -53,6 +54,7 @@ public class VisitorManager : MonoBehaviour
         //µµÂø
         lineUP.OnLineFirst -= OnTradeStart;
         ShopManager.Instance.OnEndSession -= Instance_OnEndSession;
+        ShopManager.Instance.OnEndSession -= Add;
 
         lineUP.AllDelete();
     }
@@ -64,6 +66,11 @@ public class VisitorManager : MonoBehaviour
             lineUP.Create();
             yield return new WaitForSeconds(t);
         }
+    }
+
+    public void Add()
+    {
+        lineUP.Create();
     }
 
     private void Instance_OnEndSession()
@@ -88,14 +95,5 @@ public class VisitorManager : MonoBehaviour
     private void ToActive(Visitor visitor)
     {
         visitor.SO = allVisitor[UnityEngine.Random.Range(0, allVisitor.Count)];
-    }
-
-    private void Update()
-    {
-        //if (Keyboard.current.spaceKey.wasPressedThisFrame)
-        //    lineUP.Create();
-
-        //if (Keyboard.current.tabKey.wasPressedThisFrame)
-        //    lineUP.Delete();
     }
 }

@@ -7,6 +7,7 @@ public abstract class TradeService
     public TradeRequest Request { get; protected set; }
     public HaggleSession Haggle { get; protected set; }
     public Item Item { get; protected set; }
+    public ItemCategory Category { get; protected set; }
     public abstract TradeType TradeType { get; }
 
     public TradeService(PriceModifierHub priceModifierHub)

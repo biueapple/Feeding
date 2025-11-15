@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: TestBreastplate
   m_EditorClassIdentifier: 
   itemID: 9c280485-927e-403f-ba5d-bb4dae292cb7
-  itemName: "\uD14C\uC2A4\uD2B8 \uD749\uAC11"
+  itemNameKey: ItemName_TestBreastplate
   category: 0
   rarity: 0
   price: 50
   icon: {fileID: -782993222, guid: 2cc2e02928833ec4d8ed88b9cb25100d, type: 3}
-  description: 
+  descriptionKey: 
   attributes:
   - {fileID: 11400000, guid: 9d7045bc0e9bf5143a59916c905c00cf, type: 2}

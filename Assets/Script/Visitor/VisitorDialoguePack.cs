@@ -17,8 +17,7 @@ public class DialogueRule
     public RuleFilter<TradeResult> result;
     public Vector2Int attemptRange = new(0, 99);    //라운드 필터 범위
 
-    [TextArea(2, 4)]
-    public List<string> lines;                      //후보 문장 들
+    public List<string> lineKeys;                      //후보 문장 들
 
     public int priority = 0;                    //우선순위 (높은거 우선)
 }

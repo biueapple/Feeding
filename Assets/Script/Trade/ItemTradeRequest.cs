@@ -6,7 +6,6 @@ using UnityEngine;
 public sealed class ItemTradeRequest : TradeRequest
 {
     public readonly Item TargetItem;
-    public override string Summary => $"{TargetItem.ItemName}";
 
     public ItemTradeRequest(VisitorSO visitor) : base(visitor)
     {
@@ -101,7 +100,6 @@ public sealed class ItemTradeRequest : TradeRequest
 public sealed class CategoryTradeRequest : TradeRequest
 {
     public readonly ItemCategory Category;
-    public override string Summary => $"{Category}";
 
     public CategoryTradeRequest(VisitorSO visitor) : base(visitor)
     {
