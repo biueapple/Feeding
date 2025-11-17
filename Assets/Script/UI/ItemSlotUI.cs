@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, ITooltipProvider
 {
@@ -95,20 +96,23 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         // 세트명 텍스트
         if (Slot.Item.TryGetAttribute<EquipmentAttribute>(out var eq))
         {
-            yield return new TooltipElementModel { Type = TooltipElementType.Text, Text = $"<b>[{eq.EquipmentSet.SetName}]</b>" };
+            yield return new TooltipElementModel { Type = TooltipElementType.Text, Text = $"<b>[{LocalizationManager.Instance.Get(eq.EquipmentSet.SetNameKey)}]</b>" };
 
             // 태그 리스트
             List<string> bullet = new();
             Equipment equipment = GameManager.Instance.Hero.GetComponent<Equipment>();
             int count = equipment.SetCounter.ContainsKey(eq.EquipmentSet) ? equipment.SetCounter[eq.EquipmentSet].count : 0;
+
+            string set2 = LocalizationManager.Instance.Get("2SET");
             foreach (var e in eq.EquipmentSet.TwoSetEffect)
             {
-                bullet.Add("2세트 : " + e.BuildDescription(e) + $"  ({count})");
+                bullet.Add(set2 + " : " + BuildDescription(e) + $"  ({count})");
             }
 
+            string set4 = LocalizationManager.Instance.Get("4SET");
             foreach (var e in eq.EquipmentSet.FourSetEffect)
             {
-                bullet.Add("4세트 : " + e.BuildDescription(e) + $"  ({count})");
+                bullet.Add(set4 + " : " + BuildDescription(e) + $"  ({count})");
             }
 
             yield return new TooltipElementModel { Type = TooltipElementType.BulletList, Items = bullet };
@@ -144,6 +148,23 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         s = s.Replace("{price}", item.Price.ToString());
         s = s.Replace("{category}", c);
         s = s.Replace("{rarity}", r);
+
+        return s;
+    }
+
+    public string BuildDescription(EquipmentEffect effect)
+    {
+        string s = LocalizationManager.Instance.Get(effect.DescriptionKey);
+        string n = LocalizationManager.Instance.Get(effect.EffectNameKey);
+        Dictionary<string, string> tokens = new();
+        effect.CollectTokens(tokens);
+
+        s = s.Replace("{name}", n);
+
+        foreach(var t in tokens)
+        {
+            s = s.Replace("{" + t.Key + "}", t.Value);
+        }
 
         return s;
     }

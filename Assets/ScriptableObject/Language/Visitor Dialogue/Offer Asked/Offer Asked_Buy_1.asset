@@ -16,3 +16,5 @@ MonoBehaviour:
   entry:
   - language: 0
     text: "\uD760, {item} {price}? \uD3C9\uAC00\uD574\uBCFC\uAC8C."
+  - language: 1
+    text: Hmm, {item} {price}? Let me evaluate it.

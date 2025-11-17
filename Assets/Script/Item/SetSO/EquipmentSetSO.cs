@@ -5,8 +5,8 @@ using UnityEngine;
 public class EquipmentSetSO : ScriptableObject
 {
     [SerializeField]
-    private string setName;
-    public string SetName => setName;
+    private string setNameKey;
+    public string SetNameKey => setNameKey;
 
     [Header("2세트 효과"), SerializeField]
     private List<EquipmentEffect> twoSetEffect = new();

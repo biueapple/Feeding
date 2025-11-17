@@ -16,3 +16,5 @@ MonoBehaviour:
   entry:
   - language: 0
     text: "\uC774\uBC88\uC5D4 \uC778\uC5F0\uC774 \uC544\uB2CC\uAC00 \uBCF4\uAD70."
+  - language: 1
+    text: Maybe it's not meant to be this time.

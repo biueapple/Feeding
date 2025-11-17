@@ -16,3 +16,5 @@ MonoBehaviour:
   entry:
   - language: 0
     text: "\uACE1\uBB3C"
+  - language: 1
+    text: Grain

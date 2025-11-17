@@ -16,3 +16,5 @@ MonoBehaviour:
   entry:
   - language: 0
     text: "{item}\uB97C {price}\uB77C\u2026 \uC5B4\uB514 \uBCF4\uC790."
+  - language: 1
+    text: '{item} is called {price}... Let''s see.'

@@ -17,3 +17,5 @@ MonoBehaviour:
   - language: 0
     text: "\uC5ED\uC2DC \uB9C8\uC74C\uC774 \uC548 \uAC00. \uAC00\uACA9\uB3C4 \uC548
       \uB9DE\uC544."
+  - language: 1
+    text: As expected, I don't like it. The price doesn't match.

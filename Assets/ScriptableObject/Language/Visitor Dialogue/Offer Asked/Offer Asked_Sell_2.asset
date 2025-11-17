@@ -17,3 +17,5 @@ MonoBehaviour:
   - language: 0
     text: "{item} {price}\u2026 \uAC00\uCE58\uC5D0 \uBE44\uD574 \uC5B4\uB5A4\uC9C0
       \uBCF4\uC9C0."
+  - language: 1
+    text: "{item} {price}\u2026 Let's see what it's like for the value."

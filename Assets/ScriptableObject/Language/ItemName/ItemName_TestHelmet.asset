@@ -16,3 +16,5 @@ MonoBehaviour:
   entry:
   - language: 0
     text: "\uD14C\uC2A4\uD2B8 \uD5EC\uB9F7"
+  - language: 1
+    text: TestHelmet

@@ -16,3 +16,5 @@ MonoBehaviour:
   entry:
   - language: 0
     text: "\uD14C\uC2A4\uD2B8 \uD749\uAC11"
+  - language: 1
+    text: TestBreastplate

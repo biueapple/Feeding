@@ -16,3 +16,5 @@ MonoBehaviour:
   entry:
   - language: 0
     text: "\uC2DC\uAC04\uC740 \uAE08\uC774\uB2C8\uAE4C \uAC04\uB2E8\uD788 \uBCF4\uC790\uACE0."
+  - language: 1
+    text: Time is gold, so let's take a look.

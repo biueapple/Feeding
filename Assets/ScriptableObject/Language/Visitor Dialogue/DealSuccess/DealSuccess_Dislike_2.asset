@@ -16,3 +16,5 @@ MonoBehaviour:
   entry:
   - language: 0
     text: "\uADF8\uB798, \uC22B\uC790\uAC00 \uC124\uB4DD\uD588\uB2E4."
+  - language: 1
+    text: Yes, the numbers persuaded.

@@ -16,3 +16,5 @@ MonoBehaviour:
   entry:
   - language: 0
     text: "\uD55C\uB3C4 \uB05D. \uC815\uB9AC\uD558\uC790."
+  - language: 1
+    text: The limit is over. Let's clear it up.

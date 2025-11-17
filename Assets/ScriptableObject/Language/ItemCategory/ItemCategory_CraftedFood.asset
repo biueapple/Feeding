@@ -16,3 +16,5 @@ MonoBehaviour:
   entry:
   - language: 0
     text: "\uC870\uB9AC\uB41C \uC74C\uC2DD"
+  - language: 1
+    text: CraftedFood

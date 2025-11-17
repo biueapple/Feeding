@@ -17,3 +17,5 @@ MonoBehaviour:
   - language: 0
     text: "\uB9D8\uC5D0 \uB4E4\uC5B4. {price}\uBA74 \uC11C\uB85C \uAE30\uBD84 \uC88B\uAC8C
       \uB05D\uB0B4\uC790."
+  - language: 1
+    text: I like it. {price} and let's end it in a good mood.

@@ -16,3 +16,5 @@ MonoBehaviour:
   entry:
   - language: 0
     text: "\uC88B\uC544, \uAC70\uB798 \uC131\uC0AC."
+  - language: 1
+    text: All right, we've got a deal.

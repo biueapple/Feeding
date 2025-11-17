@@ -17,3 +17,5 @@ MonoBehaviour:
   - language: 0
     text: "\uC6D0\uB798 \uCDE8\uD5A5\uC740 \uC544\uB2C8\uC9C0\uB9CC\u2026 {price}\uBA74
       \uBC1B\uC544\uB4E4\uC774\uC9C0."
+  - language: 1
+    text: It's not my cup of tea, but... If it's {price}, I'll take it.

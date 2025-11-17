@@ -16,3 +16,5 @@ MonoBehaviour:
   entry:
   - language: 0
     text: "\uC88B\uC544, \uADF8 \uAC00\uACA9\uC73C\uB85C \uD558\uC790."
+  - language: 1
+    text: OK, let's go with that price.

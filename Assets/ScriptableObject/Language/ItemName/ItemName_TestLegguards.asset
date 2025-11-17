@@ -16,3 +16,5 @@ MonoBehaviour:
   entry:
   - language: 0
     text: "\uC2E4\uD615\uC6A9 \uD558\uCCB4"
+  - language: 1
+    text: TestLegguards

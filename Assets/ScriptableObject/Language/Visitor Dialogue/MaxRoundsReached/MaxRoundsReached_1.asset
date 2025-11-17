@@ -16,3 +16,5 @@ MonoBehaviour:
   entry:
   - language: 0
     text: "\uC5EC\uAE30\uAE4C\uC9C0\uB2E4. \uB354 \uC598\uAE30\uD574\uB3C4 \uC18C\uC6A9\uC5C6\uC9C0."
+  - language: 1
+    text: That's it. There's no point in saying more.

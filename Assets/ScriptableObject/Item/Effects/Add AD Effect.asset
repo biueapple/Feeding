@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Add AD Effect
   m_EditorClassIdentifier: 
   effectID: 2765e24d-989f-4c5b-ac5c-c1cfae0a4c4a
-  effectName: "\uACF5\uACA9\uB825 \uC99D\uAC00"
-  description: "{kind} \uAC00 {value}\uB9CC\uD07C \uC99D\uAC00\uD569\uB2C8\uB2E4."
+  effectNameKey: EffectName_Add AD Effect
+  descriptionKey: ItemEffect_AddDerivationEffect
   kind: 1
   value: 5

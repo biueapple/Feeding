@@ -16,3 +16,5 @@ MonoBehaviour:
   entry:
   - language: 0
     text: "\uD754\uD568"
+  - language: 1
+    text: COMMON

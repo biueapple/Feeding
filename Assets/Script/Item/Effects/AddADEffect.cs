@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 //kind 가 value만큼 증가하는 효과
@@ -9,20 +10,16 @@ public class AddDerivationEffect : EquipmentEffect
     [SerializeField]
     private float value;
 
-    //public override string Description => $"{kind} 가 {value}만큼 증가합니다.";
-
-    public override string BuildDescription(EquipmentEffect effect)
+    public override void CollectTokens(Dictionary<string, string> tokens)
     {
-        string s = base.BuildDescription(effect);
-        s = s.Replace("{kind}", kind.ToString());
-        s = s.Replace("{value}", value.ToString());
-        return s;
+        tokens.Add("kind", kind.ToString());
+        tokens.Add("value", value.ToString());
     }
 
     public override void Apply(Unit target)
     {
         if (target == null) return;
-        target.AddStatModifier(new StatModifier(kind, value, EffectName), EffectID);
+        target.AddStatModifier(new StatModifier(kind, value, "AddDerivationEffect"), EffectID);
     }
 
     public override void Remove(Unit target)
@@ -30,4 +27,5 @@ public class AddDerivationEffect : EquipmentEffect
         if (target == null) return;
         target.RemoveStatModifier(EffectID);
     }
+
 }

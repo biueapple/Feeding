@@ -16,3 +16,5 @@ MonoBehaviour:
   entry:
   - language: 0
     text: "\uBB34\uAE30"
+  - language: 1
+    text: Weapon

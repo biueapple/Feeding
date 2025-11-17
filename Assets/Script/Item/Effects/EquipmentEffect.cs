@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,19 +9,16 @@ public abstract class EquipmentEffect : ScriptableObject
     public string EffectID => effectID;
 
     [SerializeField]
-    private string effectName;
-    public string EffectName => effectName;
+    private string effectNameKey;
+    public string EffectNameKey => effectNameKey;
 
-    [SerializeField, TextArea(2, 4)]
-    private string description;
+    [SerializeField]
+    private string descriptionKey;
+    public string DescriptionKey => descriptionKey;
 
-    public virtual string BuildDescription(EquipmentEffect effect)
-    {
-        string s = "{name}  " + description;
-        s = s.Replace("{name}", EffectName);
-        s = s.Replace("{description}", description);
-        return s;
-    }
+    // 번역/문자열 빌드는 안 하고, 그냥 토큰 값만 채운다
+    public abstract void CollectTokens(Dictionary<string, string> tokens);
+
     public abstract void Apply(Unit target);
     public abstract void Remove(Unit target);
 

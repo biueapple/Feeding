@@ -16,3 +16,5 @@ MonoBehaviour:
   entry:
   - language: 0
     text: "{category} \uCABD \uC544\uC774\uD15C\uC744 \uCC3E\uACE0\uC788\uC5B4"
+  - language: 1
+    text: I'm looking for an item on the {category} side

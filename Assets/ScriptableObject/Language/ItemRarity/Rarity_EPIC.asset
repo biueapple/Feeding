@@ -16,3 +16,5 @@ MonoBehaviour:
   entry:
   - language: 0
     text: "\uD76C\uC18C"
+  - language: 1
+    text: EPIC

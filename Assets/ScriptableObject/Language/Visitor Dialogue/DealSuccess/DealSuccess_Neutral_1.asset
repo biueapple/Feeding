@@ -16,3 +16,5 @@ MonoBehaviour:
   entry:
   - language: 0
     text: "\uC870\uAC74 \uC218\uB77D. \uAE54\uB054\uD558\uAC8C \uB9C8\uBB34\uB9AC\uD558\uC790."
+  - language: 1
+    text: Conditions accepted. Let's wrap it up neatly.

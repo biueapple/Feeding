@@ -17,3 +17,5 @@ MonoBehaviour:
   - language: 0
     text: "\uC548\uB155. \uB09C {visitor}. \uC7A0\uAE50 \uB458\uB7EC\uBCF4\uB7EC
       \uC654\uC5B4."
+  - language: 1
+    text: Hi. I'm {visitor}. I'm here to take a look.

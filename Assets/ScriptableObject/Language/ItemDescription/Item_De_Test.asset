@@ -17,3 +17,6 @@ MonoBehaviour:
   - language: 0
     text: "\uD14C\uC2A4\uD2B8\uC6A9 \uC74C\uC2DD\uC774\uACE0 \uC774\uAC83\uC740 \uCCB4\uB825\uC744
       10 \uD68C\uBCF5\uC2DC\uD0A4\uACE0 \uAC74\uAC15\uD568 \uBC84\uD504\uB97C \uBD80\uC5EC\uD558\uACE0"
+  - language: 1
+    text: It's a test food, and it restores your stamina by 10 and gives you a healthy
+      buff

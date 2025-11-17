@@ -16,3 +16,5 @@ MonoBehaviour:
   entry:
   - language: 0
     text: "\uAC11\uC637"
+  - language: 1
+    text: Armor

@@ -17,3 +17,5 @@ MonoBehaviour:
   - language: 0
     text: "{item}\uC744 {price}\uC5D0 \uB118\uAE30\uB77C\uACE0? \uC870\uAC74\uC744
       \uB530\uC838\uBCF4\uC790."
+  - language: 1
+    text: Hand over {item} to {price}? Let's consider the conditions.

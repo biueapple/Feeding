@@ -7,17 +7,16 @@ public class AddAttackEffect : EquipmentEffect
 {
     [SerializeField]
     private DamageType type;
+    public DamageType Type => type;
+
     [SerializeField]
     private float value;
+    public float Value => value;
 
-    //public override string Description => $"공격마다 추가로 {value} {type} 데미지를 줍니다.";
-
-    public override string BuildDescription(EquipmentEffect effect)
+    public override void CollectTokens(Dictionary<string, string> tokens)
     {
-        string s = base.BuildDescription(effect);
-        s = s.Replace("{type}", type.ToString());
-        s = s.Replace("{value}", value.ToString());
-        return s;
+        tokens.Add("type", type.ToString());
+        tokens.Add("value", value.ToString());
     }
 
     public override void Apply(Unit target)

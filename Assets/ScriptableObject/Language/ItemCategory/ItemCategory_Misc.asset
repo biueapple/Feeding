@@ -16,3 +16,5 @@ MonoBehaviour:
   entry:
   - language: 0
     text: "\uAE30\uD0C0"
+  - language: 1
+    text: Misc

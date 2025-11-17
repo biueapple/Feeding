@@ -16,3 +16,5 @@ MonoBehaviour:
   entry:
   - language: 0
     text: "\uB3C4\uAD6C"
+  - language: 1
+    text: Tool

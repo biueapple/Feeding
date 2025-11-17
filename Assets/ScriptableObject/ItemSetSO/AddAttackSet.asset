@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8c37f61f34486842aa88b4ef9b06112, type: 3}
   m_Name: AddAttackSet
   m_EditorClassIdentifier: 
-  setName: "\uAE30\uBCF8 \uC138\uD2B8"
+  setNameKey: ItemSetName_AddAttackSet
   twoSetEffect:
   - {fileID: 11400000, guid: 36457dc604516584dacf856e9cbf21d7, type: 2}
   fourSetEffect: []

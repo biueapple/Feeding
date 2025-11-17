@@ -16,3 +16,5 @@ MonoBehaviour:
   entry:
   - language: 0
     text: "\uC57C\uCC44"
+  - language: 1
+    text: Vegetable

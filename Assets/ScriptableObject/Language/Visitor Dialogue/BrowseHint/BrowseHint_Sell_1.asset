@@ -16,3 +16,5 @@ MonoBehaviour:
   entry:
   - language: 0
     text: "{item}\uC744 \uD314\uB7EC\uC654\uC5B4"
+  - language: 1
+    text: I'm here to sell {item}

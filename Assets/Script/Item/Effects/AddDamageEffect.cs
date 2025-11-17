@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.InputManagerEntry;
 
 //공격에 추가 value 물리데미지가 생기는 장비효과 (치명타가 터짐)
 [CreateAssetMenu(menuName = "Item/EquipmentEffect/DamageEffect")]
@@ -9,14 +11,10 @@ public class AddDamageEffect : EquipmentEffect
     [SerializeField]
     private float value;
 
-    //public override string Description => $"공격을 할때마다 추가로 {value}데미지의 {type} 공격을 합니다.";
-
-    public override string BuildDescription(EquipmentEffect effect)
+    public override void CollectTokens(Dictionary<string, string> tokens)
     {
-        string s = base.BuildDescription(effect);
-        s = s.Replace("{type}", type.ToString());
-        s = s.Replace("{value}", value.ToString());
-        return s;
+        tokens.Add("type", type.ToString());
+        tokens.Add("value", value.ToString());
     }
 
     public override void Apply(Unit target)

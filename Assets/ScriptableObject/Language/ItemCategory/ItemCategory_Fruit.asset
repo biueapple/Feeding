@@ -16,3 +16,5 @@ MonoBehaviour:
   entry:
   - language: 0
     text: "\uACFC\uC77C"
+  - language: 1
+    text: Fruit

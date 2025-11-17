@@ -16,3 +16,5 @@ MonoBehaviour:
   entry:
   - language: 0
     text: "\uADF8 \uCABD\uC740 \uC560\uCD08\uC5D0 \uC0DD\uAC01\uC774 \uC5C6\uC5C8\uC5B4."
+  - language: 1
+    text: I didn't think about it in the first place.

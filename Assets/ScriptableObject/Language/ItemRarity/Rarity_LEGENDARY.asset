@@ -16,3 +16,5 @@ MonoBehaviour:
   entry:
   - language: 0
     text: "\uC804\uC124"
+  - language: 1
+    text: LEGENDARY

@@ -16,3 +16,5 @@ MonoBehaviour:
   entry:
   - language: 0
     text: "\uC544\uC27D\uC9C0\uB9CC, \uB2E4\uC74C \uAE30\uD68C\uC5D0."
+  - language: 1
+    text: Unfortunately, next time.
