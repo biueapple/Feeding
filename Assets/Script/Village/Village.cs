@@ -15,6 +15,16 @@ public class Village : MonoBehaviour, ITooltipProvider, IPointerClickHandler
 
     public Vector2 Offset => new Vector2(50, 0);
 
+    [SerializeField]
+    private string emergingMonsterKey = "Emerging Monster";
+    [SerializeField]
+    private string givenByMonstersKey = "Types Of Items Given By Monsters";
+    [SerializeField]
+    private string commonItemKey = "Common Item";
+    [SerializeField]
+    private string lackingItemKey = "Item That Is Lacking";
+
+
     //현재 발동중인 이벤트나 발동할 수 있는 이벤트 리스트도 필요한가?
     private List<Item> GetItems()
     {
@@ -39,14 +49,14 @@ public class Village : MonoBehaviour, ITooltipProvider, IPointerClickHandler
         yield return new TooltipElementModel
         {
             Type = TooltipElementType.Header,
-            LeftText = so.VillageName,
+            LeftText = LocalizationManager.Instance.Get(so.VillageNameKey),
             LeftColor = Color.white
         };
 
         yield return new TooltipElementModel
         {
             Type = TooltipElementType.Text,
-            Text = "출현하는 몬스터"
+            Text = LocalizationManager.Instance.Get(emergingMonsterKey)
         };
 
         yield return new TooltipElementModel
@@ -58,7 +68,7 @@ public class Village : MonoBehaviour, ITooltipProvider, IPointerClickHandler
         yield return new TooltipElementModel
         {
             Type = TooltipElementType.Text,
-            Text = "몬스터가 주는 아이템 종류"
+            Text = LocalizationManager.Instance.Get(givenByMonstersKey)
         };
 
         yield return new TooltipElementModel
@@ -70,7 +80,7 @@ public class Village : MonoBehaviour, ITooltipProvider, IPointerClickHandler
         yield return new TooltipElementModel
         {
             Type = TooltipElementType.Text,
-            Text = "흔한 아이템"
+            Text = LocalizationManager.Instance.Get(commonItemKey)
         };
 
         yield return new TooltipElementModel
@@ -82,7 +92,7 @@ public class Village : MonoBehaviour, ITooltipProvider, IPointerClickHandler
         yield return new TooltipElementModel
         {
             Type = TooltipElementType.Text,
-            Text = "부족한 아이템"
+            Text = LocalizationManager.Instance.Get(lackingItemKey)
         };
 
         yield return new TooltipElementModel

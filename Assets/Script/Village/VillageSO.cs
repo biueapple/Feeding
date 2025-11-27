@@ -5,8 +5,8 @@ using UnityEngine;
 public class VillageSO : ScriptableObject
 {
     [SerializeField]
-    private string villageName;
-    public string VillageName => villageName;
+    private string villageNameKey;
+    public string VillageNameKey => villageNameKey;
 
     [Header("어떤 몬스터가 출현하는지"), SerializeField]
     private List<Enemy> enemies;

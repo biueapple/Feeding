@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2001f8b2662ea04e91d9295037c5150, type: 3}
   m_Name: Novice village
   m_EditorClassIdentifier: 
-  villageName: "\uCD08\uBCF4\uB9C8\uC744"
+  villageNameKey: Novice Village Name
   enemies:
   - {fileID: 8248341101920618848, guid: 9d2416cdd18e16c41857c83276acd0af, type: 3}
   - {fileID: -8735748837928072256, guid: 20e31434345eef64b944d1d4da17afce, type: 3}

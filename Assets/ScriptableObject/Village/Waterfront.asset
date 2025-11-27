@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2001f8b2662ea04e91d9295037c5150, type: 3}
   m_Name: Waterfront
   m_EditorClassIdentifier: 
-  villageName: "\uD574\uC548\uAC00"
+  villageNameKey: WaterfrontName
   enemies:
   - {fileID: 1166509810266894042, guid: 0bdfc56212628d34e93b62a714c9ff2b, type: 3}
   export:
