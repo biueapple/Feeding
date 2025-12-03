@@ -63,11 +63,11 @@ public class Test : MonoBehaviour
         //AdventureManager.Instance.OnAdventureEnded += OnAfterAdventure;
         InventoryManager.Instance.EarnGold(150);
 
-        InventoryManager.Instance.HeroChest.InsertItem(input);
-        InventoryManager.Instance.PlayerChest.InsertItem(food);
-        InventoryManager.Instance.PlayerChest.InsertItem(potato);
-        InventoryManager.Instance.PlayerChest.InsertItem(potato);
-        InventoryManager.Instance.PlayerChest.InsertItem(potato);
+        //InventoryManager.Instance.HeroChest.InsertItem(input);
+        //InventoryManager.Instance.PlayerChest.InsertItem(food);
+        //InventoryManager.Instance.PlayerChest.InsertItem(potato);
+        //InventoryManager.Instance.PlayerChest.InsertItem(potato);
+        //InventoryManager.Instance.PlayerChest.InsertItem(potato);
         //InventoryManager.Instance.OnAfterGold += OnAfterGold;
 
     }
