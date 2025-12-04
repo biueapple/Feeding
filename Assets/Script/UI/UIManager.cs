@@ -31,14 +31,28 @@ public class UIManager : MonoBehaviour
     //ui가 단계별로 나눠져야 할 것 같아서
     [SerializeField]
     private Transform one;
+    public Transform One => one;
     [SerializeField]
     private Transform two;
+    public Transform Two => two;
     [SerializeField]
     private Transform thr;
+    public Transform Thr => thr;
 
     [SerializeField]
     private GameObject villageSelectUI;
     public GameObject VillageSelectUI => villageSelectUI;
+
+    [SerializeField]
+    private GameObject mainmenu;
+    public GameObject Mainmenu => mainmenu;
+
+    [SerializeField]
+    private GameObject option;
+    public bool Option { get => option.activeSelf; set { option.SetActive(value); } }
+
+
+
 
     private void Start()
     {

@@ -29,12 +29,7 @@ public class Option : MonoBehaviour
 
     private void OnEnable()
     {
-        void Close()
-        {
-            gameObject.SetActive(false);
-        }
-
-        b_close.onClick.AddListener(Close);
+        b_close.onClick.AddListener(GameManager.Instance.OnOptionClose);
 
         void General()
         {
