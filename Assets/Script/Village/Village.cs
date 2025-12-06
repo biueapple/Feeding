@@ -100,5 +100,11 @@ public class Village : MonoBehaviour, ITooltipProvider, IPointerClickHandler
             Type = TooltipElementType.Sprite,
             sprites = so.Import.Select(x => x.Icon).ToList()
         };
+
+        yield return new TooltipElementModel
+        {
+            Type = TooltipElementType.Sound,
+            soundType = SoundType.UIUp
+        };
     }
 }

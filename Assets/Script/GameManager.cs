@@ -61,19 +61,32 @@ public class GameManager : MonoBehaviour
 
     public void OnOptionOpen()
     {
-        currentState = GameState.Paused;
+        if (currentState == GameState.MainMenu)
+        {
+            UIManager.Instance.Mainmenu.SetActive(false);
+        }
+        else
+        {
+            currentState = GameState.Paused;
+        }
+        
         Time.timeScale = 0;
         UIManager.Instance.Option = true;
     }
 
     public void OnOptionClose()
     {
-        if(currentState == GameState.Paused)
+        if (currentState == GameState.Paused)
         {
             currentState = GameState.Play;
-            Time.timeScale = 1;
-            UIManager.Instance.Option = false;
         }
+        else if(currentState == GameState.MainMenu)
+        {
+            UIManager.Instance.Mainmenu.SetActive(true);
+        }
+
+        Time.timeScale = 1;
+        UIManager.Instance.Option = false;
     }
 
 

@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
 
 public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, ITooltipProvider
 {
@@ -58,7 +57,6 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     public void OnBeginDrag(PointerEventData eventData)
     {
         UIManager.Instance.DragSlot.Begin(this);
-        //UIManager.Instance.ItemDescription.Enable = false;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -69,7 +67,6 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     public void OnEndDrag(PointerEventData eventData)
     {
         UIManager.Instance.DragSlot.End();
-        //UIManager.Instance.ItemDescription.Enable = true;
     }
 
     //
@@ -134,6 +131,12 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         string desc = BuildDescription(Slot.Item);
         if (!string.IsNullOrEmpty(desc))
             yield return new TooltipElementModel { Type = TooltipElementType.Footer, Text = desc };
+
+        yield return new TooltipElementModel
+        {
+            Type = TooltipElementType.Sound,
+            soundType = SoundType.UIItemUp
+        };
     }
 
 

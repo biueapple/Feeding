@@ -64,14 +64,18 @@ public class Test : MonoBehaviour
         InventoryManager.Instance.EarnGold(150);
 
         //InventoryManager.Instance.HeroChest.InsertItem(input);
-        //InventoryManager.Instance.PlayerChest.InsertItem(food);
-        //InventoryManager.Instance.PlayerChest.InsertItem(potato);
-        //InventoryManager.Instance.PlayerChest.InsertItem(potato);
+        WorldContext.Instance.OnVillageChanged += Instance_OnVillageChanged;
         //InventoryManager.Instance.PlayerChest.InsertItem(potato);
         //InventoryManager.Instance.OnAfterGold += OnAfterGold;
 
     }
-    
+
+    private void Instance_OnVillageChanged(VillageSO obj)
+    {
+        InventoryManager.Instance.PlayerChest.InsertItem(food);
+        InventoryManager.Instance.PlayerChest.InsertItem(potato);
+        InventoryManager.Instance.PlayerChest.InsertItem(potato);
+    }
 
     public ShopManager shopManager;
 

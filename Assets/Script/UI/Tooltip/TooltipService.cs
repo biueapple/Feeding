@@ -34,7 +34,6 @@ public class TooltipService : MonoBehaviour
         var rect = view.Root;
 
         rect.position = provider.Transform.position + (Vector3)provider.Offset;
-        //UIManager.Instance.ClampPosition(rect);
 
         // 4) (권장) 한 프레임 뒤에 한 번 더 클램프 — TMP 줄바꿈/폰트 fallback 등 대비
         StartCoroutine(ClampNextFrame(rect, provider.Transform.position, provider.Offset));

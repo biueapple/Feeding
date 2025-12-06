@@ -42,7 +42,8 @@ public enum TooltipElementType
     TowColumn,
     Divider,
     Footer,
-    Sprite
+    Sprite,
+    Sound
 }
 
 public sealed class TooltipElementModel
@@ -65,6 +66,8 @@ public sealed class TooltipElementModel
     public (IReadOnlyList<string> left, IReadOnlyList<string> right) TwoCol;
 
     public IReadOnlyList<Sprite> sprites;
+
+    public SoundType soundType;
 
     public object Data;
 }

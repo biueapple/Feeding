@@ -49,10 +49,17 @@ public class ProviderSections : MonoBehaviour
 
         foreach (var m in elements)
         {
-            var r = Spawn(m.Type);
-            r.transform.SetParent(content, false);
-            r.gameObject.SetActive(true);
-            r.Bind(m);
+            if (m.Type == TooltipElementType.Sound)
+            {
+                SoundManager.Instance.Play(m.soundType);
+            }
+            else
+            {
+                var r = Spawn(m.Type);
+                r.transform.SetParent(content, false);
+                r.gameObject.SetActive(true);
+                r.Bind(m);
+            }
         }
 
         Canvas.ForceUpdateCanvases();
