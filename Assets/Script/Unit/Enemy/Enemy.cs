@@ -48,6 +48,8 @@ public class LootEntry
                 value -= item.probability;
             }
         }
+
+        SoundManager.Instance.Play(SoundType.DropCoin);
     }
 }
 

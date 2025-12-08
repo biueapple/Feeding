@@ -28,7 +28,7 @@ public static class DialogueService
     private static string Fill(string line, DialogueContext c)
     {
         int diff = c.offer - (c.basePrice + c.spread);
-        line = line.Replace("{visitor}", c.visitorSO.VisitorName);
+        line = line.Replace("{visitor}", LocalizationManager.Instance.Get(c.visitorSO.VisitorNameKey));
         line = line.Replace("{item}", c.item != null ? LocalizationManager.Instance.Get(c.item.ItemNameKey) : "상품");     //번역
         line = line.Replace("{category}", LocalizationManager.Instance.Get(c.category.ToString()));                     //번역
         line = line.Replace("{price}", c.offer.ToString());

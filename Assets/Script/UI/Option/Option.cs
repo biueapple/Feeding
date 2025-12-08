@@ -7,194 +7,204 @@ using UnityEngine.UI;
 
 public class Option : MonoBehaviour
 {
-    //clsoe
-    [SerializeField]
-    public Button b_close;
+    // Close
+    [SerializeField] public Button b_close;
 
-    //sections
-    [SerializeField]
-    private Button b_general;
-    [SerializeField]
-    private Button b_graphics;
-    [SerializeField]
-    private Button b_sound;
+    // Sections
+    [SerializeField] private Button b_general;
+    [SerializeField] private Button b_graphics;
+    [SerializeField] private Button b_sound;
 
-    [SerializeField]
-    private GameObject p_general;
-    [SerializeField]
-    private GameObject p_graphics;
-    [SerializeField]
-    private GameObject p_sound;
+    [SerializeField] private GameObject p_general;
+    [SerializeField] private GameObject p_graphics;
+    [SerializeField] private GameObject p_sound;
 
+    // General
+    [SerializeField] private TMP_Dropdown d_language;
 
-    //general
-    [SerializeField]
-    private TMP_Dropdown d_language;
+    // Graphics
+    [SerializeField] private TMP_Dropdown d_resolutions;
+    [SerializeField] private Toggle t_fullScreen;
+    private List<Resolution> resolutions = new();
 
-
-    //graphics
-    [SerializeField]
-    private TMP_Dropdown d_resolutions;
-    [SerializeField]
-    private Toggle t_fullScreen;
-    List<Resolution> resolutions = new();
-
-    //sounds
-    [SerializeField]
-    private Slider s_master;
-    [SerializeField]
-    private Slider s_bgm;
-    [SerializeField]
-    private Slider s_effect;
+    // Sounds
+    [SerializeField] private Slider s_master;
+    [SerializeField] private Slider s_bgm;
+    [SerializeField] private Slider s_effect;
 
     private void OnEnable()
     {
-        CloseInit();
-        SectionsInit();
-        GeneralInit();
-        GraphicInit();
-        SoundInit();
+        InitUI();          // ① UI 기본 구조 & 리스너 세팅
+        ApplyDataToUI();   // ② 저장된 설정값을 UI에 반영
     }
 
     private void OnDisable()
     {
-        b_close.onClick.RemoveAllListeners();
-        b_general.onClick.RemoveAllListeners();
-        b_graphics.onClick.RemoveAllListeners();
-        b_sound.onClick.RemoveAllListeners();
-        d_language.onValueChanged.RemoveAllListeners();
-        d_resolutions.onValueChanged.RemoveAllListeners();
-        SoundDeinit();
+        RemoveListeners();
     }
 
-
-    private void CloseInit()
+    // ------------------------------------------------------------
+    #region ① Init UI (옵션 목록 구성 & 리스너 설정)
+    // ------------------------------------------------------------
+    private void InitUI()
     {
-        void Close()
+        InitClose();
+        InitSections();
+        InitGeneral();
+        InitGraphics();
+        InitSound();
+    }
+
+    private void InitClose()
+    {
+        b_close.onClick.AddListener(() =>
         {
             GameManager.Instance.OnOptionClose();
             SoundManager.Instance.Play(SoundType.UIClick);
-        }
-        b_close.onClick.AddListener(Close);
+        });
     }
 
-    private void SectionsInit()
+    private void InitSections()
     {
-        void General()
+        b_general.onClick.AddListener(() =>
         {
             p_general.SetActive(true);
             p_graphics.SetActive(false);
             p_sound.SetActive(false);
             SoundManager.Instance.Play(SoundType.UIApply);
-        }
-        void Graphics()
+        });
+
+        b_graphics.onClick.AddListener(() =>
         {
             p_general.SetActive(false);
             p_graphics.SetActive(true);
             p_sound.SetActive(false);
             SoundManager.Instance.Play(SoundType.UIApply);
-        }
-        void Sound()
+        });
+
+        b_sound.onClick.AddListener(() =>
         {
             p_general.SetActive(false);
             p_graphics.SetActive(false);
             p_sound.SetActive(true);
             SoundManager.Instance.Play(SoundType.UIApply);
-        }
-        b_general.onClick.AddListener(General);
-        b_graphics.onClick.AddListener(Graphics);
-        b_sound.onClick.AddListener(Sound);
+        });
     }
 
-    private void GeneralInit()
+    private void InitGeneral()
     {
-        void OnChangeLanguage(int value)
-        {
-            LocalizationManager.Instance.Current = (Language)value;
-            SoundManager.Instance.Play(SoundType.UIApply);
-        }
-
         d_language.ClearOptions();
         List<string> values = Enum.GetNames(typeof(Language)).ToList();
         d_language.AddOptions(values);
-        d_language.value = (int)LocalizationManager.Instance.Current;
-        d_language.onValueChanged.AddListener(OnChangeLanguage);
+
+        d_language.onValueChanged.AddListener(value =>
+        {
+            LocalizationManager.Instance.Current = (Language)value;
+            PlayerSetting.Instance.data.language = (Language)value;
+            SoundManager.Instance.Play(SoundType.UIApply);
+        });
     }
 
-    private void GraphicInit()
+    private void InitGraphics()
     {
-        for (int i = 0; i < Screen.resolutions.Length; i++)
+        // 해상도 목록 구성
+        resolutions.Clear();
+        foreach (var r in Screen.resolutions)
         {
-            if (Screen.resolutions[i].refreshRateRatio.value >= 60)
-            {
-                resolutions.Add(Screen.resolutions[i]);
-            }
+            if (r.refreshRateRatio.value >= 60)
+                resolutions.Add(r);
         }
 
         d_resolutions.options.Clear();
         List<string> options = new();
-        int value = 0;
-        for (int i = 0; i < resolutions.Count; i++)
-        {
-            options.Add(resolutions[i].width + " x " + resolutions[i].height);
-            if (resolutions[i].width == Screen.width && resolutions[i].height == Screen.height)
-                value = i;
-        }
+        foreach (var r in resolutions)
+            options.Add($"{r.width} x {r.height}");
         d_resolutions.AddOptions(options);
-        d_resolutions.value = value;
-        d_resolutions.RefreshShownValue();
 
-        t_fullScreen.isOn = Screen.fullScreenMode.Equals(FullScreenMode.FullScreenWindow) ? true : false;
+        // 리스너 등록
+        d_resolutions.onValueChanged.AddListener(index =>
+        {
+            Screen.SetResolution(resolutions[index].width, resolutions[index].height,
+                t_fullScreen.isOn ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed);
 
-        d_resolutions.onValueChanged.AddListener(DropdownValueChange);
-        t_fullScreen.onValueChanged.AddListener(Apply);
+            PlayerSetting.Instance.data.resolution = resolutions[index];
+            SoundManager.Instance.Play(SoundType.UIApply);
+        });
+
+        t_fullScreen.onValueChanged.AddListener(on =>
+        {
+            Screen.SetResolution(Screen.width, Screen.height,
+                on ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed);
+
+            PlayerSetting.Instance.data.fullScreen = on;
+            SoundManager.Instance.Play(SoundType.UIApply);
+        });
     }
 
-    private void DropdownValueChange(int _value)
+    private void InitSound()
     {
-        Apply(_value);
-    }
-
-    private void Apply(int value)
-    {
-        Screen.SetResolution(resolutions[value].width, resolutions[value].height, 
-            t_fullScreen.isOn ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed);
-        SoundManager.Instance.Play(SoundType.UIApply);
-    }
-    private void Apply(bool on)
-    {
-        Screen.SetResolution(Screen.width, Screen.height,
-            on ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed);
-        SoundManager.Instance.Play(SoundType.UIApply);
-    }
-
-    private void SoundInit()
-    {
-        s_master.value = SoundManager.Instance.GetVolum("Master");
-        void Master(float value)
+        s_master.onValueChanged.AddListener(value =>
         {
             SoundManager.Instance.SetMasterVolum(value);
-        }
-        s_master.onValueChanged.AddListener(Master);
+            PlayerSetting.Instance.data.masterVol = value;
+        });
 
-        s_bgm.value = SoundManager.Instance.GetVolum("BGM");
-        void BGM(float value)
+        s_bgm.onValueChanged.AddListener(value =>
         {
             SoundManager.Instance.SetBGMVolum(value);
-        }
-        s_bgm.onValueChanged.AddListener(BGM);
+            PlayerSetting.Instance.data.bgmVol = value;
+        });
 
-        s_effect.value = SoundManager.Instance.GetVolum("Effect");
-        void Effect(float value)
+        s_effect.onValueChanged.AddListener(value =>
         {
             SoundManager.Instance.SetEffectVolum(value);
-        }
-        s_effect.onValueChanged.AddListener(Effect);
+            PlayerSetting.Instance.data.effectVol = value;
+        });
     }
-    private void SoundDeinit()
+    #endregion
+
+    // ------------------------------------------------------------
+    #region ② ApplyDataToUI (저장된 설정 → UI 적용)
+    // ------------------------------------------------------------
+    private void ApplyDataToUI()
     {
+        var data = PlayerSetting.Instance.data;
+
+        // general
+        d_language.value = (int)data.language;
+
+        // graphics
+        int index = resolutions.FindIndex(r =>
+            r.width == data.resolution.width &&
+            r.height == data.resolution.height);
+
+        d_resolutions.value = (index >= 0) ? index : 0;
+        t_fullScreen.isOn = data.fullScreen;
+
+        // sounds
+        s_master.value = data.masterVol;
+        s_bgm.value = data.bgmVol;
+        s_effect.value = data.effectVol;
+    }
+    #endregion
+
+    // ------------------------------------------------------------
+    #region Cleanup
+    // ------------------------------------------------------------
+    private void RemoveListeners()
+    {
+        b_close.onClick.RemoveAllListeners();
+        b_general.onClick.RemoveAllListeners();
+        b_graphics.onClick.RemoveAllListeners();
+        b_sound.onClick.RemoveAllListeners();
+
+        d_language.onValueChanged.RemoveAllListeners();
+        d_resolutions.onValueChanged.RemoveAllListeners();
+        t_fullScreen.onValueChanged.RemoveAllListeners();
+
         s_master.onValueChanged.RemoveAllListeners();
         s_bgm.onValueChanged.RemoveAllListeners();
         s_effect.onValueChanged.RemoveAllListeners();
     }
+    #endregion
 }

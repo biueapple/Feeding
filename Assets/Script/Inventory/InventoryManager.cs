@@ -45,6 +45,8 @@ public class InventoryManager : MonoBehaviour
             slot.Insert(null);
             yield return new WaitForSeconds(0.1f);
         }
+        if(closet.InventoryInterface.Itemslots.Any(slot => slot.Item != null))
+            SoundManager.Instance.Play(SoundType.OutfitGet);
         yield return new WaitForSeconds(1);
         Debug.Log("옷입기 완료");
     }
@@ -68,6 +70,7 @@ public class InventoryManager : MonoBehaviour
         EarnGold(inventory.Gold);
         inventory.Gold = 0;
 
+        SoundManager.Instance.Play(SoundType.OutfitPut);
         yield return new WaitForSeconds(1);
         Debug.Log("상자로 아이템 옮기기 완료");
     }

@@ -31,8 +31,8 @@ public class VisitorSO : ScriptableObject
     public string VisitorID => visitorID;
 
     [SerializeField]
-    private string visitorName;                                     //이름
-    public string VisitorName => visitorName;
+    private string visitorNameKey;                                     //이름
+    public string VisitorNameKey => visitorNameKey;
 
     [SerializeField]
     private Sprite portrait;                                        //이미지

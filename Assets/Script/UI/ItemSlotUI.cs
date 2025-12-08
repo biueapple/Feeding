@@ -56,6 +56,7 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        SoundManager.Instance.Play(SoundType.UIItemPick);
         UIManager.Instance.DragSlot.Begin(this);
     }
 
@@ -72,6 +73,7 @@ public class ItemSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     //
     public void OnDrop(PointerEventData eventData)
     {
+        SoundManager.Instance.Play(SoundType.UIItemPut);
         UIManager.Instance.DragSlot.Drop(this);
     }
 

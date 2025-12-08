@@ -23,6 +23,7 @@ public class Hero : Unit
     public override void BasicAttack(Unit target)
     {
         animator.SetTrigger("Attack");
+        SoundManager.Instance.Play(SoundType.Sword);
         base.BasicAttack(target);
     }
 
@@ -85,6 +86,7 @@ public class Hero : Unit
         int index = 1;
 
         animator.SetBool("Move", true);
+        SoundManager.Instance.Play(SoundType.Run);
         while(index < route.Length)
         {
             Vector3 newPosition = Vector3.MoveTowards(transform.localPosition, route[index], Time.deltaTime * speed);
@@ -101,6 +103,7 @@ public class Hero : Unit
                 index++;
             }
         }
+        SoundManager.Instance.Stop(SoundType.Run);
         animator.SetBool("Move", false);
     }
 
