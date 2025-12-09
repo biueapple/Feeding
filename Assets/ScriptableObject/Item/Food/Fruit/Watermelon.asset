@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2925680cf75fa14e97cea8efbddd098, type: 3}
+  m_Name: Watermelon
+  m_EditorClassIdentifier: 
+  itemID: 946bef14-9ccc-4923-893e-2d16e11cd106
+  itemNameKey: ItemName_Watermelon
+  category: 3
+  rarity: 0
+  price: 20
+  icon: {fileID: 281595513, guid: 4db79281d42bd0b46a1b173b66626304, type: 3}
+  descriptionKey: Item_De_Watermelon
+  attributes: []

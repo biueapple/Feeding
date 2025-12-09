@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2925680cf75fa14e97cea8efbddd098, type: 3}
+  m_Name: Grapes
+  m_EditorClassIdentifier: 
+  itemID: 53de3407-f83d-4768-83fa-cd1fddf8c137
+  itemNameKey: ItemName_Grape
+  category: 3
+  rarity: 0
+  price: 0
+  icon: {fileID: -1491350671, guid: 4db79281d42bd0b46a1b173b66626304, type: 3}
+  descriptionKey: Item_De_Grape
+  attributes: []

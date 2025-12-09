@@ -10,14 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f2925680cf75fa14e97cea8efbddd098, type: 3}
-  m_Name: Potato
+  m_Name: Strawberry
   m_EditorClassIdentifier: 
-  itemID: cbbde99e-7eef-4eee-a767-b7568a105ac3
-  itemNameKey: ItemName_Potato
-  category: 2
+  itemID: f8ede4fa-d0cb-48b2-aa8b-6dac497e9573
+  itemNameKey: ItemName_Strawberry
+  category: 3
   rarity: 0
-  price: 10
-  icon: {fileID: 639157335, guid: 2cc2e02928833ec4d8ed88b9cb25100d, type: 3}
-  descriptionKey: Item_De_Potato
-  attributes:
-  - {fileID: 11400000, guid: f1b650ff199c3bf45a5750734e5a8dd5, type: 2}
+  price: 0
+  icon: {fileID: -745629110, guid: 4db79281d42bd0b46a1b173b66626304, type: 3}
+  descriptionKey: Item_De_Strawberry
+  attributes: []
