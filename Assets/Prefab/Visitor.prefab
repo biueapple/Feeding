@@ -59,6 +59,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   so: {fileID: 0}
+  image: {fileID: 7645607682098966123}
 --- !u!114 &7645607682098966123
 MonoBehaviour:
   m_ObjectHideFlags: 0

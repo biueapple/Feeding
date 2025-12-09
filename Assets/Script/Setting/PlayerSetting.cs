@@ -15,7 +15,6 @@ public class PlayerSetting : MonoBehaviour
         data = Load();
     }
 
-
     private string path => Path.Combine(Application.persistentDataPath, "settings.json");
 
     public void Save(PlayerSettingData data)

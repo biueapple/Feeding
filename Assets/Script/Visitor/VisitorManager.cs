@@ -14,7 +14,7 @@ public class VisitorManager : MonoBehaviour
         else Destroy(gameObject);
 
         lineUP = new(prefab, parent, createPosition.position, tradePosition.position, spacing, speed);
-        
+
     }
 
     [SerializeField]
@@ -39,7 +39,7 @@ public class VisitorManager : MonoBehaviour
         lineUP.OnCreateEvent += CreateVisitor;
         lineUP.OnActive += ToActive;
 
-        //µµÂø
+        //ï¿½ï¿½ï¿½ï¿½
         lineUP.OnLineFirst += OnTradeStart;
         ShopManager.Instance.OnEndSession += Instance_OnEndSession;
         ShopManager.Instance.OnEndSession += Add;
@@ -51,7 +51,7 @@ public class VisitorManager : MonoBehaviour
         lineUP.OnCreateEvent -= CreateVisitor;
         lineUP.OnActive -= ToActive;
 
-        //µµÂø
+        //ï¿½ï¿½ï¿½ï¿½
         lineUP.OnLineFirst -= OnTradeStart;
         ShopManager.Instance.OnEndSession -= Instance_OnEndSession;
         ShopManager.Instance.OnEndSession -= Add;
@@ -61,7 +61,7 @@ public class VisitorManager : MonoBehaviour
 
     private IEnumerator StartCreate(int count, int t)
     {
-        for(int i = 0; i < count; i++)
+        for (int i = 0; i < count; i++)
         {
             lineUP.Create();
             yield return new WaitForSeconds(t);
@@ -84,11 +84,13 @@ public class VisitorManager : MonoBehaviour
     }
 
 
-    //³»ºÎ
+    //ï¿½ï¿½ï¿½ï¿½
     private Visitor CreateVisitor()
     {
         Visitor v = Instantiate(prefab);
         v.SO = allVisitor[UnityEngine.Random.Range(0, allVisitor.Count)];
+        v.Init();
+        v.transform.localScale = new Vector3(-1, 1, 1);
         return v;
     }
 

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visitorID: 
   visitorNameKey: VisitorName_Foreigner
-  portrait: {fileID: 0}
+  portrait: {fileID: 1604015474, guid: b631ed305dfd43c488e0f8edf5c829bc, type: 3}
   preferred: 01000000
   disliked: 08000000
   dialoguePack: {fileID: 11400000, guid: 67e92ea6239576743bcd6331af20a8a6, type: 2}

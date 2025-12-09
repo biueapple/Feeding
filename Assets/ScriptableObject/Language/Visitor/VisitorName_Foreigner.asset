@@ -12,5 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37dac0c0cd1e1464e82881aeb8705bb5, type: 3}
   m_Name: VisitorName_Foreigner
   m_EditorClassIdentifier: 
-  key: 
-  entry: []
+  key: VisitorName_Foreigner
+  entry:
+  - language: 0
+    text: "\uC774\uBC29\uC778"
+  - language: 1
+    text: Foreigner
