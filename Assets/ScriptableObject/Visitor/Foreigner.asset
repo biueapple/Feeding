@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visitorID: 
   visitorNameKey: VisitorName_Foreigner
-  portrait: {fileID: 1604015474, guid: b631ed305dfd43c488e0f8edf5c829bc, type: 3}
+  idleAnimation: {fileID: 7400000, guid: 47b6ff4a6dbf4674cada11d1afd484e2, type: 2}
+  walkAnimation: {fileID: 7400000, guid: 583cf9a2a58802e4b9eb43548ff0048d, type: 2}
   preferred: 01000000
   disliked: 08000000
   dialoguePack: {fileID: 11400000, guid: 67e92ea6239576743bcd6331af20a8a6, type: 2}

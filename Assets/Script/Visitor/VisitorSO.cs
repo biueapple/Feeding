@@ -35,8 +35,11 @@ public class VisitorSO : ScriptableObject
     public string VisitorNameKey => visitorNameKey;
 
     [SerializeField]
-    private Sprite portrait;                                        //이미지
-    public Sprite Portrait => portrait;
+    private AnimationClip idleAnimation;                             //대기 애니메이션
+    public AnimationClip IdleAnimation => idleAnimation;
+    [SerializeField]
+    private AnimationClip walkAnimation;                             //걷기 애니메이션
+    public AnimationClip WalkAnimation => walkAnimation;
 
     [SerializeField]
     private List<ItemCategory> preferred;                           //선호 카테고리

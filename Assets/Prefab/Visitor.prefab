@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3068016591271264232}
   - component: {fileID: 2384343568331055711}
   - component: {fileID: 17312300138818465}
+  - component: {fileID: 3224854245247352412}
   - component: {fileID: 7645607682098966123}
   m_Layer: 5
   m_Name: Visitor
@@ -58,8 +59,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f86a7f078b2d0594fabb5893af6c7aa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stat: {fileID: 0}
+  currentHP: 0
+  level: 0
   so: {fileID: 0}
-  image: {fileID: 7645607682098966123}
+  animator: {fileID: 3224854245247352412}
+--- !u!95 &3224854245247352412
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7439159210703194784}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c9aeed4ee3cf92242bcdac4ab0891ec4, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &7645607682098966123
 MonoBehaviour:
   m_ObjectHideFlags: 0

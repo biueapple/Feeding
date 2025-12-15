@@ -19,7 +19,8 @@ public class Unit : MonoBehaviour
     private float currentHP;
     public float CurrentHP { get => currentHP; set { currentHP = Mathf.Max(0, value); } }
 
-    public bool Critical {
+    public bool Critical
+    {
         get
         {
             float cc = StatValue(DerivationKind.CC);
@@ -29,38 +30,40 @@ public class Unit : MonoBehaviour
 
     public int level;
 
-    //°ø°Ý ÀüÈÄ¿¡ È£ÃâÇÏ´Â ÀÌº¥Æ®
+    //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ä¿ï¿½ È£ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ìºï¿½Æ®
     public event Action<AttackEventArgs> OnAttackBefore;
     public event Action<AttackEventArgs> OnAttackAfter;
 
-    //°ø°ÝÀ» ¹ÞÀº ÀüÈÄ¿¡ È£ÃâÇÏ´Â ÀÌº¥Æ®
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ä¿ï¿½ È£ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ìºï¿½Æ®
     public event Action<AttackEventArgs> OnHitBefore;
     public event Action<AttackEventArgs> OnHitAfter;
 
-    //¸Â±â ÀüÈÄ¿¡ È£ÃâÇÏ´Â ÀÌº¥Æ®
+    //ï¿½Â±ï¿½ ï¿½ï¿½ï¿½Ä¿ï¿½ È£ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ìºï¿½Æ®
     public event Action<AttackEventArgs> OnTakeDamageBefore;
     public event Action<AttackEventArgs> OnTakeDamageAfter;
 
-    //ÇÇÇØ·® °è»ê Á÷Àü
+    //ï¿½ï¿½ï¿½Ø·ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public event Action<AttackEventArgs> OnCalculateDamage;
 
-    //È¸º¹ ¹ÞÀ» ¶§
+    //È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
     public event Action<RecoveryEventArgs> OnHealingBefore;
     public event Action<RecoveryEventArgs> OnHealingAfter;
 
-    //È¸º¹ µÇ¾úÀ» ¶§
+    //È¸ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ ï¿½ï¿½
     public event Action<RecoveryEventArgs> OnRecoveryBefore;
     public event Action<RecoveryEventArgs> OnRecoveryAfter;
 
-    //Á×¾úÀ»¶§
+    //ï¿½×¾ï¿½ï¿½ï¿½ï¿½ï¿½
     public event Action<AttackEventArgs> OnDeath;
 
-    //Ã¼·ÂÀÌ º¯È­ÇÒ¶§ È£Ãâ(´ë¹ÌÁö¸¦ ¹Þ°Å³ª È¸º¹ÇÏ°Å³ª)
+    //Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­ï¿½Ò¶ï¿½ È£ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ°Å³ï¿½ È¸ï¿½ï¿½ï¿½Ï°Å³ï¿½)
     public event Action<Unit> OnChangeHP;
 
 
     private void Awake()
     {
+        if (stat == null) return;
+
         foreach (var m in stat.Stats)
         {
             derivation[m.Derivation.Kind] = m.Figure;
@@ -70,7 +73,7 @@ public class Unit : MonoBehaviour
     }
 
     //
-    // unitÀÇ ±â´É¿¡ ´ëÇØ
+    // unitï¿½ï¿½ ï¿½ï¿½É¿ï¿½ ï¿½ï¿½ï¿½ï¿½
     //
 
     public virtual void BasicAttack(Unit target)
@@ -86,7 +89,7 @@ public class Unit : MonoBehaviour
         var total = DictExt.SumDicts(derivation, modifiersValue);
         float ad = total.GetOrZero(DerivationKind.AD);
         float cd = total.GetOrZero(DerivationKind.CD);
-        damages.Add(new(DamageType.Physical, $"{name} ÀÇ ±âº»°ø°Ý", args.IsCritical ? ad * (1 + cd) : ad));
+        damages.Add(new(DamageType.Physical, $"{name} ï¿½ï¿½ ï¿½âº»ï¿½ï¿½ï¿½ï¿½", args.IsCritical ? ad * (1 + cd) : ad));
         args.Damages.AddRange(damages);
     }
 
@@ -99,7 +102,7 @@ public class Unit : MonoBehaviour
         OnAttackAfter?.Invoke(args);
     }
 
-    //°ø°ÝÀ» ¹ÞÀ» ½Ã È£Ãâ
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ È£ï¿½ï¿½
     public virtual void Hit(AttackEventArgs args)
     {
         OnHitBefore?.Invoke(args);
@@ -109,7 +112,7 @@ public class Unit : MonoBehaviour
         OnHitAfter?.Invoke(args);
     }
 
-    //´ë¹ÌÁö¸¦ °è»êÇØ¼­ Àû¿ë
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void TakeDamage(AttackEventArgs args)
     {
         OnTakeDamageBefore?.Invoke(args);
@@ -136,7 +139,7 @@ public class Unit : MonoBehaviour
         if (currentHP <= 0) OnDeath?.Invoke(args);
     }
 
-    //È¸º¹ (´Ù¸¥ ¹«¾ð°¡¿¡°Ô È¸º¹À» ¹ÞÀ½)
+    //È¸ï¿½ï¿½ (ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ð°¡¿ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
     public void Healing(RecoveryEventArgs args)
     {
         OnHealingBefore?.Invoke(args);
@@ -146,12 +149,12 @@ public class Unit : MonoBehaviour
         OnHealingAfter?.Invoke(args);
     }
 
-    //È¸º¹ Àû¿ë (È¸º¹ ¹ÞÁö ¾Ê¾Æµµ »ç¿ë °¡´ÉÇÔ ¿¹¸¦ µé¾î¼­ ºÎÈ°ÇØ Ã¼·ÂÀÌ Âù´Ù´ø°¡ ÀÚ¿¬ È¸º¹ÀÌ¶ó´ø°¡)
+    //È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Æµï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½î¼­ ï¿½ï¿½È°ï¿½ï¿½ Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù´ï¿½ï¿½ï¿½ ï¿½Ú¿ï¿½ È¸ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ï¿½ï¿½)
     public void Recovery(RecoveryEventArgs args)
     {
         OnRecoveryBefore?.Invoke(args);
 
-        foreach(var pack in args.Recovery)
+        foreach (var pack in args.Recovery)
         {
             CurrentHP += pack.Value;
         }
@@ -163,7 +166,7 @@ public class Unit : MonoBehaviour
 
 
     //
-    //½ºÅÈÀÇ º¯È­
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­
     //
 
     public void AddStatModifier(StatModifier modifier, string id)
@@ -179,40 +182,40 @@ public class Unit : MonoBehaviour
 
     public void RemoveStatModifier(string id)
     {
-        if(statModifiers.ContainsKey(id))
+        if (statModifiers.ContainsKey(id))
         {
             StatModifier modifier = statModifiers[id];
             statModifiers.Remove(id);
-            if(modifiersValue.ContainsKey(modifier.Kind))
+            if (modifiersValue.ContainsKey(modifier.Kind))
                 modifiersValue[modifier.Kind] -= modifier.Value;
         }
     }
 
-    //½ºÅÈÀÇ ¸®ÅÏ
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public float StatValue(DerivationKind kind)
     {
         var total = DictExt.SumDicts(derivation, modifiersValue);
         return total.GetOrZero(kind);
     }
 
-    //µµÆ® ´ë¹ÌÁöµé (¹öÇÁ³ª µðÆÛÇÁ·Î ±¸ÇöÇÏ·Á ÇßÁö¸¸ ±¸Á¶°¡ ´Ù¸¥ ¹öÇÁµéÀÌ¶ûÀº ´Þ¶ó¼­ {½ºÅÃÀÌ³ª ´ë¹ÌÁö} ±¸ÇöÇÏ±â ¾î·Á¿òÀÌ ÀÖÀ½)
+    //ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ï¿½ ï¿½Þ¶ï¿½ {ï¿½ï¿½ï¿½ï¿½ï¿½Ì³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½} ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
 }
 
-//½ºÅÈÀÇ ¸®ÅÏÀ» À§ÇØ µÎ dicÀ» ÇÕÄ¡´Â Å¬·¡½º
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ dicï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
 public static class DictExt
 {
     public static float GetOrZero(this IReadOnlyDictionary<DerivationKind, float> dict, DerivationKind k)
     {
-        return dict != null && dict.TryGetValue(k , out var v) ? v : 0f; 
+        return dict != null && dict.TryGetValue(k, out var v) ? v : 0f;
     }
 
     public static IReadOnlyDictionary<DerivationKind, float> SumDicts(params IReadOnlyDictionary<DerivationKind, float>[] dicts)
     {
         var res = new Dictionary<DerivationKind, float>();
-        foreach(var d in dicts)
+        foreach (var d in dicts)
         {
             if (d == null) continue;
-            foreach(var (k,v) in d)
+            foreach (var (k, v) in d)
             {
                 res[k] = res.TryGetValue(k, out var cur) ? cur + v : v;
             }
