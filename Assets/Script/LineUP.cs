@@ -30,6 +30,7 @@ public class LineUP<T> where T : Visitor
         this.createPosition = createPosition;
         this.destination = destination;
         this.interval = interval;
+        nextEndPosition = destination;
     }
 
     public void Create()
@@ -51,7 +52,6 @@ public class LineUP<T> where T : Visitor
         nextEndPosition.x += interval;
     }
 
-    Coroutine coroutine;
     public void Delete()
     {
         if (line.Count == 0) return;
@@ -122,11 +122,11 @@ public class LineUP<T> where T : Visitor
             }
 
             obj.transform.SetParent(parent);
-            obj.transform.localScale = Vector3.one; // 스케일 안전장치
+            obj.transform.localScale = new Vector3(-1, 1, 1); // 스케일 안전장치
         }
 
         // Visitor는 localPosition을 기준으로 움직이므로 로컬 좌표 설정
-        obj.transform.localPosition = createPosition;
+        obj.transform.position = createPosition;
         obj.gameObject.SetActive(true);
         active.Add(obj);
         return obj;

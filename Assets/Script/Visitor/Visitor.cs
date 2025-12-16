@@ -36,13 +36,13 @@ public class Visitor : Unit
     private IEnumerator MoveCoroutine(Vector3 route, Action onComplete)
     {
         animator.Play("Walk");
-        while (Vector3.Distance(transform.localPosition, route) > 0.1f)
+        while (Vector3.Distance(transform.position, route) > 0.1f)
         {
-            transform.localPosition = Vector3.MoveTowards(transform.localPosition, route, Time.deltaTime * 200);
+            transform.position = Vector3.MoveTowards(transform.position, route, Time.deltaTime * 200);
             yield return null;
         }
         // 정확한 위치로 보정
-        transform.localPosition = route;
+        transform.position = route;
         animator.Play("Idle");
 
         // 이동 완료 신호 보냄

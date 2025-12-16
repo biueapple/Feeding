@@ -74,7 +74,7 @@ public class DayCycleManager : MonoBehaviour
             AdventureManager.Instance.OnAdventureEnded -= action;
         }
 
-        AdventureManager.Instance.OnAdventureEnded += action; 
+        AdventureManager.Instance.OnAdventureEnded += action;
 
         //모험 시작하면 거래 시작
         OnTrade?.Invoke();

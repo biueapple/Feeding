@@ -14,7 +14,6 @@ public class VisitorManager : MonoBehaviour
         else Destroy(gameObject);
 
         lineUP = new(prefab, parent, createPosition.position, tradePosition.position, spacing, speed);
-
     }
 
     [SerializeField]
