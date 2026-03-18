@@ -148,17 +148,6 @@ Assets/Script/
 
 ---
 
-## 🚧 알려진 이슈
-
-- [ ] 장비의 `stats`(StatMapping 리스트)가 `Unit.AddStatModifier`에 연결되지 않아 장비 스탯이 실제로 적용되지 않음
-- [ ] `Debuff` 클래스가 존재하지만 미사용 — 모든 부정 효과가 `Buff` 시스템으로 구현됨 (통합 필요)
-- [ ] `DayCycleManager.Morning()`에서 `OnAdventureEnded` 구독 타이밍 문제로 `WaitUntil`이 무한 대기할 수 있음
-- [ ] `Visitor`가 `Unit`을 상속하지만 전투 기능을 사용하지 않음
-- [ ] 게임 상태 (골드, 인벤토리, 진행도) 저장/로드 시스템 미구현
-- [ ] 이미지, 애니메이션, 사운드 에셋 미포함
-
----
-
 ## 👤 제작
 
 1인 개발 프로젝트 — 프로그래밍, 시스템 설계, 아키텍처 전담 **biueapple**
